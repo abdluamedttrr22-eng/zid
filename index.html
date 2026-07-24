@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المنيو الإلكتروني - مطبخي</title>
+    <!-- مكتبة التنسيقات Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- رأس الصفحة والشعار -->
+    <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <!-- ضع رابط الشعار الخاص بك هنا بدلاً من الصورة الافتراضية -->
+                <img id="store-logo" src="https://via.placeholder.com/60" alt="شعار المطبخ" class="w-14 h-14 object-cover rounded-full border">
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">مطبخنا المميز</h1>
+                    <p class="text-xs text-gray-500">أهلاً بك، اطلب طعامك المفضل الآن</p>
+                </div>
+            </div>
+            <button onclick="toggleAdminPanel()" class="text-xs bg-gray-200 hover:bg-gray-300 px-3 py-1.5 rounded-lg transition">إدارة المنيو</button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="container mx-auto px-4 py-6 max-w-2xl">
+
+        <!-- قائمة الأطباق -->
+        <section id="menu-items" class="space-y-4">
+            <!-- سيتم تعبئة الأطباق ديناميكياً هنا -->
+        </section>
+
+        <!-- سلة الطلبات -->
+        <div class="mt-8 bg-white p-4 rounded-xl shadow-md">
+            <h2 class="text-lg font-bold mb-3 border-b pb-2">سلة الطلبات</h2>
+            <div id="cart-items" class="space-y-2 text-sm text-gray-600 mb-4">
+                <p>السلة فارغة حالياً</p>
+            </div>
+            
+            <div class="border-t pt-3 space-y-3">
+                <h3 class="font-bold text-sm">بيانات التوصيل</h3>
+                <input type="text" id="cust-name" placeholder="الاسم الكامل" class="w-full p-2 border rounded-lg text-sm">
+                <input type="number" id="cust-age" placeholder="العمر" class="w-full p-2 border rounded-lg text-sm">
+                
+                <button onclick="getLocation()" class="w-full bg-blue-50 text-blue-600 border border-blue-200 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition">
+                    📍 تحديد موقعي الحالي (GPS)
+                </button>
+                <p id="location-status" class="text-xs text-gray-500 text-center">لم يتم تحديد الموقع بعد</p>
+
+                <div class="flex justify-between items-center font-bold text-base border-t pt-2">
+                    <span>المجموع الكلي (مع التوصيل):</span>
+                    <span id="total-price" class="text-orange-600">0 دينار</span>
+                </div>
+
+                <button onclick="sendOrderToWhatsApp()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg">
+                    إرسال الطلب عبر الواتساب 📱
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- لوحة التحكم البسيطة (مخفية افتراضياً) -->
+    <div id="admin-modal" class="fixed inset-0 bg-black/50 hidden flex justify-center items-center p-4 z-50">
+        <div class="bg-white w-full max-w-lg p-6 rounded-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h2 class="text-lg font-bold">لوحة التحكم بالمنتجات</h2>
+                <button onclick="toggleAdminPanel()" class="text-red-500 font-bold">✕</button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <h3 class="text-sm font-bold mb-2">إضافة منتج جديد</h3>
+                    <input type="text" id="new-name" placeholder="اسم الوجبة" class="w-full p-2 border rounded mb-2 text-sm">
+                    <input type="number" id="new-price" placeholder="السعر (بالدينار)" class="w-full p-2 border rounded mb-2 text-sm">
+                    <button onclick="addProduct()" class="w-full bg-indigo-600 text-white py-2 rounded text-sm font-bold">إضافة للمنيو</button>
+                </div>
+                <hr>
+                <div>
+                    <h3 class="text-sm font-bold mb-2">المنتجات الحالية</h3>
+                    <div id="admin-items-list" class="space-y-2">
+                        <!-- قائمة التعديل والحذف -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- كود الجافاسكريبت للتشغيل -->
+    <script>
+        // رقم الواتساب الخاص بك (استبدله برقمك مع رمز الدولة، مثلاً: 96478xxxxxxxx)
+        const WHATSAPP_NUMBER = "9647700000000";
+
+        // بيانات المنتجات الأولية
+        let menuData = JSON.parse(localStorage.getItem('menuData')) || [
+            { id: 1, name: "وجبة دجاج مشوي", price: 8000, available: true },
+            { id: 2, name: "تمن برياني مع لحم", price: 10000, available: true },
+            { id: 3, name: "شوربة عدس", price: 3000, available: false }
+        ];
+
+        let cart = [];
+        let customerLocation = null;
+        let deliveryFee = 0;
+
+        function saveAndRender() {
+            localStorage.setItem('menuData', JSON.stringify(menuData));
+            renderMenu();
+            renderAdminList();
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('menu-items');
+            container.innerHTML = '';
+            menuData.forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border">
+                        <div>
+                            <h3 class="font-bold text-gray-800">${item.name}</h3>
+                            <p class="text-sm text-orange-600 font-semibold">${item.price} دينار</p>
+                            <span class="text-xs px-2 py-0.5 rounded ${item.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                                ${item.available ? 'متوفر' : 'غير متوفر'}
+                            </span>
+                        </div>
+                        <div>
+                            ${item.available ? `<button onclick="addToCart(${item.id})" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800">إضافة</button>` : `<span class="text-xs text-gray-400 font-bold">نفذت الكمية</span>`}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(id) {
+            const item = menuData.find(i => i.id === id);
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = '<p>السلة فارغة حالياً</p>';
+                document.getElementById('total-price').innerText = '0 دينار';
+                return;
+            }
+            container.innerHTML = '';
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center">
+                        <span>${item.name} (${item.qty})</span>
+                        <span class="font-semibold">${item.price * item.qty} دينار</span>
+                    </div>
+                `;
+            });
+            let total = subtotal + deliveryFee;
+            document.getElementById('total-price').innerText = total + ' دينار (شامل التوصيل: ' + deliveryFee + ')';
+        }
+
+        // تحديد الموقع وحساب الكروة (التوصيل) بناءً على المسافة الافتراضية أو التجريبية
+        function getLocation() {
+            const status = document.getElementById('location-status');
+            if (!navigator.geolocation) {
+                status.innerText = "متصفحك لا يدعم تحديد الموقع";
+                return;
+            }
+            status.innerText = "جاري تحديد موقعك...";
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                customerLocation = `https://maps.google.com/?q=${lat},${lon}`;
+                
+                // افتراض إحداثيات مركز المطبخ (مثلاً في البصرة) لحساب المسافة تقريبياً
+                // هنا نقوم بمحاكاة حساب الكروة بناءً على اختيار أو مسافة افتراضية للتوضيح، يمكنك تخصيصها بدقة:
+                // لنفترض أننا سنحتسب الكروة بناءً على مسافة تجريبية أو اختيارية:
+                deliveryFee = 2000; // قيمة افتراضية كمثال (10 كيلو = 2000 دينار حسب طلبك)
+                
+                status.innerText = "تم تحديد موقعك بنجاح! (تم احتساب أجور التوصيل)";
+                renderCart();
+            }, () => {
+                status.innerText = "فشل في تحديد الموقع، يرجى السماح بالوصول للموقع.";
+            });
+        }
+
+        function sendOrderToWhatsApp() {
+            const name = document.getElementById('cust-name').value;
+            const age = document.getElementById('cust-age').value;
+            
+            if(!name || cart.length === 0 || !customerLocation) {
+                alert("يرجى ملء الاسم، اختيار وجبة واحدة على الأقل، وتحديد الموقع عبر الـ GPS.");
+                return;
+            }
+
+            let message = `طلب جديد:%0A`;
+            message += `الاسم: ${name}%0A`;
+            message += `العمر: ${age}%0A`;
+            message += `الطلبات:%0A`;
+            cart.forEach(i => {
+                message += `- ${i.name} (عدد: ${i.qty}) - السعر: ${i.price * i.qty} د%0A`;
+            });
+            let subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            message += `أجور التوصيل: ${deliveryFee} دينار%0A`;
+            message += `المجموع الكلي: ${subtotal + deliveryFee} دينار%0A`;
+            message += `موقع الزبون (GPS): ${customerLocation}`;
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+        }
+
+        // لوحة التحكم وإدارتها
+        function toggleAdminPanel() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.toggle('hidden');
+            renderAdminList();
+        }
+
+        function addProduct() {
+            const name = document.getElementById('new-name').value;
+            const price = Number(document.getElementById('new-price').value);
+            if(!name || !price) return;
+            
+            menuData.push({ id: Date.now(), name, price, available: true });
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-price').value = '';
+            saveAndRender();
+        }
+
+        function toggleAvailability(id) {
+            const item = menuData.find(i => i.id === id);
+            if(item) {
+                item.available = !item.available;
+                saveAndRender();
+            }
+        }
+
+        function deleteItem(id) {
+            menuData = menuData.filter(i => i.id !== id);
+            saveAndRender();
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('admin-items-list');
+            list.innerHTML = '';
+            menuData.forEach(item => {
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
+                        <span>${item.name}</span>
+                        <div class="space-x-2 space-x-reverse">
+                            <button onclick="toggleAvailability(${item.id})" class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">${item.available ? 'إيقاف توفره' : 'تفعيل'}</button>
+                            <button onclick="deleteItem(${item.id})" class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // التشغيل الأولي
+        renderMenu();
+    </script>
+</body>
+</html>
