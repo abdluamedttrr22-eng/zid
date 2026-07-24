@@ -118,6 +118,785 @@
             margin: 0 auto;
         }
 
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 12px 0;
+            border-bottom: 1px dashed var(--accent-gold);
+            padding-bottom: 6px;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            color: var(--accent-gold);
+        }
+
+        .delete-section-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: none; /* تظهر فقط للمدير داخل لوحة التحكم */
+        }
+
+        .menu-item {
+            background: var(--card-dark);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .item-info {
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+
+        .item-desc {
+            font-size: 0.78rem;
+            color: var(--text-gray);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-price {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .add-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .add-btn:active {
+            transform: scale(0.95);
+        }
+
+        .delete-item-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            display: none; /* تظهر فقط للمدير داخل لوحة التحكم */
+        }
+
+        .item-img {
+            width: 75px;
+            height: 75px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #333;
+            background-color: #222;
+        }
+
+        /* شريط السلة العائم أسفل الشاشة */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #1a1a1a;
+            border-top: 2px solid var(--accent-gold);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.6);
+            z-index: 2000;
+        }
+
+        .cart-info {
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            background: var(--success-color);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        /* النوافذ المنبثقة */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-dark);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--accent-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .cart-items-list {
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            align-items: center;
+        }
+
+        .remove-btn {
+            background: #c0392b;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            margin-left: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+            color: var(--text-gray);
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 9px;
+            background: #252525;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .gps-btn {
+            background: #2980b9;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .whatsapp-order-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .admin-action-btn {
+            background: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .close-modal {
+            background: #444;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            border-top: 1px solid #222;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الهيدر: انقر عليه 3 مرات متتالية لفتح لوحة التحكم -->
+    <header onclick="checkAdminAccess()">
+        <div class="logo-container">
+            <img src="logo.png" alt="شعار مطبخ زاد" onerror="this.src='https://via.placeholder.com/90?text=ZAD'">
+        </div>
+        <h1>مطبخ زاد <span>ZAD Kitchen</span></h1>
+        <p>أشهى المأكولات والوجبات السريعة والغداء العراقي الأصيل</p>
+    </header>
+
+    <!-- شريط الأقسام العلوي -->
+    <nav class="category-nav" id="categoryNav"></nav>
+
+    <div class="container" id="menuContainer"></div>
+
+    <!-- شريط السلة العائم -->
+    <div class="cart-bar" id="cartBar" style="display: none;">
+        <div class="cart-info" id="cartSummary">السلة: 0 | المجموع: 0 د.ع</div>
+        <button class="checkout-btn" onclick="openCartModal()">إتمام الطلب 🛒</button>
+    </div>
+
+    <!-- نافذة إتمام الطلب للزبائن -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-title">تأكيد الطلب والتوصيل 🛵</div>
+            <div class="cart-items-list" id="modalCartList"></div>
+
+            <div class="form-group">
+                <label>اسم الزبون:</label>
+                <input type="text" id="customerName" placeholder="أدخل اسمك هنا...">
+            </div>
+
+            <div class="form-group">
+                <label>رقم الهاتف:</label>
+                <input type="tel" id="customerPhone" placeholder="أدخل رقم هاتفك هنا...">
+            </div>
+
+            <div class="form-group">
+                <label>مسافة التوصيل:</label>
+                <select id="deliveryDistance" onchange="updateCartUIModal()">
+                    <option value="0">اختر مسافة التوصيل (الاستلام من المطبخ - مجاناً)</option>
+                    <option value="1000">حتى 5 كيلو - السعر: 1,000 د.ع</option>
+                    <option value="2000">حتى 10 كيلو - السعر: 2,000 د.ع</option>
+                    <option value="3000">حتى 13 كيلو - السعر: 3,000 د.ع</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>الموقع الجغرافي (GPS):</label>
+                <button class="gps-btn" onclick="getLocation()">📍 جلب موقعي الحالي تلقائياً وحساب التوصيل</button>
+                <input type="text" id="customerLocation" placeholder="رابط الموقع سيظهر هنا بعد الضغط..." readonly style="margin-top: 4px; font-size: 0.75rem; color: #aaa;">
+            </div>
+
+            <button class="whatsapp-order-btn" onclick="sendToWhatsApp()">إرسال الطلب عبر الواتساب 📱</button>
+            <button class="close-modal" onclick="closeCartModal()">إغلاق</button>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم السرية للمدير -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <div class="modal-title">⚙️ لوحة تحكم المدير</div>
+            
+            <div class="form-group" style="background: #252525; padding: 10px; border-radius: 6px; border: 1px solid #444;">
+                <label style="color: var(--accent-gold); font-weight: bold;">➕ إضافة قسم جديد:</label>
+                <input type="text" id="newCatKey" placeholder="معرف القسم بالإنجليزية (مثل: pizza)" style="margin-bottom: 6px;">
+                <input type="text" id="newCatName" placeholder="اسم القسم بالعربي (مثل: 🍕 بيتزا)">
+                <button class="admin-action-btn" style="margin-top: 8px;" onclick="addNewCategory()">إضافة القسم</button>
+            </div>
+
+            <hr style="border-color: #444; margin: 15px 0;">
+
+            <div class="form-group">
+                <label style="color: var(--accent-gold); font-weight: bold;">➕ إضافة وجبة جديدة:</label>
+                <label>اختر القسم:</label>
+                <select id="newItemCategory"></select>
+            </div>
+
+            <div class="form-group">
+                <label>اسم الوجبة:</label>
+                <input type="text" id="newItemName" placeholder="مثال: ريزو دجاج إضافي">
+            </div>
+
+            <div class="form-group">
+                <label>السعر (بالدينار العراقي):</label>
+                <input type="number" id="newItemPrice" placeholder="مثال: 6000">
+            </div>
+
+            <div class="form-group">
+                <label>وصف الوجبة:</label>
+                <textarea id="newItemDesc" placeholder="مكونات الوجبة..." rows="2"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>رابط الصورة (URL):</label>
+                <input type="text" id="newItemImg" placeholder="ضع رابط صورة من الإنترنت">
+            </div>
+
+            <button class="admin-action-btn" onclick="addNewItem()">➕ إضافة الوجبة للموقع</button>
+            <button class="admin-action-btn" style="background:#c0392b; color:white;" onclick="resetToDefault()">🔄 استرجاع الإعدادات الافتراضية</button>
+            <button class="close-modal" onclick="closeAdminModal()">إغلاق لوحة التحكم</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>مطبخ زاد &copy; 2026 - جميع الحقوق محفوظة</p>
+    </footer>
+
+    <script>
+        let defaultCategories = {
+            'rizo': '🍛 ريزو زاد المميز',
+            'crispy': '🍗 كرسبي مقرمش',
+            'burger': '🍔 برغر لحم ودجاج',
+            'iraqi': '🥘 الغداء العراقي الأصيل',
+            'mandi': '🍚 مندي زاد'
+        };
+
+        let defaultMenu = [
+            { id: '1', category: 'rizo', title: 'ريزو دجاج حار', desc: 'أرز ريزو مقرمش مع قطع الدجاج الإستربس والصوص الخاص الحار', price: 6000, img: 'https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150' },
+            { id: '2', category: 'rizo', title: 'ريزو عادي مع الصوص', desc: 'وجبة ريزو غنية بالنكهات مع قطع الدجاج الذهبية', price: 5500, img: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=150' },
+            { id: '3', category: 'crispy', title: 'وجبة إستربس كرسبي (4 قطع)', desc: 'قطع دجاج كرسبي مقرمشة تقدم مع البطاطس، الثومية، والخبز', price: 7000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
+            { id: '4', category: 'burger', title: 'زاد برغر لحم دوبل', desc: 'قطعتان من لحم البقر المشوي مع الجبن الذائب والصلصة الخاصة', price: 6500, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150' },
+            { id: '5', category: 'iraqi', title: 'تمن وبقوليات (مرق فاصولياء أو عدس)', desc: 'وجبة غداء عراقية تقليدية مع الأرز المفلفل ومرقة البيت الشهية', price: 5000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=150' },
+            { id: '6', category: 'mandi', title: 'مندي دجاج مدخن', desc: 'نصف دجاجة مندي مع الأرز البسمتي البهارات الخاصة والدقوس', price: 8000, img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=150' }
+        ];
+
+        let categories = JSON.parse(localStorage.getItem('zad_categories')) || defaultCategories;
+        let menuItems = JSON.parse(localStorage.getItem('zad_menu')) || defaultMenu;
+        let cart = [];
+        let userGpsLink = "";
+        const kitchenLat = 30.5339; 
+        const kitchenLng = 47.7635;
+
+        let clickCount = 0;
+        let clickTimer = null;
+
+        function checkAdminAccess() {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+            } else if (clickCount === 3) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                let pass = prompt("أدخل رمز لوحة التحكم:");
+                if (pass === "200z") {
+                    openAdminModal();
+                } else if (pass !== null) {
+                    alert("الرمز غير صحيح!");
+                }
+            }
+        }
+
+        function renderNav() {
+            let nav = document.getElementById('categoryNav');
+            nav.innerHTML = '';
+            for (let key in categories) {
+                nav.innerHTML += `<a href="#${key}" class="nav-item">${categories[key]}</a>`;
+            }
+        }
+
+        function renderAdminCategoryDropdown() {
+            let select = document.getElementById('newItemCategory');
+            select.innerHTML = '';
+            for (let key in categories) {
+                select.innerHTML += `<option value="${key}">${categories[key]}</option>`;
+            }
+        }
+
+        function renderMenu() {
+            renderNav();
+            renderAdminCategoryDropdown();
+            let container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+
+            let isAdminOpen = document.getElementById('adminModal').style.display === 'flex';
+
+            for (let catKey in categories) {
+                let catItems = menuItems.filter(item => item.category === catKey);
+                
+                // عرض القسم حتى لو فارغ في لوحة التحكم، أو إذا كان يحتوي على عناصر للزبائن
+                if (catItems.length > 0 || isAdminOpen) {
+                    let sectionHtml = `
+                        <div id="${catKey}">
+                            <div class="section-header">
+                                <h2 class="section-title">${categories[catKey]}</h2>
+                                <button class="delete-section-btn" style="display: ${isAdminOpen ? 'inline-block' : 'none'};" onclick="deleteCategory('${catKey}')">حذف القسم ❌</button>
+                            </div>`;
+                    
+                    catItems.forEach(item => {
+                        sectionHtml += `
+                            <div class="menu-item">
+                                <button class="delete-item-btn" style="display: ${isAdminOpen ? 'block' : 'none'};" onclick="deleteItem('${item.id}')">حذف ❌</button>
+                                <div class="item-info">
+                                    <div class="item-name">${item.title}</div>
+                                    <div class="item-desc">${item.desc}</div>
+                                    <div class="item-footer">
+                                        <span class="item-price">${item.price.toLocaleString()} د.ع</span>
+                                        <button class="add-btn" onclick="addToCart('${item.title}', ${item.price})">أضف للسلة</button>
+                                    </div>
+                                </div>
+                                <img src="${item.img}" alt="${item.title}" class="item-img" onerror="this.src='https://via.placeholder.com/150?text=ZAD'">
+                            </div>`;
+                    });
+                    sectionHtml += `</div>`;
+                    container.innerHTML += sectionHtml;
+                }
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('adminModal').style.display = 'flex';
+            renderMenu();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+            renderMenu();
+        }
+
+        function addNewCategory() {
+            let key = document.getElementById('newCatKey').value.trim().toLowerCase();
+            let name = document.getElementById('newCatName').value.trim();
+
+            if (!key || !name) {
+                alert("يرجى ملء حقول القسم بالإنجليزية والعربية!");
+                return;
+            }
+
+            if (categories[key]) {
+                alert("هذا القسم موجود مسبقاً!");
+                return;
+            }
+
+            categories[key] = name;
+            localStorage.setItem('zad_categories', JSON.stringify(categories));
+            renderMenu();
+            openAdminModal();
+            alert("تمت إضافة القسم بنجاح!");
+            
+            document.getElementById('newCatKey').value = '';
+            document.getElementById('newCatName').value = '';
+        }
+
+        function deleteCategory(catKey) {
+            if (confirm("هل أنت متأكد من حذف هذا القسم وكل الوجبات التي بداخله؟")) {
+                delete categories[catKey];
+                menuItems = menuItems.filter(item => item.category !== catKey);
+                
+                localStorage.setItem('zad_categories', JSON.stringify(categories));
+                localStorage.setItem('zad_menu', JSON.stringify(menuItems));
+                
+                renderMenu();
+                openAdminModal();
+            }
+        }
+
+        function addNewItem() {
+            let category = document.getElementById('newItemCategory').value;
+            let title = document.getElementById('newItemName').value.trim();
+            let price = parseInt(document.getElementById('newItemPrice').value);
+            let desc = document.getElementById('newItemDesc').value.trim();
+            let img = document.getElementById('newItemImg').value.trim();
+
+            if (!title || isNaN(price)) {
+                alert("يرجى إدخال اسم الوجبة والسعر بشكل صحيح!");
+                return;
+            }
+
+            if (!img) {
+                img = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150';
+            }
+
+            let newItem = {
+                id: Date.now().toString(),
+                category: category,
+                title: title,
+                desc: desc || 'وجبة مميزة طازجة ولذيذة',
+                price: price,
+                img: img
+            };
+
+            menuItems.push(newItem);
+            localStorage.setItem('zad_menu', JSON.stringify(menuItems));
+            renderMenu();
+            openAdminModal();
+            alert("تمت إضافة الوجبة بنجاح!");
+            
+            document.getElementById('newItemName').value = '';
+            document.getElementById('newItemPrice').value = '';
+            document.getElementById('newItemDesc').value = '';
+            document.getElementById('newItemImg').value = '';
+        }
+
+        function deleteItem(id) {
+            if (confirm("هل أنت متأكد من حذف هذه الوجبة؟")) {
+                menuItems = menuItems.filter(item => item.id !== id);
+                localStorage.setItem('zad_menu', JSON.stringify(menuItems));
+                renderMenu();
+                openAdminModal();
+            }
+        }
+
+        function resetToDefault() {
+            if (confirm("هل تريد استرجاع الأقسام والوجبات الأساسية وحذف كل التعديلات؟")) {
+                categories = {...defaultCategories};
+                menuItems = [...defaultMenu];
+                localStorage.setItem('zad_categories', JSON.stringify(categories));
+                localStorage.setItem('zad_menu', JSON.stringify(menuItems));
+                renderMenu();
+                closeAdminModal();
+            }
+        }
+
+        function addToCart(name, price) {
+            let existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ name: name, price: price, qty: 1 });
+            }
+            updateCartBarUI();
+        }
+
+        function removeFromCart(name) {
+            let existing = cart.find(item => item.name === name);
+            if (existing) {
+                existing.qty--;
+                if (existing.qty <= 0) {
+                    cart = cart.filter(item => item.name !== name);
+                }
+            }
+            updateCartBarUI();
+            if (cart.length > 0) {
+                openCartModal();
+            } else {
+                closeCartModal();
+            }
+        }
+
+        function updateCartBarUI() {
+            let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            let foodPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            
+            let cartBar = document.getElementById('cartBar');
+            let cartSummary = document.getElementById('cartSummary');
+            
+            if (totalCount > 0) {
+                cartBar.style.display = 'flex';
+                cartSummary.innerHTML = `السلة: ${totalCount} وجبات | المجموع: ${foodPrice.toLocaleString()} د.ع`;
+            } else {
+                cartBar.style.display = 'none';
+            }
+        }
+
+        function openCartModal() {
+            if (cart.length === 0) return;
+            updateCartUIModal();
+            document.getElementById('cartModal').style.display = 'flex';
+        }
+
+        function updateCartUIModal() {
+            let modalList = document.getElementById('modalCartList');
+            modalList.innerHTML = '<strong>وجباتك المطلوبة:</strong><br><br>';
+            
+            cart.forEach(item => {
+                modalList.innerHTML += `
+                    <div class="cart-row">
+                        <div>
+                            <button class="remove-btn" onclick="removeFromCart('${item.name}')">-</button>
+                            <span>${item.name} (×${item.qty})</span>
+                        </div>
+                        <span>${(item.price * item.qty).toLocaleString()} د.ع</span>
+                    </div>`;
+            });
+
+            let foodPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let deliveryFee = parseInt(document.getElementById('deliveryDistance').value) || 0;
+            let grandTotal = foodPrice + deliveryFee;
+
+            modalList.innerHTML += `<hr style="border-color:#444; margin:8px 0;">`;
+            modalList.innerHTML += `<div class="cart-row" style="color: var(--text-gray);"><span>سعر الوجبات:</span><span>${foodPrice.toLocaleString()} د.ع</span></div>`;
+            modalList.innerHTML += `<div class="cart-row" style="color: var(--text-gray);"><span>سعر التوصيل:</span><span>${deliveryFee.toLocaleString()} د.ع</span></div>`;
+            modalList.innerHTML += `<div class="cart-row" style="font-weight:bold; color: var(--accent-gold); font-size:1rem; margin-top:4px;"><span>الإجمالي الكلي:</span><span>${grandTotal.toLocaleString()} د.ع</span></div>`;
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            let R = 6371; 
+            let dLat = (lat2 - lat1) * Math.PI / 180;
+            let dLon = (lon2 - lon1) * Math.PI / 180;
+            let a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let lat = position.coords.latitude;
+                    let lng = position.coords.longitude;
+                    userGpsLink = `https://www.google.com/maps?q=${lat},${lng}`;
+                    document.getElementById('customerLocation').value = userGpsLink;
+
+                    let distance = calculateDistance(kitchenLat, kitchenLng, lat, lng);
+                    let selectBox = document.getElementById('deliveryDistance');
+
+                    if (distance <= 5) {
+                        selectBox.value = "1000";
+                        alert(`تم تحديد موقعك بنجاح!\nالمسافة تقريباً: ${distance.toFixed(1)} كم\nسعر التوصيل: 1,000 د.ع`);
+                    } else if (distance <= 10) {
+                        selectBox.value = "2000";
+                        alert(`تم تحديد موقعك بنجاح!\nالمسافة تقريباً: ${distance.toFixed(1)} كم\nسعر التوصيل: 2,000 د.ع`);
+                    } else if (distance <= 13) {
+                        selectBox.value = "3000";
+                        alert(`تم تحديد موقعك بنجاح!\nالمسافة تقريباً: ${distance.toFixed(1)} كم\nسعر التوصيل: 3,000 د.ع`);
+                    } else {
+                        selectBox.value = "0";
+                        alert(`عذراً، موقعك على بعد ${distance.toFixed(1)} كم، وهو خارج نطاق التوصيل الأقصى (13 كم)!`);
+                    }
+
+                    updateCartUIModal();
+                }, error => {
+                    alert("تعذر تحديد الموقع، يرجى تفعيل الـ GPS والسماح للمتصفح بالوصول.");
+                });
+            } else {
+                alert("المتصفح لا يدعم تحديد الموقع.");
+            }
+        }
+
+        function sendToWhatsApp() {
+            let name = document.getElementById('customerName').value.trim();
+            if (!name) {
+                alert("يرجى إدخال اسمك أولاً!");
+                return;
+            }
+
+            let phone = document.getElementById('customerPhone').value.trim();
+            if (!phone) {
+                alert("يرجى إدخال رقم هاتفك أولاً!");
+                return;
+            }
+
+            let deliverySelect = document.getElementById('deliveryDistance');
+            let deliveryFee = parseInt(deliverySelect.value) || 0;
+
+            let orderDetails = "🍔 طلب جديد من مطبخ زاد 🍔\n\n";
+            orderDetails += `👤 الاسم: ${name}\n`;
+            orderDetails += `📞 الهاتف: ${phone}\n\n`;
+            orderDetails += "📝 تفاصيل الطلب:\n";
+            
+            cart.forEach(item => {
+                orderDetails += `- ${item.name} (${item.qty}) = ${(item.price * item.qty).toLocaleString()} د.ع\n`;
+            });
+
+            let foodPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let grandTotal = foodPrice + deliveryFee;
+
+            orderDetails += `\n💰 مجموع الوجبات: ${foodPrice.toLocaleString()} د.ع\n`;
+            orderDetails += `🛵 أجور التوصيل: ${deliveryFee.toLocaleString()} د.ع\n`;
+            orderDetails += `💵 المجموع الكلي: ${grandTotal.toLocaleString()} د.ع\n\n`;
+            
+            if (userGpsLink) {
+                orderDetails += `📍 موقع التوصيل على الخريطة:\n${userGpsLink}`;
+            } else {
+                orderDetails += `📍 موقع التوصيل: لم يتم إرفاق الموقع`;
+            }
+
+            let encodedMessage = encodeURIComponent(orderDetails);
+            let whatsappUrl = `https://wa.me/9647838021664?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank');
+        }
+
+        renderMenu();
+    </script>
+</body>
+</html>
+        }
+
+        .nav-item:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         .section-title {
             font-size: 1.15rem;
             color: var(--accent-gold);
