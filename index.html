@@ -576,6 +576,16 @@
             { id: 'ev6', category: 'evening', title: 'مشروبات متنوعة', desc: 'مشروبات غازية وعصائر طازجة', price: 1500, img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150' }
         ];
 
+        // فرض تحديث البيانات تلقائياً إذا كانت النسخة المحفوظة قديمة
+        let currentVersion = "v2";
+        let savedVersion = localStorage.getItem('zad_version');
+        
+        if (savedVersion !== currentVersion) {
+            localStorage.setItem('zad_categories', JSON.stringify(defaultCategories));
+            localStorage.setItem('zad_menu', JSON.stringify(defaultMenu));
+            localStorage.setItem('zad_version', currentVersion);
+        }
+
         let categories = JSON.parse(localStorage.getItem('zad_categories')) || defaultCategories;
         let menuItems = JSON.parse(localStorage.getItem('zad_menu')) || defaultMenu;
         let cart = [];
