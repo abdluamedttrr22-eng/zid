@@ -3,424 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المنيو الإلكتروني - مطبخي</title>
-    <!-- مكتبة التنسيقات Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+    <title>مطبخ زاد - ZAD Kitchen</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #f39c12;
+            --text-white: #ffffff;
+            --text-gray: #b0b0b0;
+        }
 
-    <!-- رأس الصفحة والشعار -->
-    <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
-        <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <!-- تم ربط الشعار هنا باسم الملف logo.png الذي رفعته -->
-                <img id="store-logo" src="logo.png" alt="شعار المطبخ" class="w-14 h-14 object-cover rounded-full border">
-                <div>
-                    <h1 class="text-xl font-bold text-gray-900">مطبخنا المميز</h1>
-                    <p class="text-xs text-gray-500">أهلاً بك، اطلب طعامك المفضل الآن</p>
-                </div>
-            </div>
-            <button onclick="toggleAdminPanel()" class="text-xs bg-gray-200 hover:bg-gray-300 px-3 py-1.5 rounded-lg transition">إدارة المنيو</button>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+            border-bottom: 2px solid var(--accent-gold);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 12px auto;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--accent-gold);
+            background-color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            color: var(--text-white);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
+        header h1 span {
+            color: var(--accent-gold);
+        }
+
+        header p {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        /* قوائم التنقل العلوية الأفقية مطابقة للشعار */
+        .category-nav {
+            display: flex;
+            overflow-x: auto;
+            background: #181818;
+            padding: 12px 10px;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            white-space: nowrap;
+            scrollbar-width: none;
+            border-bottom: 1px solid #333;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-item {
+            background: #252525;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--text-white);
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid #3d3d3d;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            color: var(--accent-gold);
+            margin: 25px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .menu-item {
+            background: var(--card-dark);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .menu-item:active {
+            transform: scale(0.98);
+        }
+
+        .item-info {
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .item-name {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 4px;
+        }
+
+        .item-desc {
+            font-size: 0.78rem;
+            color: var(--text-gray);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .item-price {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--accent-gold);
+        }
+
+        .item-img {
+            width: 75px;
+            height: 75px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid #333;
+            background-color: #222;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            border-top: 1px solid #222;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="شعار مطبخ زاد" onerror="this.src='https://via.placeholder.com/90?text=ZAD'">
         </div>
+        <h1>مطبخ زاد <span>ZAD Kitchen</span></h1>
+        <p>أشهى المأكولات والوجبات السريعة والغداء العراقي الأصيل</p>
     </header>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="container mx-auto px-4 py-6 max-w-2xl">
+    <!-- شريط الأقسام العلوي تماماً كما في الشعار -->
+    <nav class="category-nav">
+        <a href="#rizo" class="nav-item active">ريزو</a>
+        <a href="#crispy" class="nav-item">كرسبي</a>
+        <a href="#burger" class="nav-item">برغر</a>
+        <a href="#iraqi" class="nav-item">غداء عراقي</a>
+        <a href="#mandi" class="nav-item">مندي</a>
+    </nav>
 
-        <!-- قائمة الأطباق -->
-        <section id="menu-items" class="space-y-4">
-            <!-- سيتم تعبئة الأطباق ديناميكياً هنا -->
-        </section>
-
-        <!-- سلة الطلبات -->
-        <div class="mt-8 bg-white p-4 rounded-xl shadow-md">
-            <h2 class="text-lg font-bold mb-3 border-b pb-2">سلة الطلبات</h2>
-            <div id="cart-items" class="space-y-2 text-sm text-gray-600 mb-4">
-                <p>السلة فارغة حالياً</p>
-            </div>
+    <div class="container">
+        
+        <!-- قسم ريزو -->
+        <div id="rizo">
+            <h2 class="section-title">🍛 ريزو زاد المميز</h2>
             
-            <div class="border-t pt-3 space-y-3">
-                <h3 class="font-bold text-sm">بيانات التوصيل</h3>
-                <input type="text" id="cust-name" placeholder="الاسم الكامل" class="w-full p-2 border rounded-lg text-sm">
-                <input type="number" id="cust-age" placeholder="العمر" class="w-full p-2 border rounded-lg text-sm">
-                
-                <button onclick="getLocation()" class="w-full bg-blue-50 text-blue-600 border border-blue-200 py-2 rounded-lg text-sm font-medium hover:bg-blue-100 transition">
-                    📍 تحديد موقعي الحالي (GPS)
-                </button>
-                <p id="location-status" class="text-xs text-gray-500 text-center">لم يتم تحديد الموقع بعد</p>
-
-                <div class="flex justify-between items-center font-bold text-base border-t pt-2">
-                    <span>المجموع الكلي (مع التوصيل):</span>
-                    <span id="total-price" class="text-orange-600">0 دينار</span>
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">ريزو دجاج حار</div>
+                    <div class="item-desc">أرز ريزو مقرمش مع قطع الدجاج الإستربس والصوص الخاص الحار</div>
+                    <div class="item-price">6,000 د.ع</div>
                 </div>
+                <img src="https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150" alt="ريزو دجاج" class="item-img">
+            </div>
 
-                <button onclick="sendOrderToWhatsApp()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition shadow-lg">
-                    إرسال الطلب عبر الواتساب 📱
-                </button>
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">ريزو عادي مع الصوص</div>
+                    <div class="item-desc">وجبة ريزو غنية بالنكهات مع قطع الدجاج الذهبية</div>
+                    <div class="item-price">5,500 د.ع</div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=150" alt="ريزو عادي" class="item-img">
             </div>
         </div>
 
-    </main>
+        <!-- قسم كرسبي -->
+        <div id="crispy">
+            <h2 class="section-title">🍗 كرسبي مقرمش</h2>
 
-    <!-- لوحة التحكم البسيطة (مخفية افتراضياً) -->
-    <div id="admin-modal" class="fixed inset-0 bg-black/50 hidden flex justify-center items-center p-4 z-50">
-        <div class="bg-white w-full max-w-lg p-6 rounded-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4 border-b pb-2">
-                <h2 class="text-lg font-bold">لوحة التحكم بالمنتجات</h2>
-                <button onclick="toggleAdminPanel()" class="text-red-500 font-bold">✕</button>
-            </div>
-            <div class="space-y-4">
-                <div>
-                    <h3 class="text-sm font-bold mb-2">إضافة منتج جديد</h3>
-                    <input type="text" id="new-name" placeholder="اسم الوجبة" class="w-full p-2 border rounded mb-2 text-sm">
-                    <input type="number" id="new-price" placeholder="السعر (بالدينار)" class="w-full p-2 border rounded mb-2 text-sm">
-                    <button onclick="addProduct()" class="w-full bg-indigo-600 text-white py-2 rounded text-sm font-bold">إضافة للمنيو</button>
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">وجبة إستربس كرسبي (4 قطع)</div>
+                    <div class="item-desc">قطع دجاج كرسبي مقرمشة تقدم مع البطاطس، الثومية، والخبز</div>
+                    <div class="item-price">7,000 د.ع</div>
                 </div>
-                <hr>
-                <div>
-                    <h3 class="text-sm font-bold mb-2">المنتجات الحالية</h3>
-                    <div id="admin-items-list" class="space-y-2">
-                        <!-- قائمة التعديل والحذف -->
-                    </div>
-                </div>
+                <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=150" alt="كرسبي" class="item-img">
             </div>
         </div>
+
+        <!-- قسم برغر -->
+        <div id="burger">
+            <h2 class="section-title">🍔 برغر لحم ودجاج</h2>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">زاد برغر لحم دوبل</div>
+                    <div class="item-desc">قطعتان من لحم البقر المشوي مع الجبن الذائب والصلصة الخاصة</div>
+                    <div class="item-price">6,500 د.ع</div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150" alt="برغر لحم" class="item-img">
+            </div>
+        </div>
+
+        <!-- قسم غداء عراقي -->
+        <div id="iraqi">
+            <h2 class="section-title">🥘 الغداء العراقي الأصيل</h2>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">تمن وبقوليات (مرق فاصولياء أو عدس)</div>
+                    <div class="item-desc">وجبة غداء عراقية تقليدية مع الأرز المفلفل ومرقة البيت الشهية</div>
+                    <div class="item-price">5,000 د.ع</div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=150" alt="غداء عراقي" class="item-img">
+            </div>
+        </div>
+
+        <!-- قسم مندي -->
+        <div id="mandi">
+            <h2 class="section-title">🍚 مندي زاد</h2>
+
+            <div class="menu-item">
+                <div class="item-info">
+                    <div class="item-name">مندي دجاج مدخن</div>
+                    <div class="item-desc">نصف دجاجة مندي مع الأرز البسمتي البهارات الخاصة والدقوس</div>
+                    <div class="item-price">8,000 د.ع</div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=150" alt="مندي" class="item-img">
+            </div>
+        </div>
+
     </div>
 
-    <!-- كود الجافاسكريبت للتشغيل -->
-    <script>
-        // رقم الواتساب الخاص بك المحدث
-        const WHATSAPP_NUMBER = "9647838021664";
+    <footer>
+        <p>مطبخ زاد &copy; 2026 - جميع الحقوق محفوظة</p>
+    </footer>
 
-        // بيانات المنتجات الأولية
-        let menuData = JSON.parse(localStorage.getItem('menuData')) || [
-            { id: 1, name: "وجبة دجاج مشوي", price: 8000, available: true },
-            { id: 2, name: "تمن برياني مع لحم", price: 10000, available: true },
-            { id: 3, name: "شوربة عدس", price: 3000, available: false }
-        ];
-
-        let cart = [];
-        let customerLocation = null;
-        let deliveryFee = 0;
-
-        function saveAndRender() {
-            localStorage.setItem('menuData', JSON.stringify(menuData));
-            renderMenu();
-            renderAdminList();
-        }
-
-        function renderMenu() {
-            const container = document.getElementById('menu-items');
-            container.innerHTML = '';
-            menuData.forEach(item => {
-                container.innerHTML += `
-                    <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border">
-                        <div>
-                            <h3 class="font-bold text-gray-800">${item.name}</h3>
-                            <p class="text-sm text-orange-600 font-semibold">${item.price} دينار</p>
-                            <span class="text-xs px-2 py-0.5 rounded ${item.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-                                ${item.available ? 'متوفر' : 'غير متوفر'}
-                            </span>
-                        </div>
-                        <div>
-                            ${item.available ? `<button onclick="addToCart(${item.id})" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800">إضافة</button>` : `<span class="text-xs text-gray-400 font-bold">نفذت الكمية</span>`}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function addToCart(id) {
-            const item = menuData.find(i => i.id === id);
-            const existing = cart.find(i => i.id === id);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...item, qty: 1 });
-            }
-            renderCart();
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            if (cart.length === 0) {
-                container.innerHTML = '<p>السلة فارغة حالياً</p>';
-                document.getElementById('total-price').innerText = '0 دينار';
-                return;
-            }
-            container.innerHTML = '';
-            let subtotal = 0;
-            cart.forEach(item => {
-                subtotal += item.price * item.qty;
-                container.innerHTML += `
-                    <div class="flex justify-between items-center">
-                        <span>${item.name} (${item.qty})</span>
-                        <span class="font-semibold">${item.price * item.qty} دينار</span>
-                    </div>
-                `;
-            });
-            let total = subtotal + deliveryFee;
-            document.getElementById('total-price').innerText = total + ' دينار (شامل التوصيل: ' + deliveryFee + ')';
-        }
-
-        // تحديد الموقع وحساب التوصيل
-        function getLocation() {
-            const status = document.getElementById('location-status');
-            if (!navigator.geolocation) {
-                status.innerText = "متصفحك لا يدعم تحديد الموقع";
-                return;
-            }
-            status.innerText = "جاري تحديد موقعك...";
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                customerLocation = `https://maps.google.com/?q=${lat},${lon}`;
-                
-                // تسعير التوصيل (مثال: تم ضبطه تلقائياً على 2000 دينار)
-                deliveryFee = 2000; 
-                
-                status.innerText = "تم تحديد موقعك بنجاح! (تم احتساب أجور التوصيل)";
-                renderCart();
-            }, () => {
-                status.innerText = "فشل في تحديد الموقع، يرجى السماح بالوصول للموقع.";
-            });
-        }
-
-        function sendOrderToWhatsApp() {
-            const name = document.getElementById('cust-name').value;
-            const age = document.getElementById('cust-age').value;
-            
-            if(!name || cart.length === 0 || !customerLocation) {
-                alert("يرجى ملء الاسم، اختيار وجبة واحدة على الأقل، وتحديد الموقع عبر الـ GPS.");
-                return;
-            }
-
-            let message = `طلب جديد:%0A`;
-            message += `الاسم: ${name}%0A`;
-            message += `العمر: ${age}%0A`;
-            message += `الطلبات:%0A`;
-            cart.forEach(i => {
-                message += `- ${i.name} (عدد: ${i.qty}) - السعر: ${i.price * i.qty} د%0A`;
-            });
-            let subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            message += `أجور التوصيل: ${deliveryFee} دينار%0A`;
-            message += `المجموع الكلي: ${subtotal + deliveryFee} دينار%0A`;
-            message += `موقع الزبون (GPS): ${customerLocation}`;
-
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-        }
-
-        // لوحة التحكم وإدارتها
-        function toggleAdminPanel() {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.toggle('hidden');
-            renderAdminList();
-        }
-
-        function addProduct() {
-            const name = document.getElementById('new-name').value;
-            const price = Number(document.getElementById('new-price').value);
-            if(!name || !price) return;
-            
-            menuData.push({ id: Date.now(), name, price, available: true });
-            document.getElementById('new-name').value = '';
-            document.getElementById('new-price').value = '';
-            saveAndRender();
-        }
-
-        function toggleAvailability(id) {
-            const item = menuData.find(i => i.id === id);
-            if(item) {
-                item.available = !item.available;
-                saveAndRender();
-            }
-        }
-
-        function deleteItem(id) {
-            menuData = menuData.filter(i => i.id !== id);
-            saveAndRender();
-        }
-
-        function renderAdminList() {
-            const list = document.getElementById('admin-items-list');
-            list.innerHTML = '';
-            menuData.forEach(item => {
-                list.innerHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
-                        <span>${item.name}</span>
-                        <div class="space-x-2 space-x-reverse">
-                            <button onclick="toggleAvailability(${item.id})" class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">${item.available ? 'إيقاف توفره' : 'تفعيل'}</button>
-                            <button onclick="deleteItem(${item.id})" class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs">حذف</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // التشغيل الأولي
-        renderMenu();
-    </script>
-</body>
-</html>
-
-        function saveAndRender() {
-            localStorage.setItem('menuData', JSON.stringify(menuData));
-            renderMenu();
-            renderAdminList();
-        }
-
-        function renderMenu() {
-            const container = document.getElementById('menu-items');
-            container.innerHTML = '';
-            menuData.forEach(item => {
-                container.innerHTML += `
-                    <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border">
-                        <div>
-                            <h3 class="font-bold text-gray-800">${item.name}</h3>
-                            <p class="text-sm text-orange-600 font-semibold">${item.price} دينار</p>
-                            <span class="text-xs px-2 py-0.5 rounded ${item.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
-                                ${item.available ? 'متوفر' : 'غير متوفر'}
-                            </span>
-                        </div>
-                        <div>
-                            ${item.available ? `<button onclick="addToCart(${item.id})" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800">إضافة</button>` : `<span class="text-xs text-gray-400 font-bold">نفذت الكمية</span>`}
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function addToCart(id) {
-            const item = menuData.find(i => i.id === id);
-            const existing = cart.find(i => i.id === id);
-            if (existing) {
-                existing.qty++;
-            } else {
-                cart.push({ ...item, qty: 1 });
-            }
-            renderCart();
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cart-items');
-            if (cart.length === 0) {
-                container.innerHTML = '<p>السلة فارغة حالياً</p>';
-                document.getElementById('total-price').innerText = '0 دينار';
-                return;
-            }
-            container.innerHTML = '';
-            let subtotal = 0;
-            cart.forEach(item => {
-                subtotal += item.price * item.qty;
-                container.innerHTML += `
-                    <div class="flex justify-between items-center">
-                        <span>${item.name} (${item.qty})</span>
-                        <span class="font-semibold">${item.price * item.qty} دينار</span>
-                    </div>
-                `;
-            });
-            let total = subtotal + deliveryFee;
-            document.getElementById('total-price').innerText = total + ' دينار (شامل التوصيل: ' + deliveryFee + ')';
-        }
-
-        // تحديد الموقع وحساب الكروة (التوصيل) بناءً على المسافة الافتراضية أو التجريبية
-        function getLocation() {
-            const status = document.getElementById('location-status');
-            if (!navigator.geolocation) {
-                status.innerText = "متصفحك لا يدعم تحديد الموقع";
-                return;
-            }
-            status.innerText = "جاري تحديد موقعك...";
-            navigator.geolocation.getCurrentPosition((position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                customerLocation = `https://maps.google.com/?q=${lat},${lon}`;
-                
-                // افتراض إحداثيات مركز المطبخ (مثلاً في البصرة) لحساب المسافة تقريبياً
-                // هنا نقوم بمحاكاة حساب الكروة بناءً على اختيار أو مسافة افتراضية للتوضيح، يمكنك تخصيصها بدقة:
-                // لنفترض أننا سنحتسب الكروة بناءً على مسافة تجريبية أو اختيارية:
-                deliveryFee = 2000; // قيمة افتراضية كمثال (10 كيلو = 2000 دينار حسب طلبك)
-                
-                status.innerText = "تم تحديد موقعك بنجاح! (تم احتساب أجور التوصيل)";
-                renderCart();
-            }, () => {
-                status.innerText = "فشل في تحديد الموقع، يرجى السماح بالوصول للموقع.";
-            });
-        }
-
-        function sendOrderToWhatsApp() {
-            const name = document.getElementById('cust-name').value;
-            const age = document.getElementById('cust-age').value;
-            
-            if(!name || cart.length === 0 || !customerLocation) {
-                alert("يرجى ملء الاسم، اختيار وجبة واحدة على الأقل، وتحديد الموقع عبر الـ GPS.");
-                return;
-            }
-
-            let message = `طلب جديد:%0A`;
-            message += `الاسم: ${name}%0A`;
-            message += `العمر: ${age}%0A`;
-            message += `الطلبات:%0A`;
-            cart.forEach(i => {
-                message += `- ${i.name} (عدد: ${i.qty}) - السعر: ${i.price * i.qty} د%0A`;
-            });
-            let subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            message += `أجور التوصيل: ${deliveryFee} دينار%0A`;
-            message += `المجموع الكلي: ${subtotal + deliveryFee} دينار%0A`;
-            message += `موقع الزبون (GPS): ${customerLocation}`;
-
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
-        }
-
-        // لوحة التحكم وإدارتها
-        function toggleAdminPanel() {
-            const modal = document.getElementById('admin-modal');
-            modal.classList.toggle('hidden');
-            renderAdminList();
-        }
-
-        function addProduct() {
-            const name = document.getElementById('new-name').value;
-            const price = Number(document.getElementById('new-price').value);
-            if(!name || !price) return;
-            
-            menuData.push({ id: Date.now(), name, price, available: true });
-            document.getElementById('new-name').value = '';
-            document.getElementById('new-price').value = '';
-            saveAndRender();
-        }
-
-        function toggleAvailability(id) {
-            const item = menuData.find(i => i.id === id);
-            if(item) {
-                item.available = !item.available;
-                saveAndRender();
-            }
-        }
-
-        function deleteItem(id) {
-            menuData = menuData.filter(i => i.id !== id);
-            saveAndRender();
-        }
-
-        function renderAdminList() {
-            const list = document.getElementById('admin-items-list');
-            list.innerHTML = '';
-            menuData.forEach(item => {
-                list.innerHTML += `
-                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
-                        <span>${item.name}</span>
-                        <div class="space-x-2 space-x-reverse">
-                            <button onclick="toggleAvailability(${item.id})" class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">${item.available ? 'إيقاف توفره' : 'تفعيل'}</button>
-                            <button onclick="deleteItem(${item.id})" class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs">حذف</button>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // التشغيل الأولي
-        renderMenu();
-    </script>
 </body>
 </html>
