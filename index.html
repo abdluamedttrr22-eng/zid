@@ -13,8 +13,8 @@
     <header class="bg-white shadow-sm py-4 sticky top-0 z-50">
         <div class="container mx-auto px-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
-                <!-- ضع رابط الشعار الخاص بك هنا بدلاً من الصورة الافتراضية -->
-                <img id="store-logo" src="https://via.placeholder.com/60" alt="شعار المطبخ" class="w-14 h-14 object-cover rounded-full border">
+                <!-- تم ربط الشعار هنا باسم الملف logo.png الذي رفعته -->
+                <img id="store-logo" src="logo.png" alt="شعار المطبخ" class="w-14 h-14 object-cover rounded-full border">
                 <div>
                     <h1 class="text-xl font-bold text-gray-900">مطبخنا المميز</h1>
                     <p class="text-xs text-gray-500">أهلاً بك، اطلب طعامك المفضل الآن</p>
@@ -89,8 +89,8 @@
 
     <!-- كود الجافاسكريبت للتشغيل -->
     <script>
-        // رقم الواتساب الخاص بك (استبدله برقمك مع رمز الدولة، مثلاً: 96478xxxxxxxx)
-        const WHATSAPP_NUMBER = "9647700000000";
+        // رقم الواتساب الخاص بك المحدث
+        const WHATSAPP_NUMBER = "9647838021664";
 
         // بيانات المنتجات الأولية
         let menuData = JSON.parse(localStorage.getItem('menuData')) || [
@@ -102,6 +102,166 @@
         let cart = [];
         let customerLocation = null;
         let deliveryFee = 0;
+
+        function saveAndRender() {
+            localStorage.setItem('menuData', JSON.stringify(menuData));
+            renderMenu();
+            renderAdminList();
+        }
+
+        function renderMenu() {
+            const container = document.getElementById('menu-items');
+            container.innerHTML = '';
+            menuData.forEach(item => {
+                container.innerHTML += `
+                    <div class="bg-white p-4 rounded-xl shadow-sm flex justify-between items-center border">
+                        <div>
+                            <h3 class="font-bold text-gray-800">${item.name}</h3>
+                            <p class="text-sm text-orange-600 font-semibold">${item.price} دينار</p>
+                            <span class="text-xs px-2 py-0.5 rounded ${item.available ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                                ${item.available ? 'متوفر' : 'غير متوفر'}
+                            </span>
+                        </div>
+                        <div>
+                            ${item.available ? `<button onclick="addToCart(${item.id})" class="bg-gray-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-800">إضافة</button>` : `<span class="text-xs text-gray-400 font-bold">نفذت الكمية</span>`}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function addToCart(id) {
+            const item = menuData.find(i => i.id === id);
+            const existing = cart.find(i => i.id === id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...item, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                container.innerHTML = '<p>السلة فارغة حالياً</p>';
+                document.getElementById('total-price').innerText = '0 دينار';
+                return;
+            }
+            container.innerHTML = '';
+            let subtotal = 0;
+            cart.forEach(item => {
+                subtotal += item.price * item.qty;
+                container.innerHTML += `
+                    <div class="flex justify-between items-center">
+                        <span>${item.name} (${item.qty})</span>
+                        <span class="font-semibold">${item.price * item.qty} دينار</span>
+                    </div>
+                `;
+            });
+            let total = subtotal + deliveryFee;
+            document.getElementById('total-price').innerText = total + ' دينار (شامل التوصيل: ' + deliveryFee + ')';
+        }
+
+        // تحديد الموقع وحساب التوصيل
+        function getLocation() {
+            const status = document.getElementById('location-status');
+            if (!navigator.geolocation) {
+                status.innerText = "متصفحك لا يدعم تحديد الموقع";
+                return;
+            }
+            status.innerText = "جاري تحديد موقعك...";
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                customerLocation = `https://maps.google.com/?q=${lat},${lon}`;
+                
+                // تسعير التوصيل (مثال: تم ضبطه تلقائياً على 2000 دينار)
+                deliveryFee = 2000; 
+                
+                status.innerText = "تم تحديد موقعك بنجاح! (تم احتساب أجور التوصيل)";
+                renderCart();
+            }, () => {
+                status.innerText = "فشل في تحديد الموقع، يرجى السماح بالوصول للموقع.";
+            });
+        }
+
+        function sendOrderToWhatsApp() {
+            const name = document.getElementById('cust-name').value;
+            const age = document.getElementById('cust-age').value;
+            
+            if(!name || cart.length === 0 || !customerLocation) {
+                alert("يرجى ملء الاسم، اختيار وجبة واحدة على الأقل، وتحديد الموقع عبر الـ GPS.");
+                return;
+            }
+
+            let message = `طلب جديد:%0A`;
+            message += `الاسم: ${name}%0A`;
+            message += `العمر: ${age}%0A`;
+            message += `الطلبات:%0A`;
+            cart.forEach(i => {
+                message += `- ${i.name} (عدد: ${i.qty}) - السعر: ${i.price * i.qty} د%0A`;
+            });
+            let subtotal = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            message += `أجور التوصيل: ${deliveryFee} دينار%0A`;
+            message += `المجموع الكلي: ${subtotal + deliveryFee} دينار%0A`;
+            message += `موقع الزبون (GPS): ${customerLocation}`;
+
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
+        }
+
+        // لوحة التحكم وإدارتها
+        function toggleAdminPanel() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.toggle('hidden');
+            renderAdminList();
+        }
+
+        function addProduct() {
+            const name = document.getElementById('new-name').value;
+            const price = Number(document.getElementById('new-price').value);
+            if(!name || !price) return;
+            
+            menuData.push({ id: Date.now(), name, price, available: true });
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-price').value = '';
+            saveAndRender();
+        }
+
+        function toggleAvailability(id) {
+            const item = menuData.find(i => i.id === id);
+            if(item) {
+                item.available = !item.available;
+                saveAndRender();
+            }
+        }
+
+        function deleteItem(id) {
+            menuData = menuData.filter(i => i.id !== id);
+            saveAndRender();
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('admin-items-list');
+            list.innerHTML = '';
+            menuData.forEach(item => {
+                list.innerHTML += `
+                    <div class="flex justify-between items-center bg-gray-50 p-2 rounded text-sm">
+                        <span>${item.name}</span>
+                        <div class="space-x-2 space-x-reverse">
+                            <button onclick="toggleAvailability(${item.id})" class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">${item.available ? 'إيقاف توفره' : 'تفعيل'}</button>
+                            <button onclick="deleteItem(${item.id})" class="px-2 py-1 bg-red-100 text-red-700 rounded text-xs">حذف</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // التشغيل الأولي
+        renderMenu();
+    </script>
+</body>
+</html>
 
         function saveAndRender() {
             localStorage.setItem('menuData', JSON.stringify(menuData));
