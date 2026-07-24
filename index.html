@@ -363,7 +363,6 @@
             margin-top: 8px;
         }
 
-        /* تنسيق قسم الحذف داخل لوحة التحكم */
         .admin-manage-section {
             background: #222;
             padding: 10px;
@@ -412,7 +411,7 @@
             <img src="logo.png" alt="شعار مطبخ زاد" onerror="this.src='https://via.placeholder.com/90?text=ZAD'">
         </div>
         <h1>مطبخ زاد <span>ZAD Kitchen</span></h1>
-        <p>أشهى المأكولات والوجبات السريعة والغداء العراقي الأصيل</p>
+        <p>أشهى المأكولات والوجبات العراقية الأصيلة</p>
     </header>
 
     <!-- شريط الأقسام العلوي -->
@@ -468,13 +467,11 @@
         <div class="modal-content">
             <div class="modal-title">⚙️ لوحة تحكم المدير والتحكم بالحذف</div>
             
-            <!-- قسم إدارة وحذف الأقسام -->
             <div class="admin-manage-section">
                 <label style="color: var(--accent-gold); font-weight: bold; margin-bottom: 6px; display: block;">🗑️ حذف الأقسام الموجودة:</label>
                 <div id="adminCategoriesList"></div>
             </div>
 
-            <!-- قسم إدارة وحذف الوجبات -->
             <div class="admin-manage-section">
                 <label style="color: var(--accent-gold); font-weight: bold; margin-bottom: 6px; display: block;">🗑️ حذف الوجبات الموجودة:</label>
                 <div id="adminItemsList" style="max-height: 150px; overflow-y: auto;"></div>
@@ -484,8 +481,8 @@
 
             <div class="form-group" style="background: #252525; padding: 10px; border-radius: 6px; border: 1px solid #444;">
                 <label style="color: var(--accent-gold); font-weight: bold;">➕ إضافة قسم جديد:</label>
-                <input type="text" id="newCatKey" placeholder="معرف القسم بالإنجليزية (مثل: pizza)" style="margin-bottom: 6px;">
-                <input type="text" id="newCatName" placeholder="اسم القسم بالعربي (مثل: 🍕 بيتزا)">
+                <input type="text" id="newCatKey" placeholder="معرف القسم بالإنجليزية (مثل: sweets)" style="margin-bottom: 6px;">
+                <input type="text" id="newCatName" placeholder="اسم القسم بالعربي (مثل: 🍰 حلويات)">
                 <button class="admin-action-btn" style="margin-top: 8px;" onclick="addNewCategory()">إضافة القسم</button>
             </div>
 
@@ -516,7 +513,7 @@
             </div>
 
             <button class="admin-action-btn" onclick="addNewItem()">➕ إضافة الوجبة للموقع</button>
-            <button class="admin-action-btn" style="background:#c0392b; color:white;" onclick="resetToDefault()">🔄 استرجاع الإعدادات الافتراضية</button>
+            <button class="admin-action-btn" style="background:#c0392b; color:white;" onclick="resetToDefault()">🔄 استرجاع القائمة الافتراضية</button>
             <button class="close-modal" onclick="closeAdminModal()">إغلاق لوحة التحكم</button>
         </div>
     </div>
@@ -527,20 +524,56 @@
 
     <script>
         let defaultCategories = {
-            'rizo': '🍛 ريزو زاد المميز',
-            'crispy': '🍗 كرسبي مقرمش',
-            'burger': '🍔 برغر لحم ودجاج',
-            'iraqi': '🥘 الغداء العراقي الأصيل',
-            'mandi': '🍚 مندي زاد'
+            'safra': '👑 سفرة زاد (تكفي 4 أشخاص)',
+            'chicken': '🍗 وجبات الدجاج',
+            'rice_meals': '🍚 وجبات الرز والمرق',
+            'fish': '🐟 الأسماك',
+            'shrimp': '🦐 الروبيان',
+            'dry_chicken': '🔥 الدجاج الناشف',
+            'extras': '➕ الإضافات',
+            'evening': '🌙 وجبات المساء والمشروبات (قريباً)'
         };
 
         let defaultMenu = [
-            { id: '1', category: 'rizo', title: 'ريزو دجاج حار', desc: 'أرز ريزو مقرمش مع قطع الدجاج الإستربس والصوص الخاص الحار', price: 6000, img: 'https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150' },
-            { id: '2', category: 'rizo', title: 'ريزو عادي مع الصوص', desc: 'وجبة ريزو غنية بالنكهات مع قطع الدجاج الذهبية', price: 5500, img: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=150' },
-            { id: '3', category: 'crispy', title: 'وجبة إستربس كرسبي (4 قطع)', desc: 'قطع دجاج كرسبي مقرمشة تقدم مع البطاطس، الثومية، والخبز', price: 7000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
-            { id: '4', category: 'burger', title: 'زاد برغر لحم دوبل', desc: 'قطعتان من لحم البقر المشوي مع الجبن الذائب والصلصة الخاصة', price: 6500, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150' },
-            { id: '5', category: 'iraqi', title: 'تمن وبقوليات (مرق فاصولياء أو عدس)', desc: 'وجبة غداء عراقية تقليدية مع الأرز المفلفل ومرقة البيت الشهية', price: 5000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=150' },
-            { id: '6', category: 'mandi', title: 'مندي دجاج مدخن', desc: 'نصف دجاجة مندي مع الأرز البسمتي البهارات الخاصة والدقوس', price: 8000, img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=150' }
+            // سفرة زاد
+            { id: 's1', category: 'safra', title: 'سفرة زاد الكاملة (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + طرشي + خبزتين', price: 25000, img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=150' },
+            
+            // وجبات الدجاج
+            { id: 'c1', category: 'chicken', title: 'ربع دجاج', desc: 'تمن + سلطة + طرشي + 2 لبن', price: 8000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
+            { id: 'c2', category: 'chicken', title: 'نصف دجاج', desc: 'تمن + سلطة + طرشي + 2 لبن', price: 14000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
+            { id: 'c3', category: 'chicken', title: 'دجاجة كاملة', desc: 'تمن + سلطة + طرشي + 2 لبن', price: 18000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
+
+            // وجبات الرز
+            { id: 'r1', category: 'rice_meals', title: 'رز ومرق أحمر', desc: 'أرز مفلفل مع مرق أحمر شهي', price: 4000, img: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=150' },
+            { id: 'r2', category: 'rice_meals', title: 'رز ومرق سمك', desc: 'أرز مع مرق السمك التقليدي المميز', price: 6000, img: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=150' },
+
+            // الأسماك
+            { id: 'f1', category: 'fish', title: 'كيلو سمك مشوي', desc: 'سمك مشوي على الطريقة الأصيلة', price: 12000, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=150' },
+            { id: 'f2', category: 'fish', title: 'كيلو سمك مشوي (وجبة متكاملة)', desc: 'تمن + سلطة + طرشي + خبز', price: 15000, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=150' },
+            { id: 'f3', category: 'fish', title: 'نفر سمك مقلي', desc: 'قطع سمك مقلي مقرمشة مع الملحقات', price: 10000, img: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=150' },
+
+            // الروبيان
+            { id: 'sh1', category: 'shrimp', title: 'نفر روبيان', desc: 'تمن + سلطة + طرشي', price: 10000, img: 'https://images.unsplash.com/photo-1565680314477-f273b000788d?w=150' },
+
+            // الدجاج الناشف
+            { id: 'dc1', category: 'dry_chicken', title: 'نصف دجاج ناشف', desc: 'خبز + سلطة + طرشي', price: 9000, img: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=150' },
+            { id: 'dc2', category: 'dry_chicken', title: 'دجاج ناشف كامل', desc: 'خبز + سلطة + طرشي', price: 14000, img: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=150' },
+
+            // الإضافات
+            { id: 'e1', category: 'extras', title: 'تمن إضافي', desc: 'صحن أرز إضافي', price: 1500, img: 'https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=150' },
+            { id: 'e2', category: 'extras', title: 'سلطة إضافية', desc: 'صحن سلطة خضار طازجة', price: 1000, img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150' },
+            { id: 'e3', category: 'extras', title: 'طرشي إضافي', desc: 'مقبلات طرشي مشكل', price: 500, img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=150' },
+            { id: 'e4', category: 'extras', title: 'ثومية', desc: 'صوص الثومية الخاص', price: 500, img: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=150' },
+            { id: 'e5', category: 'extras', title: 'خبز إضافي', desc: 'خبز طازج', price: 500, img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=150' },
+            { id: 'e6', category: 'extras', title: 'لبن', desc: 'كاس لبن عراقي', price: 250, img: 'https://images.unsplash.com/photo-1628088062854-d1870b4553da?w=150' },
+
+            // وجبات المساء
+            { id: 'ev1', category: 'evening', title: 'برغر لحم', desc: 'برغر لحم مشوي مع البطاطس والمشروب', price: 5000, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150' },
+            { id: 'ev2', category: 'evening', title: 'برغر دجاج', desc: 'برغر دجاج مقرمش مع البطاطس والمشروب', price: 4500, img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=150' },
+            { id: 'ev3', category: 'evening', title: 'دجاج كرسبي', desc: 'وجبة قطع دجاج كرسبي مقرمشة', price: 6000, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=150' },
+            { id: 'ev4', category: 'evening', title: 'ريزو دجاج', desc: 'أرز ريزو مع قطع الدجاج والصوص', price: 5500, img: 'https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=150' },
+            { id: 'ev5', category: 'evening', title: 'بطاطا مقلية', desc: 'صحن بطاطس مقلية ذهبية مقرمشة', price: 2500, img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=150' },
+            { id: 'ev6', category: 'evening', title: 'مشروبات متنوعة', desc: 'مشروبات غازية وعصائر طازجة', price: 1500, img: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150' }
         ];
 
         let categories = JSON.parse(localStorage.getItem('zad_categories')) || defaultCategories;
@@ -578,7 +611,6 @@
         }
 
         function renderAdminLists() {
-            // تحديث قائمة الأقسام داخل لوحة التحكم للحذف
             let catList = document.getElementById('adminCategoriesList');
             catList.innerHTML = '';
             for (let key in categories) {
@@ -589,7 +621,6 @@
                     </div>`;
             }
 
-            // تحديث قائمة الوجبات داخل لوحة التحكم للحذف
             let itemList = document.getElementById('adminItemsList');
             itemList.innerHTML = '';
             if (menuItems.length === 0) {
@@ -608,7 +639,6 @@
                 });
             }
 
-            // تحديث القائمة المنسدلة لإضافة وجبة
             let select = document.getElementById('newItemCategory');
             select.innerHTML = '';
             for (let key in categories) {
@@ -745,7 +775,7 @@
         }
 
         function resetToDefault() {
-            if (confirm("هل تريد استرجاع الأقسام والوجبات الأساسية وحذف كل التعديلات؟")) {
+            if (confirm("هل تريد استرجاع القائمة الافتراضية كاملة وحذف التعديلات؟")) {
                 categories = {...defaultCategories};
                 menuItems = [...defaultMenu];
                 localStorage.setItem('zad_categories', JSON.stringify(categories));
