@@ -102,15 +102,15 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--gold);
-            padding-bottom: 20px;
+            padding-bottom: 15px;
         }
 
         .brand-logo-container {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px auto;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 10px auto;
             border: 2px dashed var(--gold);
             border-radius: 50%;
             overflow: hidden;
@@ -128,7 +128,7 @@
         }
 
         .brand-logo-container span {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--gold);
             text-align: center;
             padding: 5px;
@@ -136,7 +136,7 @@
 
         header h1 {
             color: var(--gold);
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             letter-spacing: 1px;
             cursor: pointer;
             user-select: none;
@@ -146,36 +146,55 @@
         header p {
             color: var(--text-muted);
             margin-top: 5px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
-        .location-box {
-            background: #1c1c1c;
-            border: 1px solid var(--gold);
-            padding: 12px;
-            border-radius: 8px;
+        /* شريط الأقسام السريع في الأعلى */
+        .category-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
             margin-bottom: 25px;
-            text-align: center;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) #222;
         }
 
-        .location-box button {
+        .category-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-nav::-webkit-scrollbar-thumb {
+            background-color: var(--gold);
+            border-radius: 3px;
+        }
+
+        .cat-btn {
+            background-color: var(--card-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
             background-color: var(--gold);
             color: #000;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 5px;
         }
 
         .category-section {
             margin-bottom: 40px;
+            scroll-margin-top: 20px;
         }
 
         .category-title {
             color: var(--gold);
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             border-right: 4px solid var(--gold);
             padding-right: 15px;
             margin-bottom: 20px;
@@ -322,22 +341,30 @@
             <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً</p>
         </header>
 
-        <div class="location-box">
-            <p>📍 لتحديد سعر التوصيل بدقة حسب مسافتك:</p>
-            <button onclick="getLoc()">تحديد موقعي الحالي (GPS)</button>
-            <p id="loc-status" style="margin-top: 8px; font-size: 0.9rem; color: var(--gold-light);">لم يتم تحديد الموقع بعد</p>
+        <!-- شريط الأقسام السريع في الأعلى -->
+        <div class="category-nav">
+            <button class="cat-btn active" onclick="scrollToCat('saj', this)">الصاج</button>
+            <button class="cat-btn" onclick="scrollToCat('burger', this)">البرجر</button>
+            <button class="cat-btn" onclick="scrollToCat('rizo', this)">الريزو</button>
+            <button class="cat-btn" onclick="scrollToCat('pizza', this)">البيتزا</button>
+            <button class="cat-btn" onclick="scrollToCat('crispy', this)">الكرسبي</button>
+            <button class="cat-btn" onclick="scrollToCat('lema', this)">لمات زاد</button>
+            <button class="cat-btn" onclick="scrollToCat('sofra', this)">سفرة زاد</button>
+            <button class="cat-btn" onclick="scrollToCat('seafood', this)">الأسماك</button>
+            <button class="cat-btn" onclick="scrollToCat('nashaf', this)">الدجاج الناشف</button>
+            <button class="cat-btn" onclick="scrollToCat('extras', this)">الإضافات</button>
         </div>
 
-        <div class="category-section"><h2 class="category-title">لفات ووجبات الصاج</h2><div class="menu-grid" id="saj-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">البرجر ووجبات البرجر</h2><div class="menu-grid" id="burger-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">الريزو ووجبات الريزو</h2><div class="menu-grid" id="rizo-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">البيتزا</h2><div class="menu-grid" id="pizza-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">وجبات الكرسبي</h2><div class="menu-grid" id="crispy-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">لمات زاد والعروض</h2><div class="menu-grid" id="lema-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">سفرة زاد ووجبات الدجاج</h2><div class="menu-grid" id="sofra-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">الأسماك والروبيان</h2><div class="menu-grid" id="seafood-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">الدجاج الناشف</h2><div class="menu-grid" id="nashaf-menu"></div></div>
-        <div class="category-section"><h2 class="category-title">الإضافات والمشروبات</h2><div class="menu-grid" id="extras-menu"></div></div>
+        <div class="category-section" id="sec-saj"><h2 class="category-title">لفات ووجبات الصاج</h2><div class="menu-grid" id="saj-menu"></div></div>
+        <div class="category-section" id="sec-burger"><h2 class="category-title">البرجر ووجبات البرجر</h2><div class="menu-grid" id="burger-menu"></div></div>
+        <div class="category-section" id="sec-rizo"><h2 class="category-title">الريزو ووجبات الريزو</h2><div class="menu-grid" id="rizo-menu"></div></div>
+        <div class="category-section" id="sec-pizza"><h2 class="category-title">البيتزا</h2><div class="menu-grid" id="pizza-menu"></div></div>
+        <div class="category-section" id="sec-crispy"><h2 class="category-title">وجبات الكرسبي</h2><div class="menu-grid" id="crispy-menu"></div></div>
+        <div class="category-section" id="sec-lema"><h2 class="category-title">لمات زاد والعروض</h2><div class="menu-grid" id="lema-menu"></div></div>
+        <div class="category-section" id="sec-sofra"><h2 class="category-title">سفرة زاد ووجبات الدجاج</h2><div class="menu-grid" id="sofra-menu"></div></div>
+        <div class="category-section" id="sec-seafood"><h2 class="category-title">الأسماك والروبيان</h2><div class="menu-grid" id="seafood-menu"></div></div>
+        <div class="category-section" id="sec-nashaf"><h2 class="category-title">الدجاج الناشف</h2><div class="menu-grid" id="nashaf-menu"></div></div>
+        <div class="category-section" id="sec-extras"><h2 class="category-title">الإضافات والمشروبات</h2><div class="menu-grid" id="extras-menu"></div></div>
     </div>
 
     <div class="cart-bar">
@@ -353,6 +380,7 @@
         const REST_LON = 47.7835;
         let deliveryCost = 0;
         let distanceKm = 0;
+        let locationDetermined = false;
         let isAdmin = false;
         let titleClicks = 0;
 
@@ -390,6 +418,15 @@
         }
 
         setTimeout(openApp, 3500);
+
+        function scrollToCat(catId, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            let targetSection = document.getElementById(`sec-${catId}`);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
 
         function handleTitleClick() {
             titleClicks++;
@@ -474,24 +511,14 @@
             }
         }
 
-        function getLoc() {
-            if (navigator.geolocation) {
-                document.getElementById('loc-status').innerText = "جاري تحديد موقعك...";
-                navigator.geolocation.getCurrentPosition(position => {
-                    let userLat = position.coords.latitude;
-                    let userLon = position.coords.longitude;
-                    distanceKm = calculateDistance(REST_LAT, REST_LON, userLat, userLon);
-                    
-                    deliveryCost = Math.round(2000 + (distanceKm * 1000));
-                    
-                    document.getElementById('loc-status').innerText = `المسافة: ${distanceKm.toFixed(1)} كم | التوصيل: ${deliveryCost} د.ع`;
-                    updateCartUI();
-                }, error => {
-                    alert("تعذر تحديد الموقع. يجب تفعيل الـ GPS في هاتفك.");
-                    document.getElementById('loc-status').innerText = "فشل تحديد الموقع";
-                });
+        // حساب سعر التوصيل بناءً على المسافة المحددة
+        function calculateDeliveryFee(dist) {
+            if (dist <= 5) {
+                return 1000;
+            } else if (dist <= 8) {
+                return 2000;
             } else {
-                alert("متصفحك لا يدعم خاصية تحديد الموقع");
+                return 3000;
             }
         }
 
@@ -524,23 +551,47 @@
             document.getElementById('delivery-fee').innerText = deliveryCost;
         }
 
+        // تحديد الموقع وإرسال الطلب فور الضغط على زر إرسال الطلب واتساب
         function processOrder() {
             if(cart.length === 0) {
                 alert("السلة فارغة!");
                 return;
             }
-            let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            let finalTotal = itemsPrice + deliveryCost;
 
-            let msg = "مرحباً، أريد طلب الوجبات التالية من زاد|ZAD Kitchen:%0A";
-            cart.forEach(item => {
-                msg += `- ${item.name} (عدد: ${item.qty}) - ${item.price * item.qty} د.ع%0A`;
-            });
-            msg += `%0Aسعر الوجبات: ${itemsPrice} د.ع`;
-            msg += `%0Aسعر التوصيل (${distanceKm.toFixed(1)} كم): ${deliveryCost} د.ع`;
-            msg += `%0Aالإجمالي الكلي: ${finalTotal} د.ع`;
+            if (!navigator.geolocation) {
+                alert("متصفحك لا يدعم خاصية تحديد الموقع");
+                return;
+            }
 
-            window.open(`https://wa.me/9647838021664?text=${msg}`, '_blank');
+            // إظهار تنبيه للمستخدم بأننا نقوم بتحديد الموقع قبل الإرسال
+            let confirmSend = confirm("سيتم الآن تحديد موقعك عبر الـ GPS لحساب سعر التوصيل بدقة (5 كم = 1000 د.ع | 8 كم = 2000 د.ع | أكثر من ذلك = 3000 د.ع) وإرسال الطلب. هل أنت مستعد؟");
+            if (!confirmSend) return;
+
+            navigator.geolocation.getCurrentPosition(position => {
+                let userLat = position.coords.latitude;
+                let userLon = position.coords.longitude;
+                distanceKm = calculateDistance(REST_LAT, REST_LON, userLat, userLon);
+                
+                deliveryCost = calculateDeliveryFee(distanceKm);
+                updateCartUI();
+
+                let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+                let finalTotal = itemsPrice + deliveryCost;
+
+                let msg = `مرحباً، أريد طلب الوجبات التالية من زاد|ZAD Kitchen:%0A`;
+                cart.forEach(item => {
+                    msg += `- ${item.name} (عدد: ${item.qty}) - ${item.price * item.qty} د.ع%0A`;
+                });
+                msg += `%0Aسعر الوجبات: ${itemsPrice} د.ع`;
+                msg += `%0Aالمسافة: ${distanceKm.toFixed(1)} كم`;
+                msg += `%0Aسعر التوصيل: ${deliveryCost} د.ع`;
+                msg += `%0Aالإجمالي الكلي: ${finalTotal} د.ع`;
+
+                window.open(`https://wa.me/9647838021664?text=${msg}`, '_blank');
+
+            }, error => {
+                alert("تعذر تحديد الموقع. يجيب تفعيل الـ GPS في هاتفك لكي يتم حساب التوصيل وإرسال الطلب.");
+            }, { timeout: 10000 });
         }
     </script>
 </body>
