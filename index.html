@@ -3,407 +3,1167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زيست برغر</title>
+    <title>زاد|ZAD Kitchen</title>
     <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-color: #f1f1f1;
+            --text-muted: #aaa;
+            --danger: #ff4d4d;
+            --success: #28a745;
+            --info: #17a2b8;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #ffffff;
-            color: #111;
-            padding-bottom: 90px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 110px;
         }
 
-        /* رأس الصفحة العلوي مع صورة الخلفية */
-        .header-bg {
-            position: relative;
-            width: 100%;
-            height: 140px;
-            overflow: hidden;
-            background-color: #222;
-        }
-
-        .header-bg img {
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            opacity: 0.65;
-        }
-
-        .header-top-bar {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            right: 12px;
+            background: #000000;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 9999;
+            overflow: hidden;
+            cursor: pointer;
+            transition: opacity 1s ease;
         }
 
-        .icon-btn {
-            background: rgba(255, 255, 255, 0.95);
-            border: none;
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .smoke-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 280px;
+            height: 320px;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(8px);
+            opacity: 0.75;
+        }
+
+        .smoke-wisp {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 60px;
+            height: 100%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(212, 175, 55, 0.2) 25%, rgba(255, 255, 255, 0.45) 60%, rgba(255,255,255,0) 100%);
+            border-radius: 50% 50% 30% 30%;
+            transform: translateX(-50%);
+            animation: elegantSmoke 5s infinite ease-in-out;
+        }
+
+        .smoke-wisp:nth-child(2) {
+            width: 40px;
+            animation-duration: 4s;
+            animation-delay: 1.5s;
+            left: 40%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 10%, rgba(255, 255, 255, 0.35) 50%, rgba(212, 175, 55, 0.15) 80%, rgba(255,255,255,0) 100%);
+        }
+
+        .smoke-wisp:nth-child(3) {
+            width: 50px;
+            animation-duration: 6s;
+            animation-delay: 2.5s;
+            left: 60%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 5%, rgba(200, 200, 200, 0.3) 40%, rgba(255,255,255,0) 100%);
+        }
+
+        @keyframes elegantSmoke {
+            0% {
+                transform: translateX(-50%) translateY(80px) scaleX(0.4) scaleY(0.6) rotate(0deg);
+                opacity: 0;
+            }
+            30% {
+                opacity: 0.6;
+            }
+            60% {
+                transform: translateX(calc(-50% + 25px)) translateY(-60px) scaleX(1.4) scaleY(1.2) rotate(8deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(calc(-50% - 25px)) translateY(-160px) scaleX(2.2) scaleY(1.8) rotate(-12deg);
+                opacity: 0;
+            }
+        }
+
+        .splash-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.8), 0 0 5px rgba(0,0,0,1);
+            white-space: nowrap;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 3;
+        }
+
+        #main-app {
+            display: none;
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* تصميم قسم التواصل في أعلى الصفحة (أيقونات فقط) */
+        .social-top-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .social-icon-btn {
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 38px;
             height: 38px;
             border-radius: 50%;
+            background: #222;
+            border: 1px solid var(--gold);
+            overflow: hidden;
+        }
+
+        .social-icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--gold);
+        }
+
+        .social-icon-btn:hover {
+            transform: scale(1.1);
+            background: var(--gold);
+        }
+
+        .social-icon-btn:hover svg {
+            fill: #000;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 12px;
+        }
+
+        .brand-logo-container {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 8px auto;
+            border: 2px dashed var(--gold);
+            border-radius: 50%;
+            overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            cursor: pointer;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-        }
-
-        .header-title {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            color: #ffffff;
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
-        }
-
-        /* شريط الأقسام */
-        .categories-bar {
-            display: flex;
-            gap: 22px;
-            padding: 14px 15px;
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-            overflow-x: auto;
-            white-space: nowrap;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            scrollbar-width: none;
-        }
-
-        .categories-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-item {
-            font-size: 1.05rem;
-            color: #777;
-            cursor: pointer;
-            padding-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .cat-item.active {
-            color: #00875a;
-            border-bottom: 3px solid #00875a;
-        }
-
-        /* قائمة الأصناف */
-        .menu-list {
-            padding: 5px 15px;
-        }
-
-        .food-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 16px 0;
-            border-bottom: 1px solid #f2f2f2;
-            gap: 12px;
-        }
-
-        .food-details {
-            flex-grow: 1;
-            text-align: right;
-        }
-
-        .food-name {
-            font-size: 1.1rem;
-            font-weight: bold;
-            color: #111;
-            margin-bottom: 4px;
-        }
-
-        .food-desc {
-            font-size: 0.82rem;
-            color: #666;
-            line-height: 1.35;
-            margin-bottom: 8px;
-        }
-
-        .food-price-row {
-            font-size: 1rem;
-            font-weight: bold;
-            color: #111;
-            margin-bottom: 4px;
-        }
-
-        .old-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 0.85rem;
-            margin-left: 6px;
-            font-weight: normal;
-        }
-
-        .food-weight {
-            font-size: 0.78rem;
-            color: #888;
-            margin-bottom: 6px;
-        }
-
-        .badge-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-
-        .badge-save {
-            color: #d97706;
-            font-size: 0.78rem;
-            font-weight: 600;
-        }
-
-        .badge-fire {
-            color: #ea580c;
-            font-size: 0.78rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .badge-points {
-            font-size: 0.75rem;
-            color: #444;
-            background: #f0f2f5;
-            padding: 2px 6px;
-            border-radius: 4px;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        /* حاوية الصورة (تم ضبط حجمها تماماً كما طلبت) */
-        .food-img-container {
+            background: #151515;
             position: relative;
-            width: 95px;   
-            height: 95px;  
-            border-radius: 12px;
-            overflow: hidden;
-            background: #fff;
-            flex-shrink: 0;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
 
-        .food-img-container img {
+        .brand-logo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        /* زر الإضافة (+) الأخضر الدائري */
-        .add-btn {
-            position: absolute;
-            bottom: 6px;
-            left: 6px;
-            width: 28px;
-            height: 28px;
-            background-color: #ffffff;
-            border: 1px solid #e0e0e0;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        .brand-logo-container span {
+            font-size: 0.65rem;
+            color: var(--gold);
+            text-align: center;
+            padding: 4px;
+        }
+
+        header h1 {
+            color: var(--gold);
+            font-size: 1.5rem;
+            letter-spacing: 1px;
             cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
         }
 
-        .add-btn svg {
-            width: 14px;
-            height: 14px;
-            fill: #00875a;
+        .category-nav-container {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-color);
+            z-index: 900;
+            padding: 8px 0;
+            border-bottom: 1px solid #222;
+            margin-bottom: 20px;
         }
 
-        /* شريط التوصيل المجاني السفلي الثابت */
-        .bottom-banner {
+        .category-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) #222;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .category-nav::-webkit-scrollbar-thumb {
+            background-color: var(--gold);
+            border-radius: 3px;
+        }
+
+        .cat-btn {
+            background-color: var(--card-bg);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 6px 12px;
+            border-radius: 15px;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            background-color: var(--gold);
+            color: #000;
+        }
+
+        .category-section {
+            margin-bottom: 30px;
+            scroll-margin-top: 70px;
+        }
+
+        .category-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 3px solid var(--gold);
+            padding-right: 10px;
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .edit-cat-btn {
+            background: rgba(23, 162, 184, 0.9);
+            color: #fff;
+            border: 1px solid var(--info);
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .menu-item {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .item-img-container {
+            width: 100%;
+            height: 75px;
+            background: #222;
+            position: relative;
+        }
+
+        .item-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .admin-controls-overlay {
+            position: absolute;
+            bottom: 4px;
+            left: 4px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .admin-btn {
+            background: rgba(0, 0, 0, 0.85);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            display: none;
+        }
+
+        .admin-btn.edit-item-btn {
+            background: rgba(23, 162, 184, 0.9);
+            color: #fff;
+            border-color: var(--info);
+        }
+
+        .item-body {
+            padding: 8px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item h3 {
+            color: var(--gold);
+            font-size: 0.82rem;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .menu-item p {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            line-height: 1.2;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .price {
+            color: var(--gold-light);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        button {
+            background-color: var(--gold);
+            color: #000;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.72rem;
+        }
+
+        .cart-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            padding: 12px 20px;
+            background: #111;
+            border-top: 2px solid var(--gold);
+            padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
         }
 
-        .delivery-text {
-            font-size: 0.88rem;
-            color: #222;
+        .cart-info {
+            font-size: 0.85rem;
+            color: var(--gold);
+        }
+
+        .actions-container {
+            display: flex;
+            gap: 6px;
+        }
+
+        .view-cart-btn {
+            background-color: #333;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkout-btn {
+            background-color: var(--success);
+            color: #fff;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border: 2px solid var(--gold);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 15px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--danger);
+            color: #fff;
+            border: none;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-title {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+            text-align: center;
+        }
+
+        .cart-items-list {
+            margin-bottom: 12px;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #222;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 6px;
+        }
+
+        .cart-item-details h4 {
+            color: var(--text-color);
+            font-size: 0.85rem;
+        }
+
+        .cart-item-details span {
+            color: var(--gold-light);
+            font-size: 0.75rem;
+        }
+
+        .cart-item-controls {
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .delivery-text span {
-            color: #00875a;
+        .qty-btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 3px;
             font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        .t-plus-icon {
-            background: #e6f4ea;
-            padding: 4px 8px;
-            border-radius: 6px;
-            color: #00875a;
-            font-weight: bold;
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--gold);
             font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--gold);
+            outline: none;
+        }
+
+        .location-btn {
+            background-color: #0056b3;
+            color: #fff;
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+            font-size: 0.85rem;
+        }
+
+        .modal-totals {
+            background: #151515;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .modal-totals div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .modal-totals .final-price {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1rem;
+            border-top: 1px solid #333;
+            padding-top: 4px;
+            margin-top: 4px;
+        }
+
+        .send-order-whatsapp, .save-item-btn {
+            background-color: var(--success);
+            color: #fff;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        input[type="file"] {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- رأس الصفحة الخلفية واسم المطعم -->
-    <div class="header-bg">
-        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" alt="خلفية المطعم">
-        <div class="header-top-bar">
-            <button class="icon-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            </button>
-            <div style="display: flex; gap: 10px;">
-                <button class="icon-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                </button>
-                <button class="icon-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
+    <div id="splash-screen" onclick="openApp()">
+        <div class="splash-content">
+            <div class="smoke-container">
+                <div class="smoke-wisp"></div>
+                <div class="smoke-wisp"></div>
+                <div class="smoke-wisp"></div>
             </div>
-        </div>
-        <div class="header-title">زيست برغر</div>
-    </div>
-
-    <!-- شريط الأقسام -->
-    <div class="categories-bar">
-        <div class="cat-item active">برغر اللحم</div>
-        <div class="cat-item">برغر الدجاج</div>
-        <div class="cat-item">البرغر المشكل</div>
-        <div class="cat-item">السندويشات</div>
-    </div>
-
-    <!-- قائمة الأصناف -->
-    <div class="menu-list">
-        
-        <!-- الصنف الأول -->
-        <div class="food-item">
-            <div class="food-details">
-                <div class="food-name">برغر لحم كلاسيك</div>
-                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل وصلصة برغر</div>
-                <div class="food-price-row">٥,٤٠٠ د.ع. <span class="old-price">٦,٠٠٠ د.ع.</span></div>
-                <div class="food-weight">١٢٠ غم</div>
-                <div class="badge-row">
-                    <span class="badge-save">وفر ٦٠٠ د.ع.</span>
-                    <span style="color:#ddd">•</span>
-                    <span class="badge-points"><span style="color:#00875a; font-weight:bold;">t+</span> ٦٠٠ نقاط</span>
-                    <span style="color:#ddd">•</span>
-                    <span class="badge-fire">🔥 شائع</span>
-                </div>
-            </div>
-            <div class="food-img-container">
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" alt="برغر لحم كلاسيك">
-                <div class="add-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- الصنف الثاني -->
-        <div class="food-item">
-            <div class="food-details">
-                <div class="food-name">برغر لحم بالجبن</div>
-                <div class="food-desc">صمون برغر، شريحة لحم، جبن، خس ومخلل</div>
-                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
-                <div class="food-weight">١٢٠ غم</div>
-                <div class="badge-row">
-                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
-                </div>
-            </div>
-            <div class="food-img-container">
-                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=300&q=80" alt="برغر لحم بالجبن">
-                <div class="add-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- الصنف الثالث -->
-        <div class="food-item">
-            <div class="food-details">
-                <div class="food-name">برغر لحم مكسيكي</div>
-                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل، هالابينو وصلصة برغر</div>
-                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
-                <div class="food-weight">١٢٠ غم</div>
-                <div class="badge-row">
-                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
-                </div>
-            </div>
-            <div class="food-img-container">
-                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80" alt="برغر لحم مكسيكي">
-                <div class="add-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- الصنف الرابع -->
-        <div class="food-item">
-            <div class="food-details">
-                <div class="food-name">برغر لحم بالباربيكيو</div>
-                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن بافلو امريكي، خس، مخلل وصلصة باربيكيو</div>
-                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
-                <div class="food-weight">١٢٠ غم</div>
-                <div class="badge-row">
-                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
-                </div>
-            </div>
-            <div class="food-img-container">
-                <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=300&q=80" alt="برغر لحم بالباربيكيو">
-                <div class="add-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- الصنف الخامس -->
-        <div class="food-item">
-            <div class="food-details">
-                <div class="food-name">برغر لحم زيست بالفطر</div>
-                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، فطر ومخلل</div>
-            </div>
-            <div class="food-img-container">
-                <img src="https://images.unsplash.com/photo-1572802419332-6996f5b5f259?auto=format&fit=crop&w=300&q=80" alt="برغر لحم زيست بالفطر">
-                <div class="add-btn">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- شريط التوصيل المجاني السفلي -->
-    <div class="bottom-banner">
-        <div class="delivery-text">
-            🔒 أنفق ٨,٠٠٠ د.ع. وتمتع <span>توصيل مجاني</span>
-        </div>
-        <div class="t-plus-icon">
-            t+
+            <div class="splash-logo">زاد|ZAD Kitchen</div>
         </div>
     </div>
 
+    <div id="main-app">
+        <!-- قسم التواصل في أعلى الصفحة (أيقونات فقط) -->
+        <div class="social-top-section">
+            <a href="https://www.instagram.com/zad_kt/" target="_blank" class="social-icon-btn" title="انستغرام">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/share/18kU2BShEW/" target="_blank" class="social-icon-btn" id="facebook-link" title="فيسبوك">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+        </div>
+
+        <header>
+            <div class="brand-logo-container" id="logo-container" title="شعار المطعم">
+                <img id="brand-logo-img" src="" alt="شعار" style="display:none;">
+                <span id="brand-logo-text">شعار المطعم</span>
+                <input type="file" id="logo-file-input" accept="image/*" onchange="uploadLogo(event)">
+            </div>
+            <h1 onclick="handleTitleClick()">زاد|ZAD Kitchen</h1>
+        </header>
+
+        <!-- شريط الأقسام السريع -->
+        <div class="category-nav-container">
+            <div class="category-nav" id="category-nav-bar">
+                <!-- يتم توليد أزرار الشريط العُلوي ديناميكياً -->
+            </div>
+        </div>
+
+        <div id="categories-container">
+            <!-- يتم توليد الأقسام والمنتجات ديناميكياً -->
+        </div>
+    </div>
+
+    <!-- شريط السلة السفلي -->
+    <div class="cart-bar">
+        <div class="cart-info">
+            الأصناف: <span id="cart-count">0</span> | اجمالي: <span id="cart-total">0</span> د.ع
+        </div>
+        <div class="actions-container">
+            <button class="view-cart-btn" onclick="openCartModal()">عرض السلة 🛒</button>
+            <button class="checkout-btn" onclick="openCartModal()">إتمام الطلب</button>
+        </div>
+    </div>
+
+    <!-- نافذة السلة وإتمام الطلب -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeCartModal()">✕</button>
+            <h3 class="modal-title">تعديل الطلبات وبيانات التوصيل</h3>
+            
+            <div class="cart-items-list" id="modal-cart-items"></div>
+
+            <div class="form-group">
+                <label>الاسم الكامل:</label>
+                <input type="text" id="customer-name" placeholder="أدخل اسمك الكريم">
+            </div>
+
+            <div class="form-group">
+                <label>رقم الهاتف:</label>
+                <input type="tel" id="customer-phone" placeholder="أدخل رقم هاتفك (مثال: 0770xxxxxxx)">
+            </div>
+
+            <div class="form-group">
+                <label>العنوان / تحديد الموقع:</label>
+                <textarea id="customer-address" rows="2" placeholder="اكتب عنوانك بالتفصيل أو اضغط زر تحديد الموقع تلقائياً"></textarea>
+                <button class="location-btn" onclick="getMyLocation()">📍 حدد موقعي عبر الـ GPS تلقائياً</button>
+            </div>
+
+            <div class="modal-totals">
+                <div><span>مجموع الوجبات:</span> <span id="modal-items-price">0</span> د.ع</div>
+                <div><span>سعر التوصيل:</span> <span id="modal-delivery-fee">0</span> د.ع</div>
+                <div class="final-price"><span>المجموع الكلي:</span> <span id="modal-final-total">0</span> د.ع</div>
+            </div>
+
+            <button class="send-order-whatsapp" onclick="sendOrderWhatsApp()">إرسال الطلب عبر الواتساب 📲</button>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل بيانات الصنف -->
+    <div class="modal-overlay" id="edit-item-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeEditModal()">✕</button>
+            <h3 class="modal-title">تعديل تفاصيل الصنف</h3>
+            <input type="hidden" id="edit-item-id">
+            
+            <div class="form-group">
+                <label>اسم الصنف:</label>
+                <input type="text" id="edit-item-name">
+            </div>
+
+            <div class="form-group">
+                <label>السعر (د.ع):</label>
+                <input type="number" id="edit-item-price">
+            </div>
+
+            <div class="form-group">
+                <label>وصف الصنف:</label>
+                <textarea id="edit-item-desc" rows="3"></textarea>
+            </div>
+
+            <button class="save-item-btn" onclick="saveItemChanges()">حفظ التعديلات ✓</button>
+        </div>
+    </div>
+
+    <script>
+        const REST_LAT = 30.5081;
+        const REST_LON = 47.7835;
+        let deliveryCost = 0;
+        let distanceKm = 0;
+        let userGpsLocationText = "";
+        let isAdmin = false;
+        let titleClicks = 0;
+
+        let categoriesData = [
+            { id: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)' },
+            { id: 'chicken-meals', name: 'وجبات الدجاج' },
+            { id: 'saj', name: 'لفات ووجبات الصاج' },
+            { id: 'burger', name: 'البرجر ووجبات البرجر' },
+            { id: 'rizo', name: 'الريزو ووجبات الريزو' },
+            { id: 'pizza', name: 'البيتزا' },
+            { id: 'crispy', name: 'وجبات الكرسبي' },
+            { id: 'rice-meals', name: 'وجبات الرز' },
+            { id: 'seafood', name: 'الأسماك' },
+            { id: 'shrimp', name: 'الروبيان' },
+            { id: 'nashaf', name: 'الدجاج الناشف' },
+            { id: 'lema', name: 'لمات زاد والعروض' },
+            { id: 'extras', name: 'الإضافات والمشروبات' }
+        ];
+
+        let menuItems = [
+            { id: 1, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + ترشي + خبزتين', price: 25000, available: true, img: '' },
+            { id: 2, cat: 'chicken-meals', name: 'ربع دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 8000, available: true, img: '' },
+            { id: 3, cat: 'chicken-meals', name: 'نصف دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 14000, available: true, img: '' },
+            { id: 4, cat: 'chicken-meals', name: 'دجاجة كاملة', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 18000, available: true, img: '' },
+            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true, img: '' },
+            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true, img: '' },
+            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true, img: '' },
+            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true, img: '' },
+            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, available: true, img: '' },
+            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, available: true, img: '' },
+            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, available: true, img: '' },
+            { id: 204, cat: 'burger', name: 'وجبة دبل برجر', desc: 'دبل + بطاطا + مشروب', price: 9000, available: true, img: '' },
+            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, available: true, img: '' },
+            { id: 302, cat: 'rizo', name: 'ريزو شاورما دجاج', desc: 'أرز ريزو مع شاورما دجاج', price: 5000, available: true, img: '' },
+            { id: 303, cat: 'rizo', name: 'ريزو شاورما لحم', desc: 'أرز ريزو مع شاورما لحم', price: 5500, available: true, img: '' },
+            { id: 304, cat: 'rizo', name: 'وجبة ريزو كرسبي + مشروب', desc: 'ريزو كرسبي + مشروب', price: 6000, available: true, img: '' },
+            { id: 305, cat: 'rizo', name: 'وجبة ريزو شاورما دجاج + مشروب', desc: 'ريزو دجاج + مشروب', price: 6000, available: true, img: '' },
+            { id: 306, cat: 'rizo', name: 'وجبة ريزو شاورما لحم + مشروب', desc: 'ريزو لحم + مشروب', price: 6500, available: true, img: '' },
+            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, available: true, img: '' },
+            { id: 402, cat: 'pizza', name: 'بيتزا خضار (25 سم)', desc: 'خضار مشكلة وجبنة', price: 5500, available: true, img: '' },
+            { id: 403, cat: 'pizza', name: 'بيتزا دجاج (25 سم)', desc: 'قطع دجاج وجبنة', price: 6500, available: true, img: '' },
+            { id: 404, cat: 'pizza', name: 'بيتزا بيبروني (25 سم)', desc: 'بيبروني وجبنة', price: 7000, available: true, img: '' },
+            { id: 405, cat: 'pizza', name: 'بيتزا لحم (25 سم)', desc: 'لحم مفروم وجبنة', price: 7500, available: true, img: '' },
+            { id: 406, cat: 'pizza', name: 'بيتزا زاد الخاصة (25 سم)', desc: 'خلطة زاد المميزة', price: 9000, available: true, img: '' },
+            { id: 407, cat: 'pizza', name: 'بيتزا مارغريتا (30 سم)', desc: 'حجم وسط', price: 7000, available: true, img: '' },
+            { id: 408, cat: 'pizza', name: 'بيتزا خضار (30 سم)', desc: 'حجم وسط', price: 7500, available: true, img: '' },
+            { id: 409, cat: 'pizza', name: 'بيتزا دجاج (30 سم)', desc: 'حجم وسط', price: 8500, available: true, img: '' },
+            { id: 410, cat: 'pizza', name: 'بيتزا بيبروني (30 سم)', desc: 'حجم وسط', price: 9000, available: true, img: '' },
+            { id: 411, cat: 'pizza', name: 'بيتزا لحم (30 سم)', desc: 'حجم وسط', price: 9500, available: true, img: '' },
+            { id: 412, cat: 'pizza', name: 'بيتزا زاد الخاصة (30 سم)', desc: 'حجم وسط', price: 11000, available: true, img: '' },
+            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم كبير عائلي', price: 10000, available: true, img: '' },
+            { id: 414, cat: 'pizza', name: 'بيتزا خضار (40 سم)', desc: 'حجم كبير عائلي', price: 11000, available: true, img: '' },
+            { id: 415, cat: 'pizza', name: 'بيتزا دجاج (40 سم)', desc: 'حجم كبير عائلي', price: 13000, available: true, img: '' },
+            { id: 416, cat: 'pizza', name: 'بيتزا بيبروني (40 سم)', desc: 'حجم كبير عائلي', price: 14000, available: true, img: '' },
+            { id: 417, cat: 'pizza', name: 'بيتزا لحم (40 سم)', desc: 'حجم كبير عائلي', price: 15000, available: true, img: '' },
+            { id: 418, cat: 'pizza', name: 'بيتزا زاد الخاصة (40 سم)', desc: 'حجم كبير عائلي', price: 17000, available: true, img: '' },
+            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص + خبز', price: 6500, available: true, img: '' },
+            { id: 502, cat: 'crispy', name: 'وجبة كرسبي (5 قطع)', desc: '5 قطع + بطاطا + كولسلو + صوص + خبز', price: 8500, available: true, img: '' },
+            { id: 601, cat: 'rice-meals', name: 'رز ومرق أحمر', desc: 'طبق رز مع مرق أحمر', price: 4000, available: true, img: '' },
+            { id: 602, cat: 'rice-meals', name: 'رز ومرق سمك', desc: 'طبق رز مع مرق سمك', price: 6000, available: true, img: '' },
+            { id: 701, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, available: true, img: '' },
+            { id: 702, cat: 'seafood', name: 'كيلو سمك مشوي (مع الترتيب)', desc: 'كيلو سمك مشوي + تمن + سلطة + ترشي + خبز', price: 15000, available: true, img: '' },
+            { id: 703, cat: 'seafood', name: 'نفر سمك مقلي', desc: 'سمك مقلي مع الترتيب', price: 10000, available: true, img: '' },
+            { id: 801, cat: 'shrimp', name: 'نفر روبيان', desc: 'روبيان + تمن + سلطة + ترشي', price: 10000, available: true, img: '' },
+            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'نصف دجاج + خبز + سلطة + ترشي', price: 9000, available: true, img: '' },
+            { id: 902, cat: 'nashaf', name: 'دجاج ناشف كامل', desc: 'دجاجة كاملة + خبز + سلطة + ترشي', price: 14000, available: true, img: '' },
+            { id: 1001, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + 2 بطاطا وسطي + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 21000, available: true, img: '' },
+            { id: 1002, cat: 'lema', name: 'لمة زاد لحم', desc: '4 صاج لحم + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 25000, available: true, img: '' },
+            { id: 1003, cat: 'lema', name: 'لمة زاد بركر', desc: '4 بركر كلاسيك + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 27000, available: true, img: '' },
+            { id: 1004, cat: 'lema', name: 'لمة زاد ميكس', desc: '2 صاج دجاج + 2 صاج لحم + 2 بركر كلاسيك + ريزو + بطاطا عائلية + 6 مشروبات + 6 صوصات', price: 39000, available: true, img: '' },
+            { id: 1005, cat: 'lema', name: 'لمة زاد العائلية', desc: 'بيتزا 40 سم (أي نوع) + 2 صاج دجاج + 2 بركر كلاسيك + بطاطا عائلية + 1 لتر مشروب + 6 صوصات', price: 34000, available: true, img: '' },
+            { id: 1006, cat: 'lema', name: 'عرض الثنائي', desc: '2 صاج دجاج + بطاطا وسط + 2 مشروب', price: 13000, available: true, img: '' },
+            { id: 1007, cat: 'lema', name: 'عرض الأصدقاء', desc: '2 بركر كلاسيك + 2 صاج دجاج + بطاطا عائلية + 4 مشروبات', price: 28000, available: true, img: '' },
+            { id: 1101, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, available: true, img: '' },
+            { id: 1102, cat: 'extras', name: 'بطاطا عائلية', desc: 'حصة بطاطا عائلية', price: 3000, available: true, img: '' },
+            { id: 1103, cat: 'extras', name: 'مشروب', desc: 'قمرة أو علبة', price: 1000, available: true, img: '' },
+            { id: 1104, cat: 'extras', name: 'مشروب 1 لتر', desc: 'مشروب غازي عائلي', price: 2000, available: true, img: '' },
+            { id: 1105, cat: 'extras', name: 'تمن إضافي', desc: 'صحن أرز إضافي', price: 1500, available: true, img: '' },
+            { id: 1106, cat: 'extras', name: 'سلطة إضافية', desc: 'صحن سلطة', price: 1000, available: true, img: '' },
+            { id: 1107, cat: 'extras', name: 'ترشي إضافي', desc: 'صحن ترشي', price: 500, available: true, img: '' },
+            { id: 1108, cat: 'extras', name: 'تومية', desc: 'علبة صوص تومية', price: 500, available: true, img: '' },
+            { id: 1109, cat: 'extras', name: 'خبز إضافي', desc: 'عدد من الخبز', price: 500, available: true, img: '' },
+            { id: 1110, cat: 'extras', name: '4 لبن', desc: 'علب لبن', price: 250, available: true, img: '' },
+            { id: 1111, cat: 'extras', name: 'جبنة إضافية', desc: 'إضافة جبنة للطلب', price: 500, available: true, img: '' },
+            { id: 1112, cat: 'extras', name: 'صوص إضافي', desc: 'أنواع الصوصات المختلفة', price: 500, available: true, img: '' }
+        ];
+
+        let cart = [];
+        let appOpened = false;
+
+        function openApp() {
+            if (appOpened) return;
+            appOpened = true;
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
+                renderApp();
+            }, 800);
+        }
+
+        setTimeout(openApp, 4000);
+
+        function scrollToCat(catId, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
+            let targetSection = document.getElementById(`sec-${catId}`);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleTitleClick() {
+            titleClicks++;
+            if (titleClicks >= 3) {
+                titleClicks = 0;
+                let pass = prompt("أدخل رمز لوحة التحكم:");
+                if (pass === "200z") {
+                    isAdmin = true;
+                    alert("تم تفعيل صلاحيات التعديل (الأقسام، الأسماء، الأسعار، الصور) بنجاح!");
+                    renderApp();
+                    document.getElementById('logo-container').onclick = function() {
+                        document.getElementById('logo-file-input').click();
+                    };
+                } else {
+                    alert("الرمز غير صحيح!");
+                }
+            }
+        }
+
+        function uploadLogo(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('brand-logo-img').src = e.target.result;
+                    document.getElementById('brand-logo-img').style.display = 'block';
+                    document.getElementById('brand-logo-text').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderApp() {
+            renderNav();
+            renderSections();
+        }
+
+        function renderNav() {
+            let navBar = document.getElementById('category-nav-bar');
+            navBar.innerHTML = '';
+            categoriesData.forEach((cat, index) => {
+                let activeClass = index === 0 ? 'active' : '';
+                navBar.innerHTML += `<button class="cat-btn ${activeClass}" onclick="scrollToCat('${cat.id}', this)">${cat.name}</button>`;
+            });
+        }
+
+        function renderSections() {
+            let container = document.getElementById('categories-container');
+            container.innerHTML = '';
+
+            categoriesData.forEach(cat => {
+                let editCatStyle = isAdmin ? 'display: inline-block;' : 'display: none;';
+                container.innerHTML += `
+                    <div class="category-section" id="sec-${cat.id}">
+                        <div class="category-header-flex">
+                            <h2 class="category-title" id="title-${cat.id}">${cat.name}</h2>
+                            <button class="edit-cat-btn" style="${editCatStyle}" onclick="editCategoryName('${cat.id}')">تعديل القسم</button>
+                        </div>
+                        <div class="menu-grid" id="${cat.id}-menu"></div>
+                    </div>
+                `;
+                renderMenuItems(cat.id);
+            });
+        }
+
+        function editCategoryName(catId) {
+            let cat = categoriesData.find(c => c.id === catId);
+            if (!cat) return;
+            let newName = prompt("أدخل الاسم الجديد للقسم:", cat.name);
+            if (newName && newName.trim() !== "") {
+                cat.name = newName.trim();
+                renderApp();
+            }
+        }
+
+        function renderMenuItems(catId) {
+            let container = document.getElementById(`${catId}-menu`);
+            if (!container) return;
+            container.innerHTML = '';
+            let items = menuItems.filter(i => i.cat === catId);
+            items.forEach(item => {
+                let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
+                let adminStyle = isAdmin ? 'display: block;' : 'display: none;';
+                container.innerHTML += `
+                    <div class="menu-item">
+                        <div class="item-img-container">
+                            <img src="${imgSrc}" alt="${item.name}">
+                            <div class="admin-controls-overlay">
+                                <button class="admin-btn" style="${adminStyle}" onclick="triggerImgUpload(${item.id})">صورة</button>
+                                <button class="admin-btn edit-item-btn" style="${adminStyle}" onclick="openEditModal(${item.id})">تعديل</button>
+                            </div>
+                            <input type="file" id="file-${item.id}" accept="image/*" onchange="updateItemImg(event, ${item.id})">
+                        </div>
+                        <div class="item-body">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <p>${item.desc}</p>
+                            </div>
+                            <div class="item-footer">
+                                <span class="price">${item.price} د.ع</span>
+                                <button onclick="addToCart(${item.id})">أضف</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function triggerImgUpload(id) {
+            document.getElementById(`file-${id}`).click();
+        }
+
+        function updateItemImg(event, id) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let item = menuItems.find(i => i.id === id);
+                    if (item) {
+                        item.img = e.target.result;
+                        renderSections();
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function openEditModal(id) {
+            let item = menuItems.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('edit-item-id').value = item.id;
+            document.getElementById('edit-item-name').value = item.name;
+            document.getElementById('edit-item-price').value = item.price;
+            document.getElementById('edit-item-desc').value = item.desc;
+
+            document.getElementById('edit-item-modal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-item-modal').style.display = 'none';
+        }
+
+        function saveItemChanges() {
+            let id = parseInt(document.getElementById('edit-item-id').value);
+            let newName = document.getElementById('edit-item-name').value.trim();
+            let newPrice = parseFloat(document.getElementById('edit-item-price').value);
+            let newDesc = document.getElementById('edit-item-desc').value.trim();
+
+            if (!newName || isNaN(newPrice)) {
+                alert("يرجى إدخال اسم صحيح وسعر رقمي صالح.");
+                return;
+            }
+
+            let item = menuItems.find(i => i.id === id);
+            if (item) {
+                item.name = newName;
+                item.price = newPrice;
+                item.desc = newDesc;
+                
+                let cartItem = cart.find(c => c.id === id);
+                if (cartItem) {
+                    cartItem.name = newName;
+                    cartItem.price = newPrice;
+                    updateCartUI();
+                }
+
+                renderSections();
+                closeEditModal();
+            }
+        }
+
+        function addToCart(id) {
+            let item = menuItems.find(i => i.id === id);
+            let cartItem = cart.find(c => c.id === id);
+            if(cartItem) cartItem.qty++;
+            else cart.push({ ...item, qty: 1 });
+            updateCartUI();
+        }
+
+        function changeQty(id, delta) {
+            let cartItem = cart.find(c => c.id === id);
+            if(cartItem) {
+                cartItem.qty += delta;
+                if(cartItem.qty <= 0) {
+                    cart = cart.filter(c => c.id !== id);
+                }
+            }
+            updateCartUI();
+            renderModalCartItems();
+        }
+
+        function updateCartUI() {
+            let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let finalTotal = itemsPrice + deliveryCost;
+
+            document.getElementById('cart-count').innerText = totalCount;
+            document.getElementById('cart-total').innerText = finalTotal;
+        }
+
+        function openCartModal() {
+            if(cart.length === 0) {
+                alert("السلة فارغة حالياً!");
+                return;
+            }
+            renderModalCartItems();
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        function renderModalCartItems() {
+            let container = document.getElementById('modal-cart-items');
+            container.innerHTML = '';
+            
+            let itemsPrice = 0;
+            cart.forEach(item => {
+                itemsPrice += item.price * item.qty;
+                container.innerHTML += `
+                    <div class="cart-item-row">
+                        <div class="cart-item-details">
+                            <h4>${item.name}</h4>
+                            <span>${item.price} د.ع × ${item.qty} = ${item.price * item.qty} د.ع</span>
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            let finalTotal = itemsPrice + deliveryCost;
+            document.getElementById('modal-items-price').innerText = itemsPrice;
+            document.getElementById('modal-delivery-fee').innerText = deliveryCost;
+            document.getElementById('modal-final-total').innerText = finalTotal;
+        }
+
+        function calculateDeliveryFee(dist) {
+            if (dist <= 5) return 1000;
+            if (dist <= 8) return 2000;
+            return 3000;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            let R = 6371;
+            let dLat = (lat2 - lat1) * Math.PI / 180;
+            let dLon = (lon2 - lon1) * Math.PI / 180;
+            let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function getMyLocation() {
+            if (!navigator.geolocation) {
+                alert("متصفحك لا يدعم خاصية تحديد الموقع");
+                return;
+            }
+            
+            navigator.geolocation.getCurrentPosition(position => {
+                let userLat = position.coords.latitude;
+                let userLon = position.coords.longitude;
+                distanceKm = calculateDistance(REST_LAT, REST_LON, userLat, userLon);
+                deliveryCost = calculateDeliveryFee(distanceKm);
+                
+                userGpsLocationText = `موقع GPS: خط عرض ${userLat.toFixed(4)}, خط طول ${userLon.toFixed(4)} (المسافة: ${distanceKm.toFixed(1)} كم)`;
+                document.getElementById('customer-address').value = userGpsLocationText;
+                
+                renderModalCartItems();
+            }, error => {
+                alert("تعذر تحديد الموقع تلقائياً. يرجى كتابة العنوان يدوياً.");
+            }, { timeout: 5000, maximumAge: 60000, enableHighAccuracy: false });
+        }
+
+        function sendOrderWhatsApp() {
+            let name = document.getElementById('customer-name').value.trim();
+            let phone = document.getElementById('customer-phone').value.trim();
+            let address = document.getElementById('customer-address').value.trim();
+
+            if (!name) {
+                alert("يرجى إدخال الاسم الكامل");
+                return;
+            }
+            if (!phone) {
+                alert("يرجى إدخال رقم الهاتف");
+                return;
+            }
+            if (!address) {
+                alert("يرجى إدخال العنوان أو تحديد الموقع عبر الـ GPS");
+                return;
+            }
+
+            let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let finalTotal = itemsPrice + deliveryCost;
+
+            let msg = `طلب جديد من تطبيق زاد|ZAD Kitchen:%0A`;
+            msg += `--------------------------------%0A`;
+            msg += `👤 الاسم: ${name}%0A`;
+            msg += `📞 الهاتف: ${phone}%0A`;
+            msg += `📍 العنوان/الموقع: ${address}%0A`;
+            if(distanceKm > 0) {
+                msg += `📏 المسافة: ${distanceKm.toFixed(1)} كم%0A`;
+            }
+            msg += `--------------------------------%0A`;
+            msg += `🛒 الوجبات المطلوبة:%0A`;
+            cart.forEach(item => {
+                msg += `- ${item.name} (عدد: ${item.qty}) - ${item.price * item.qty} د.ع%0A`;
+            });
+            msg += `--------------------------------%0A`;
+            msg += `💰 سعر الوجبات: ${itemsPrice} د.ع%0A`;
+            msg += `🛵 سعر التوصيل: ${deliveryCost} د.ع%0A`;
+            msg += `💵 الإجمالي الكلي: ${finalTotal} د.ع%0A`;
+
+            window.open(`https://wa.me/9647838021664?text=${msg}`, '_blank');
+        }
+    </script>
 </body>
 </html>
