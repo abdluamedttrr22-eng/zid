@@ -14,6 +14,7 @@
             --text-muted: #aaa;
             --danger: #ff4d4d;
             --success: #28a745;
+            --info: #17a2b8;
         }
 
         * {
@@ -95,22 +96,22 @@
 
         #main-app {
             display: none;
-            padding: 20px;
+            padding: 15px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-bottom: 2px solid var(--gold);
-            padding-bottom: 15px;
+            padding-bottom: 12px;
         }
 
         .brand-logo-container {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 10px auto;
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 8px auto;
             border: 2px dashed var(--gold);
             border-radius: 50%;
             overflow: hidden;
@@ -128,15 +129,15 @@
         }
 
         .brand-logo-container span {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             color: var(--gold);
             text-align: center;
-            padding: 5px;
+            padding: 4px;
         }
 
         header h1 {
             color: var(--gold);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             letter-spacing: 1px;
             cursor: pointer;
             user-select: none;
@@ -145,8 +146,8 @@
 
         header p {
             color: var(--text-muted);
-            margin-top: 5px;
-            font-size: 0.9rem;
+            margin-top: 4px;
+            font-size: 0.8rem;
         }
 
         .category-nav-container {
@@ -154,22 +155,22 @@
             top: 0;
             background-color: var(--bg-color);
             z-index: 900;
-            padding: 10px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #222;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .category-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             overflow-x: auto;
-            padding: 5px 0;
+            padding: 4px 0;
             scrollbar-width: thin;
             scrollbar-color: var(--gold) #222;
         }
 
         .category-nav::-webkit-scrollbar {
-            height: 6px;
+            height: 5px;
         }
 
         .category-nav::-webkit-scrollbar-thumb {
@@ -181,11 +182,11 @@
             background-color: var(--card-bg);
             color: var(--gold);
             border: 1px solid var(--gold);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
             white-space: nowrap;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: bold;
             transition: 0.3s;
         }
@@ -196,36 +197,38 @@
         }
 
         .category-section {
-            margin-bottom: 40px;
-            scroll-margin-top: 80px;
+            margin-bottom: 30px;
+            scroll-margin-top: 70px;
         }
 
         .category-title {
             color: var(--gold);
-            font-size: 1.6rem;
-            border-right: 4px solid var(--gold);
-            padding-right: 15px;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            border-right: 3px solid var(--gold);
+            padding-right: 10px;
+            margin-bottom: 15px;
         }
 
+        /* تصميم البطاقات المصغرة للوجبات */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
         }
 
         .menu-item {
             background-color: var(--card-bg);
             border: 1px solid #333;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
         }
 
         .item-img-container {
             width: 100%;
-            height: 160px;
+            height: 100px;
             background: #222;
             position: relative;
         }
@@ -236,22 +239,33 @@
             object-fit: cover;
         }
 
-        .change-img-btn {
+        .admin-controls-overlay {
             position: absolute;
-            bottom: 8px;
-            left: 8px;
-            background: rgba(0, 0, 0, 0.8);
+            bottom: 4px;
+            left: 4px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .admin-btn {
+            background: rgba(0, 0, 0, 0.85);
             color: var(--gold);
             border: 1px solid var(--gold);
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 4px;
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            border-radius: 3px;
             cursor: pointer;
             display: none;
         }
 
+        .admin-btn.edit-item-btn {
+            background: rgba(23, 162, 184, 0.9);
+            color: #fff;
+            border-color: var(--info);
+        }
+
         .item-body {
-            padding: 15px;
+            padding: 10px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -260,40 +274,47 @@
 
         .menu-item h3 {
             color: var(--gold);
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            line-height: 1.3;
         }
 
         .menu-item p {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin-bottom: 8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .item-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 5px;
         }
 
         .price {
             color: var(--gold-light);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 0.85rem;
         }
 
         button {
             background-color: var(--gold);
             color: #000;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 5px 10px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 0.75rem;
         }
 
-        /* شريط السلة السفلي وأزرار التحكم */
+        /* شريط السلة السفلي */
         .cart-bar {
             position: fixed;
             bottom: 0;
@@ -301,7 +322,7 @@
             width: 100%;
             background: #111;
             border-top: 2px solid var(--gold);
-            padding: 12px 20px;
+            padding: 10px 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -309,21 +330,21 @@
         }
 
         .cart-info {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--gold);
         }
 
         .actions-container {
             display: flex;
-            gap: 8px;
+            gap: 6px;
         }
 
         .view-cart-btn {
             background-color: #333;
             color: var(--gold);
             border: 1px solid var(--gold);
-            padding: 10px 14px;
-            font-size: 0.9rem;
+            padding: 8px 12px;
+            font-size: 0.85rem;
             border-radius: 5px;
             cursor: pointer;
         }
@@ -331,13 +352,13 @@
         .checkout-btn {
             background-color: var(--success);
             color: #fff;
-            padding: 10px 16px;
-            font-size: 0.95rem;
+            padding: 8px 14px;
+            font-size: 0.85rem;
             border-radius: 5px;
             cursor: pointer;
         }
 
-        /* نافذة السلة والبيانات المنبثقة (Modal) */
+        /* النوافذ المنبثقة (Modals) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -349,30 +370,30 @@
             display: none;
             justify-content: center;
             align-items: center;
-            padding: 15px;
+            padding: 12px;
         }
 
         .modal-content {
             background: var(--card-bg);
             border: 2px solid var(--gold);
-            border-radius: 12px;
+            border-radius: 10px;
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             max-height: 90vh;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             position: relative;
         }
 
         .close-modal {
             position: absolute;
-            top: 15px;
-            left: 15px;
+            top: 12px;
+            left: 12px;
             background: var(--danger);
             color: #fff;
             border: none;
-            width: 30px;
-            height: 30px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             font-weight: bold;
             cursor: pointer;
@@ -380,15 +401,15 @@
 
         .modal-title {
             color: var(--gold);
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
             border-bottom: 1px solid #333;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             text-align: center;
         }
 
         .cart-items-list {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .cart-item-row {
@@ -396,48 +417,48 @@
             justify-content: space-between;
             align-items: center;
             background: #222;
-            padding: 10px;
-            border-radius: 6px;
-            margin-bottom: 8px;
+            padding: 8px;
+            border-radius: 5px;
+            margin-bottom: 6px;
         }
 
         .cart-item-details h4 {
             color: var(--text-color);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
         }
 
         .cart-item-details span {
             color: var(--gold-light);
-            font-size: 0.85rem;
+            font-size: 0.75rem;
         }
 
         .cart-item-controls {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .qty-btn {
             background: var(--gold);
             color: #000;
             border: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 3px;
             font-weight: bold;
             cursor: pointer;
+            font-size: 0.8rem;
         }
 
-        /* حقول إدخال البيانات (الاسم، الهاتف، الموقع) */
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .form-group label {
             display: block;
             color: var(--gold);
-            font-size: 0.9rem;
-            margin-bottom: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
         }
 
         .form-group input, .form-group textarea {
@@ -445,9 +466,9 @@
             background: #222;
             border: 1px solid #444;
             color: #fff;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.95rem;
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 0.9rem;
         }
 
         .form-group input:focus, .form-group textarea:focus {
@@ -459,45 +480,46 @@
             background-color: #0056b3;
             color: #fff;
             width: 100%;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 8px;
+            border-radius: 5px;
             border: none;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 5px;
+            margin-top: 4px;
+            font-size: 0.85rem;
         }
 
         .modal-totals {
             background: #151515;
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
 
         .modal-totals div {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .modal-totals .final-price {
             color: var(--gold);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             border-top: 1px solid #333;
-            padding-top: 5px;
-            margin-top: 5px;
+            padding-top: 4px;
+            margin-top: 4px;
         }
 
-        .send-order-whatsapp {
+        .send-order-whatsapp, .save-item-btn {
             background-color: var(--success);
             color: #fff;
             width: 100%;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 5px;
             border: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
@@ -533,7 +555,7 @@
             <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً</p>
         </header>
 
-        <!-- شريط الأقسام السريع والثابت في الأعلى -->
+        <!-- شريط الأقسام السريع -->
         <div class="category-nav-container">
             <div class="category-nav">
                 <button class="cat-btn active" onclick="scrollToCat('sofra', this)">سفرة زاد</button>
@@ -567,7 +589,7 @@
         <div class="category-section" id="sec-extras"><h2 class="category-title">الإضافات والمشروبات</h2><div class="menu-grid" id="extras-menu"></div></div>
     </div>
 
-    <!-- شريط السلة السفلي الثابت -->
+    <!-- شريط السلة السفلي -->
     <div class="cart-bar">
         <div class="cart-info">
             الأصناف: <span id="cart-count">0</span> | اجمالي: <span id="cart-total">0</span> د.ع
@@ -578,15 +600,13 @@
         </div>
     </div>
 
-    <!-- نافذة تفاصيل السلة والبيانات (Modal) -->
+    <!-- نافذة السلة وإتمام الطلب -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeCartModal()">✕</button>
-            <h3 class="modal-title">سلة الطلبات وبيانات التوصيل</h3>
+            <h3 class="modal-title">تعديل الطلبات وبيانات التوصيل</h3>
             
-            <div class="cart-items-list" id="modal-cart-items">
-                <!-- يتم تعبئتها ديناميكياً -->
-            </div>
+            <div class="cart-items-list" id="modal-cart-items"></div>
 
             <div class="form-group">
                 <label>الاسم الكامل:</label>
@@ -611,6 +631,32 @@
             </div>
 
             <button class="send-order-whatsapp" onclick="sendOrderWhatsApp()">إرسال الطلب عبر الواتساب 📲</button>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل بيانات الصنف (الاسم، السعر، الوصف) للأدمن -->
+    <div class="modal-overlay" id="edit-item-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeEditModal()">✕</button>
+            <h3 class="modal-title">تعديل تفاصيل الصنف</h3>
+            <input type="hidden" id="edit-item-id">
+            
+            <div class="form-group">
+                <label>اسم الصنف:</label>
+                <input type="text" id="edit-item-name">
+            </div>
+
+            <div class="form-group">
+                <label>السعر (د.ع):</label>
+                <input type="number" id="edit-item-price">
+            </div>
+
+            <div class="form-group">
+                <label>وصف الصنف:</label>
+                <textarea id="edit-item-desc" rows="3"></textarea>
+            </div>
+
+            <button class="save-item-btn" onclick="saveItemChanges()">حفظ التعديلات ✓</button>
         </div>
     </div>
 
@@ -723,7 +769,7 @@
                 let pass = prompt("أدخل رمز لوحة التحكم:");
                 if (pass === "200z") {
                     isAdmin = true;
-                    alert("تم تفعيل صلاحيات التعديل بنجاح!");
+                    alert("تم تفعيل صلاحيات التعديل (الأسماء، الأسعار، الصور) بنجاح!");
                     renderMenu();
                     document.getElementById('logo-container').onclick = function() {
                         document.getElementById('logo-file-input').click();
@@ -756,12 +802,15 @@
                 let items = menuItems.filter(i => i.cat === cat);
                 items.forEach(item => {
                     let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
-                    let editBtnStyle = isAdmin ? 'display: block;' : 'display: none;';
+                    let adminStyle = isAdmin ? 'display: block;' : 'display: none;';
                     container.innerHTML += `
                         <div class="menu-item">
                             <div class="item-img-container">
                                 <img src="${imgSrc}" alt="${item.name}">
-                                <button class="change-img-btn" style="${editBtnStyle}" onclick="triggerImgUpload(${item.id})">تغيير الصورة</button>
+                                <div class="admin-controls-overlay">
+                                    <button class="admin-btn" style="${adminStyle}" onclick="triggerImgUpload(${item.id})">صورة</button>
+                                    <button class="admin-btn edit-item-btn" style="${adminStyle}" onclick="openEditModal(${item.id})">تعديل</button>
+                                </div>
                                 <input type="file" id="file-${item.id}" accept="image/*" onchange="updateItemImg(event, ${item.id})">
                             </div>
                             <div class="item-body">
@@ -771,7 +820,7 @@
                                 </div>
                                 <div class="item-footer">
                                     <span class="price">${item.price} د.ع</span>
-                                    <button onclick="addToCart(${item.id})">أضف للسلة</button>
+                                    <button onclick="addToCart(${item.id})">أضف</button>
                                 </div>
                             </div>
                         </div>
@@ -796,6 +845,54 @@
                     }
                 }
                 reader.readAsDataURL(file);
+            }
+        }
+
+        // دوال نافذة تعديل بيانات الصنف (الاسم، السعر، الوصف)
+        function openEditModal(id) {
+            let item = menuItems.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById('edit-item-id').value = item.id;
+            document.getElementById('edit-item-name').value = item.name;
+            document.getElementById('edit-item-price').value = item.price;
+            document.getElementById('edit-item-desc').value = item.desc;
+
+            document.getElementById('edit-item-modal').style.display = 'flex';
+        }
+
+        function closeEditModal() {
+            document.getElementById('edit-item-modal').style.display = 'none';
+        }
+
+        function saveItemChanges() {
+            let id = parseInt(document.getElementById('edit-item-id').value);
+            let newName = document.getElementById('edit-item-name').value.trim();
+            let newPrice = parseFloat(document.getElementById('edit-item-price').value);
+            let newDesc = document.getElementById('edit-item-desc').value.trim();
+
+            if (!newName || isNaN(newPrice)) {
+                alert("يرجى إدخال اسم صحيح وسعر رقمي صالح.");
+                return;
+            }
+
+            let item = menuItems.find(i => i.id === id);
+            if (item) {
+                item.name = newName;
+                item.price = newPrice;
+                item.desc = newDesc;
+                
+                // تحديث السلة تلقائياً إذا كان الصنف موجوداً فيها
+                let cartItem = cart.find(c => c.id === id);
+                if (cartItem) {
+                    cartItem.name = newName;
+                    cartItem.price = newPrice;
+                    updateCartUI();
+                }
+
+                renderMenu();
+                closeEditModal();
+                alert("تم تحديث بيانات الصنف بنجاح!");
             }
         }
 
