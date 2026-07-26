@@ -131,6 +131,37 @@
             margin: 0 auto;
         }
 
+        /* تصميم قسم التواصل في أعلى الصفحة (أيقونات فقط) */
+        .social-top-section {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 8px;
+            background: var(--card-bg);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .social-icon-btn {
+            font-size: 1.4rem;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #222;
+            border: 1px solid var(--gold);
+        }
+
+        .social-icon-btn:hover {
+            transform: scale(1.1);
+            background: var(--gold);
+        }
+
         header {
             text-align: center;
             margin-bottom: 15px;
@@ -353,55 +384,6 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.72rem;
-        }
-
-        /* تصميم قسم تواصل معنا */
-        .social-section {
-            text-align: center;
-            margin: 40px 0 20px 0;
-            padding: 20px;
-            background: var(--card-bg);
-            border-top: 1px solid var(--gold);
-            border-radius: 8px;
-        }
-
-        .social-section h3 {
-            color: var(--gold);
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .social-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .instagram-btn {
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-        }
-
-        .facebook-btn {
-            background: #1877f2;
-            color: #fff;
-        }
-
-        .social-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
         }
 
         .cart-bar {
@@ -632,6 +614,16 @@
     </div>
 
     <div id="main-app">
+        <!-- قسم التواصل في أعلى الصفحة (أيقونات فقط) -->
+        <div class="social-top-section">
+            <a href="https://www.instagram.com/zad_kt/" target="_blank" class="social-icon-btn" title="انستغرام">
+                📸
+            </a>
+            <a href="https://facebook.com" target="_blank" class="social-icon-btn" id="facebook-link" title="فيسبوك">
+                👥
+            </a>
+        </div>
+
         <header>
             <div class="brand-logo-container" id="logo-container" title="شعار المطعم">
                 <img id="brand-logo-img" src="" alt="شعار" style="display:none;">
@@ -650,19 +642,6 @@
 
         <div id="categories-container">
             <!-- يتم توليد الأقسام والمنتجات ديناميكياً -->
-        </div>
-
-        <!-- قسم تواصل معنا (انستغرام وفيسبوك) -->
-        <div class="social-section">
-            <h3>تابعنا على مواقع التواصل الاجتماعي</h3>
-            <div class="social-links">
-                <a href="https://www.instagram.com/zad_kt/" target="_blank" class="social-btn instagram-btn">
-                    📸 انستغرام
-                </a>
-                <a href="https://facebook.com" target="_blank" class="social-btn facebook-btn" id="facebook-link">
-                    👥 فيسبوك
-                </a>
-            </div>
         </div>
     </div>
 
