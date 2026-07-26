@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مطبخ زاد - ZAD Kitchen | البصرة</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: #121212;
+            color: #f8f9fa;
+            font-family: Tahoma, sans-serif;
+        }
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.8s ease;
+            cursor: pointer;
+        }
+        .smoke-bg {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.2) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%);
+            border-radius: 50%;
+            animation: smokeAnimation 6s ease-in-out infinite alternate;
+            filter: blur(35px);
+            z-index: 1;
+        }
+        @keyframes smokeAnimation {
+            0% { transform: scale(0.8) translate(-20px, -10px); opacity: 0.4; }
+            50% { transform: scale(1.3) translate(25px, 20px); opacity: 0.85; }
+            100% { transform: scale(1.1) translate(-15px, 20px); opacity: 0.5; }
+        }
+        .splash-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        .logo-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid #c5a059;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 0 25px rgba(197, 160, 89, 0.5);
+            animation: pulseLogo 2s infinite;
+        }
+        @keyframes pulseLogo {
+            0% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(197, 160, 89, 0.8); }
+            100% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
+        }
+        .restaurant-title {
+            font-size: 3.8rem;
+            font-weight: bold;
+            color: #c5a059;
+            text-shadow: 0 0 20px rgba(197, 160, 89, 0.7);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .restaurant-subtitle {
+            font-size: 1.3rem;
+            color: #e0e0e0;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+        }
+        .enter-btn {
+            background: linear-gradient(45deg, #c5a059, #e6ca65);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .enter-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(45deg, #d4af37, #f3e5ab);
+            color: #000;
+        }
+        
+        /* تنسيقات الموقع الأساسية */
+        .navbar { background-color: #1a1a1a !important; border-bottom: 2px solid #c5a059; }
+        .navbar-brand img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-left: 10px; border: 2px solid #c5a059; }
+        .card { background-color: #1e1e1e; color: #fff; border: 1px solid #333; border-radius: 12px; }
+        .btn-warning { background-color: #c5a059; border-color: #c5a059; color: #000; font-weight: bold; }
+        .btn-warning:hover { background-color: #d4af37; border-color: #d4af37; }
+        h1, h2 { color: #c5a059 !important; }
+        .whatsapp-float { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
+        #main-website { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- واجهة البداية المتحركة (الدخان والاسم في المنتصف) -->
+    <div id="splash" class="splash-screen" onclick="enterSite()">
+        <div class="smoke-bg"></div>
+        <div class="splash-content">
+            <img src="https://raw.githubusercontent.com/abduhamedttrr22-eng/zad/main/IMG-20260719-WA0009.jpg" alt="شعار مطبخ زاد" class="logo-img">
+            <h1 class="restaurant-title">مطبخ زاد</h1>
+            <p class="restaurant-subtitle">ZAD KITCHEN - البصرة</p>
+            <span class="enter-btn">دخول القائمة <i class="fas fa-arrow-left ms-2"></i></span>
+        </div>
+    </div>
+
+    <!-- محتوى الموقع الرئيسي -->
+    <div id="main-website">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="https://raw.githubusercontent.com/abduhamedttrr22-eng/zad/main/IMG-20260719-WA0009.jpg" alt="شعار مطبخ زاد">
+                    <span class="fw-bold fs-4" style="color: #c5a059;">مطبخ زاد <span style="font-size: 14px; color: #fff; display: block; font-weight: normal;">ZAD Kitchen</span></span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="container my-5 text-center">
+            <h1 class="fw-bold">قائمة وجبات مطبخ زاد</h1>
+            <p class="text-muted">ريزو • كرسبي • برجر • غداء عراقي أصيل في البصرة</p>
+            <a href="https://maps.app.goo.gl/oDWftjxwFw9hpaYK7?g_st=iwb" target="_blank" class="btn btn-outline-warning mt-2 mb-4">
+                <i class="fas fa-map-marker-alt"></i> موقعنا / توصيل البصرة (GPS)
+            </a>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card p-3 shadow-sm">
+                        <h5 class="fw-bold" style="color: #c5a059;">وجبات ريزو وكرسبي</h5>
+                        <p class="text-light">تحضير طازج يومياً بأعلى جودة في البصرة.</p>
+                        <span class="text-success fw-bold">حسب الطلب</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="whatsapp-float">
+            <a href="https://wa.me/9647838021664" target="_blank" class="btn btn-success btn-lg rounded-circle shadow" title="تواصل عبر الواتساب">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function enterSite() {
+            const splash = document.getElementById('splash');
+            const main = document.getElementById('main-website');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                main.style.display = 'block';
+            }, 800);
+        }
+        // الانتقال التلقائي بعد 4 ثوانٍ
+        setTimeout(enterSite, 4000);
+    </script>
+</body>
+</html>
+
