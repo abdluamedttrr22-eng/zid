@@ -36,7 +36,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #050505;
+            background: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -46,36 +46,66 @@
             transition: opacity 1s ease;
         }
 
+        /* حاوية تأثير الدخان الواقعي */
         .smoke-container {
             position: absolute;
-            bottom: -50px;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            height: 120%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
+            height: 100%;
             pointer-events: none;
             z-index: 1;
+            filter: blur(12px);
+            opacity: 0.85;
         }
 
-        .smoke-puff {
+        .smoke-stream {
             position: absolute;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, rgba(100, 100, 100, 0.1) 50%, transparent 80%);
-            border-radius: 50%;
-            filter: blur(25px);
-            animation: riseSmoke 4s infinite linear;
-            opacity: 0;
+            bottom: -100px;
+            left: 50%;
+            width: 180px;
+            height: 100%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(212, 175, 55, 0.15) 30%, rgba(255, 255, 255, 0.25) 60%, rgba(255,255,255,0) 100%);
+            border-radius: 50% 50% 20% 20%;
+            transform: translateX(-50%);
+            animation: realisticSmoke 6s infinite linear;
         }
 
-        .smoke-puff:nth-child(1) { width: 200px; height: 200px; left: 30%; animation-duration: 3.5s; animation-delay: 0s; }
-        .smoke-puff:nth-child(2) { width: 300px; height: 300px; left: 50%; animation-duration: 4.5s; animation-delay: 1s; }
-        .smoke-puff:nth-child(3) { width: 250px; height: 250px; left: 40%; animation-duration: 3.8s; animation-delay: 2s; }
-        .smoke-puff:nth-child(4) { width: 350px; height: 350px; left: 60%; animation-duration: 5s; animation-delay: 0.5s; }
+        .smoke-stream:nth-child(2) {
+            width: 120px;
+            animation-duration: 4.5s;
+            animation-delay: 1.5s;
+            left: 45%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 10%, rgba(255, 255, 255, 0.2) 40%, rgba(212, 175, 55, 0.1) 70%, rgba(255,255,255,0) 100%);
+        }
 
-        @keyframes riseSmoke {
-            0% { transform: translateY(100px) scale(0.5); opacity: 0; }
-            30% { opacity: 0.6; }
-            100% { transform: translateY(-500px) scale(1.8); opacity: 0; }
+        .smoke-stream:nth-child(3) {
+            width: 220px;
+            animation-duration: 7s;
+            animation-delay: 3s;
+            left: 55%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(200, 200, 200, 0.18) 50%, rgba(255,255,255,0) 100%);
+        }
+
+        @keyframes realisticSmoke {
+            0% {
+                transform: translateX(-50%) translateY(150px) scaleX(0.4) scaleY(0.6) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateX(calc(-50% + 40px)) translateY(-250px) scaleX(1.4) scaleY(1.2) rotate(10deg);
+                opacity: 0.5;
+            }
+            80% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateX(calc(-50% - 30px)) translateY(-650px) scaleX(2.2) scaleY(1.8) rotate(-15deg);
+                opacity: 0;
+            }
         }
 
         .splash-content {
@@ -87,11 +117,12 @@
         }
 
         .splash-logo {
-            font-size: 2.3rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+            text-shadow: 0 0 35px rgba(212, 175, 55, 0.9), 0 0 10px rgba(0,0,0,1);
             white-space: nowrap;
+            letter-spacing: 2px;
         }
 
         #main-app {
@@ -201,15 +232,32 @@
             scroll-margin-top: 70px;
         }
 
-        .category-title {
-            color: var(--gold);
-            font-size: 1.3rem;
+        .category-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-right: 3px solid var(--gold);
             padding-right: 10px;
             margin-bottom: 15px;
         }
 
-        /* تصميم البطاقات المصغرة للوجبات */
+        .category-title {
+            color: var(--gold);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .edit-cat-btn {
+            background: rgba(23, 162, 184, 0.9);
+            color: #fff;
+            border: 1px solid var(--info);
+            font-size: 0.65rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: none;
+        }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -228,7 +276,7 @@
 
         .item-img-container {
             width: 100%;
-            height: 75px; /* تم تصغير ارتفاع الصورة بناءً على الطلب */
+            height: 75px;
             background: #222;
             position: relative;
         }
@@ -274,7 +322,7 @@
 
         .menu-item h3 {
             color: var(--gold);
-            font-size: 0.82rem; /* تم تصغير حجم خط اسم الصنف بناءً على الطلب */
+            font-size: 0.82rem;
             margin-bottom: 4px;
             line-height: 1.2;
         }
@@ -314,7 +362,6 @@
             font-size: 0.72rem;
         }
 
-        /* شريط السلة السفلي */
         .cart-bar {
             position: fixed;
             bottom: 0;
@@ -358,7 +405,6 @@
             cursor: pointer;
         }
 
-        /* النوافذ المنبثقة (Modals) */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -534,10 +580,9 @@
 
     <div id="splash-screen" onclick="openApp()">
         <div class="smoke-container">
-            <div class="smoke-puff"></div>
-            <div class="smoke-puff"></div>
-            <div class="smoke-puff"></div>
-            <div class="smoke-puff"></div>
+            <div class="smoke-stream"></div>
+            <div class="smoke-stream"></div>
+            <div class="smoke-stream"></div>
         </div>
         <div class="splash-content">
             <div class="splash-logo">زاد|ZAD Kitchen</div>
@@ -557,36 +602,14 @@
 
         <!-- شريط الأقسام السريع -->
         <div class="category-nav-container">
-            <div class="category-nav">
-                <button class="cat-btn active" onclick="scrollToCat('sofra', this)">سفرة زاد</button>
-                <button class="cat-btn" onclick="scrollToCat('chicken-meals', this)">وجبات الدجاج</button>
-                <button class="cat-btn" onclick="scrollToCat('saj', this)">لفات ووجبات الصاج</button>
-                <button class="cat-btn" onclick="scrollToCat('burger', this)">البرجر</button>
-                <button class="cat-btn" onclick="scrollToCat('rizo', this)">الريزو</button>
-                <button class="cat-btn" onclick="scrollToCat('pizza', this)">البيتزا</button>
-                <button class="cat-btn" onclick="scrollToCat('crispy', this)">الكرسبي</button>
-                <button class="cat-btn" onclick="scrollToCat('rice-meals', this)">وجبات الرز</button>
-                <button class="cat-btn" onclick="scrollToCat('seafood', this)">الأسماك</button>
-                <button class="cat-btn" onclick="scrollToCat('shrimp', this)">الروبيان</button>
-                <button class="cat-btn" onclick="scrollToCat('nashaf', this)">الدجاج الناشف</button>
-                <button class="cat-btn" onclick="scrollToCat('lema', this)">لمات زاد والعروض</button>
-                <button class="cat-btn" onclick="scrollToCat('extras', this)">الإضافات والمشروبات</button>
+            <div class="category-nav" id="category-nav-bar">
+                <!-- يتم توليد أزرار الشريط العُلوي ديناميكياً -->
             </div>
         </div>
 
-        <div class="category-section" id="sec-sofra"><h2 class="category-title">سفرة زاد (تكفي 4 أشخاص)</h2><div class="menu-grid" id="sofra-menu"></div></div>
-        <div class="category-section" id="sec-chicken-meals"><h2 class="category-title">وجبات الدجاج</h2><div class="menu-grid" id="chicken-meals-menu"></div></div>
-        <div class="category-section" id="sec-saj"><h2 class="category-title">لفات ووجبات الصاج</h2><div class="menu-grid" id="saj-menu"></div></div>
-        <div class="category-section" id="sec-burger"><h2 class="category-title">البرجر ووجبات البرجر</h2><div class="menu-grid" id="burger-menu"></div></div>
-        <div class="category-section" id="sec-rizo"><h2 class="category-title">الريزو ووجبات الريزو</h2><div class="menu-grid" id="rizo-menu"></div></div>
-        <div class="category-section" id="sec-pizza"><h2 class="category-title">البيتزا</h2><div class="menu-grid" id="pizza-menu"></div></div>
-        <div class="category-section" id="sec-crispy"><h2 class="category-title">وجبات الكرسبي</h2><div class="menu-grid" id="crispy-menu"></div></div>
-        <div class="category-section" id="sec-rice-meals"><h2 class="category-title">وجبات الرز</h2><div class="menu-grid" id="rice-meals-menu"></div></div>
-        <div class="category-section" id="sec-seafood"><h2 class="category-title">الأسماك</h2><div class="menu-grid" id="seafood-menu"></div></div>
-        <div class="category-section" id="sec-shrimp"><h2 class="category-title">الروبيان</h2><div class="menu-grid" id="shrimp-menu"></div></div>
-        <div class="category-section" id="sec-nashaf"><h2 class="category-title">الدجاج الناشف</h2><div class="menu-grid" id="nashaf-menu"></div></div>
-        <div class="category-section" id="sec-lema"><h2 class="category-title">لمات زاد والعروض</h2><div class="menu-grid" id="lema-menu"></div></div>
-        <div class="category-section" id="sec-extras"><h2 class="category-title">الإضافات والمشروبات</h2><div class="menu-grid" id="extras-menu"></div></div>
+        <div id="categories-container">
+            <!-- يتم توليد الأقسام والمنتجات ديناميكياً -->
+        </div>
     </div>
 
     <!-- شريط السلة السفلي -->
@@ -634,7 +657,7 @@
         </div>
     </div>
 
-    <!-- نافذة تعديل بيانات الصنف (الاسم، السعر، الوصف) للأدمن -->
+    <!-- نافذة تعديل بيانات الصنف -->
     <div class="modal-overlay" id="edit-item-modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeEditModal()">✕</button>
@@ -668,6 +691,22 @@
         let userGpsLocationText = "";
         let isAdmin = false;
         let titleClicks = 0;
+
+        let categoriesData = [
+            { id: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)' },
+            { id: 'chicken-meals', name: 'وجبات الدجاج' },
+            { id: 'saj', name: 'لفات ووجبات الصاج' },
+            { id: 'burger', name: 'البرجر ووجبات البرجر' },
+            { id: 'rizo', name: 'الريزو ووجبات الريزو' },
+            { id: 'pizza', name: 'البيتزا' },
+            { id: 'crispy', name: 'وجبات الكرسبي' },
+            { id: 'rice-meals', name: 'وجبات الرز' },
+            { id: 'seafood', name: 'الأسماك' },
+            { id: 'shrimp', name: 'الروبيان' },
+            { id: 'nashaf', name: 'الدجاج الناشف' },
+            { id: 'lema', name: 'لمات زاد والعروض' },
+            { id: 'extras', name: 'الإضافات والمشروبات' }
+        ];
 
         let menuItems = [
             { id: 1, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + ترشي + خبزتين', price: 25000, available: true, img: '' },
@@ -747,15 +786,15 @@
             setTimeout(() => {
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
-                renderMenu();
+                renderApp();
             }, 800);
         }
 
-        setTimeout(openApp, 3500);
+        setTimeout(openApp, 4000);
 
         function scrollToCat(catId, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
             let targetSection = document.getElementById(`sec-${catId}`);
             if (targetSection) {
                 targetSection.scrollIntoView({ behavior: 'smooth' });
@@ -769,8 +808,8 @@
                 let pass = prompt("أدخل رمز لوحة التحكم:");
                 if (pass === "200z") {
                     isAdmin = true;
-                    alert("تم تفعيل صلاحيات التعديل (الأسماء، الأسعار، الصور) بنجاح!");
-                    renderMenu();
+                    alert("تم تفعيل صلاحيات التعديل (الأقسام، الأسماء، الأسعار، الصور) بنجاح!");
+                    renderApp();
                     document.getElementById('logo-container').onclick = function() {
                         document.getElementById('logo-file-input').click();
                     };
@@ -793,39 +832,79 @@
             }
         }
 
-        function renderMenu() {
-            const categories = ['sofra', 'chicken-meals', 'saj', 'burger', 'rizo', 'pizza', 'crispy', 'rice-meals', 'seafood', 'shrimp', 'nashaf', 'lema', 'extras'];
-            categories.forEach(cat => {
-                let container = document.getElementById(`${cat}-menu`);
-                if (!container) return;
-                container.innerHTML = '';
-                let items = menuItems.filter(i => i.cat === cat);
-                items.forEach(item => {
-                    let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
-                    let adminStyle = isAdmin ? 'display: block;' : 'display: none;';
-                    container.innerHTML += `
-                        <div class="menu-item">
-                            <div class="item-img-container">
-                                <img src="${imgSrc}" alt="${item.name}">
-                                <div class="admin-controls-overlay">
-                                    <button class="admin-btn" style="${adminStyle}" onclick="triggerImgUpload(${item.id})">صورة</button>
-                                    <button class="admin-btn edit-item-btn" style="${adminStyle}" onclick="openEditModal(${item.id})">تعديل</button>
-                                </div>
-                                <input type="file" id="file-${item.id}" accept="image/*" onchange="updateItemImg(event, ${item.id})">
+        function renderApp() {
+            renderNav();
+            renderSections();
+        }
+
+        function renderNav() {
+            let navBar = document.getElementById('category-nav-bar');
+            navBar.innerHTML = '';
+            categoriesData.forEach((cat, index) => {
+                let activeClass = index === 0 ? 'active' : '';
+                navBar.innerHTML += `<button class="cat-btn ${activeClass}" onclick="scrollToCat('${cat.id}', this)">${cat.name}</button>`;
+            });
+        }
+
+        function renderSections() {
+            let container = document.getElementById('categories-container');
+            container.innerHTML = '';
+
+            categoriesData.forEach(cat => {
+                let editCatStyle = isAdmin ? 'display: inline-block;' : 'display: none;';
+                container.innerHTML += `
+                    <div class="category-section" id="sec-${cat.id}">
+                        <div class="category-header-flex">
+                            <h2 class="category-title" id="title-${cat.id}">${cat.name}</h2>
+                            <button class="edit-cat-btn" style="${editCatStyle}" onclick="editCategoryName('${cat.id}')">تعديل القسم</button>
+                        </div>
+                        <div class="menu-grid" id="${cat.id}-menu"></div>
+                    </div>
+                `;
+                renderMenuItems(cat.id);
+            });
+        }
+
+        function editCategoryName(catId) {
+            let cat = categoriesData.find(c => c.id === catId);
+            if (!cat) return;
+            let newName = prompt("أدخل الاسم الجديد للقسم:", cat.name);
+            if (newName && newName.trim() !== "") {
+                cat.name = newName.trim();
+                renderApp();
+            }
+        }
+
+        function renderMenuItems(catId) {
+            let container = document.getElementById(`${catId}-menu`);
+            if (!container) return;
+            container.innerHTML = '';
+            let items = menuItems.filter(i => i.cat === catId);
+            items.forEach(item => {
+                let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
+                let adminStyle = isAdmin ? 'display: block;' : 'display: none;';
+                container.innerHTML += `
+                    <div class="menu-item">
+                        <div class="item-img-container">
+                            <img src="${imgSrc}" alt="${item.name}">
+                            <div class="admin-controls-overlay">
+                                <button class="admin-btn" style="${adminStyle}" onclick="triggerImgUpload(${item.id})">صورة</button>
+                                <button class="admin-btn edit-item-btn" style="${adminStyle}" onclick="openEditModal(${item.id})">تعديل</button>
                             </div>
-                            <div class="item-body">
-                                <div>
-                                    <h3>${item.name}</h3>
-                                    <p>${item.desc}</p>
-                                </div>
-                                <div class="item-footer">
-                                    <span class="price">${item.price} د.ع</span>
-                                    <button onclick="addToCart(${item.id})">أضف</button>
-                                </div>
+                            <input type="file" id="file-${item.id}" accept="image/*" onchange="updateItemImg(event, ${item.id})">
+                        </div>
+                        <div class="item-body">
+                            <div>
+                                <h3>${item.name}</h3>
+                                <p>${item.desc}</p>
+                            </div>
+                            <div class="item-footer">
+                                <span class="price">${item.price} د.ع</span>
+                                <button onclick="addToCart(${item.id})">أضف</button>
                             </div>
                         </div>
-                    `;
-                });
+                    </div>
+                `;
             });
         }
 
@@ -841,7 +920,7 @@
                     let item = menuItems.find(i => i.id === id);
                     if (item) {
                         item.img = e.target.result;
-                        renderMenu();
+                        renderSections();
                     }
                 }
                 reader.readAsDataURL(file);
@@ -888,7 +967,7 @@
                     updateCartUI();
                 }
 
-                renderMenu();
+                renderSections();
                 closeEditModal();
             }
         }
@@ -980,7 +1059,6 @@
             return R * c;
         }
 
-        // تم تسريع وتعديل دالة جلب الموقع لتكون فورية وبدون تنبيهات مزعجة
         function getMyLocation() {
             if (!navigator.geolocation) {
                 alert("متصفحك لا يدعم خاصية تحديد الموقع");
