@@ -54,65 +54,62 @@
             padding: 0 10px;
         }
 
-        /* حاوية الدخان لتكون خلف اسم البداية تماماً */
+        /* حاوية الدخان الأنيق خلف الاسم */
         .smoke-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 350px;
+            width: 280px;
+            height: 320px;
             pointer-events: none;
             z-index: 1;
-            /* تم إزالة الـ blur تماماً ليبقى الدخان غير ضبابي وواضح */
-            opacity: 0.9;
+            filter: blur(8px);
+            opacity: 0.75;
         }
 
-        .smoke-stream {
+        .smoke-wisp {
             position: absolute;
             bottom: 0;
             left: 50%;
-            width: 70px;
+            width: 60px;
             height: 100%;
-            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(212, 175, 55, 0.35) 30%, rgba(255, 255, 255, 0.6) 60%, rgba(255,255,255,0) 100%);
-            border-radius: 40% 40% 20% 20%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(212, 175, 55, 0.2) 25%, rgba(255, 255, 255, 0.45) 60%, rgba(255,255,255,0) 100%);
+            border-radius: 50% 50% 30% 30%;
             transform: translateX(-50%);
-            animation: clearSmoke 4s infinite linear;
+            animation: elegantSmoke 5s infinite ease-in-out;
         }
 
-        .smoke-stream:nth-child(2) {
-            width: 45px;
-            animation-duration: 3.2s;
-            animation-delay: 1.2s;
-            left: 42%;
-            background: linear-gradient(to top, rgba(255,255,255,0) 10%, rgba(255, 255, 255, 0.5) 40%, rgba(212, 175, 55, 0.25) 70%, rgba(255,255,255,0) 100%);
+        .smoke-wisp:nth-child(2) {
+            width: 40px;
+            animation-duration: 4s;
+            animation-delay: 1.5s;
+            left: 40%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 10%, rgba(255, 255, 255, 0.35) 50%, rgba(212, 175, 55, 0.15) 80%, rgba(255,255,255,0) 100%);
         }
 
-        .smoke-stream:nth-child(3) {
-            width: 85px;
-            animation-duration: 4.8s;
-            animation-delay: 2.4s;
-            left: 58%;
-            background: linear-gradient(to top, rgba(255,255,255,0) 0%, rgba(220, 220, 220, 0.45) 50%, rgba(255,255,255,0) 100%);
+        .smoke-wisp:nth-child(3) {
+            width: 50px;
+            animation-duration: 6s;
+            animation-delay: 2.5s;
+            left: 60%;
+            background: linear-gradient(to top, rgba(255,255,255,0) 5%, rgba(200, 200, 200, 0.3) 40%, rgba(255,255,255,0) 100%);
         }
 
-        @keyframes clearSmoke {
+        @keyframes elegantSmoke {
             0% {
-                transform: translateX(-50%) translateY(120px) scaleX(0.5) scaleY(0.7) rotate(0deg);
+                transform: translateX(-50%) translateY(80px) scaleX(0.4) scaleY(0.6) rotate(0deg);
                 opacity: 0;
             }
-            25% {
-                opacity: 0.8;
+            30% {
+                opacity: 0.6;
             }
-            50% {
-                transform: translateX(calc(-50% + 20px)) translateY(-30px) scaleX(1.2) scaleY(1.1) rotate(5deg);
-                opacity: 0.7;
-            }
-            75% {
-                opacity: 0.4;
+            60% {
+                transform: translateX(calc(-50% + 25px)) translateY(-60px) scaleX(1.4) scaleY(1.2) rotate(8deg);
+                opacity: 0.5;
             }
             100% {
-                transform: translateX(calc(-50% - 20px)) translateY(-180px) scaleX(1.8) scaleY(1.5) rotate(-10deg);
+                transform: translateX(calc(-50% - 25px)) translateY(-160px) scaleX(2.2) scaleY(1.8) rotate(-12deg);
                 opacity: 0;
             }
         }
@@ -584,9 +581,9 @@
     <div id="splash-screen" onclick="openApp()">
         <div class="splash-content">
             <div class="smoke-container">
-                <div class="smoke-stream"></div>
-                <div class="smoke-stream"></div>
-                <div class="smoke-stream"></div>
+                <div class="smoke-wisp"></div>
+                <div class="smoke-wisp"></div>
+                <div class="smoke-wisp"></div>
             </div>
             <div class="splash-logo">زاد|ZAD Kitchen</div>
         </div>
