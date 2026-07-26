@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو مطبخ زاد - ZAD KITCHEN</title>
+    <title>زاد || ZAD Kitchen</title>
     <style>
         :root {
             --bg-color: #0d0d0d;
@@ -29,7 +29,7 @@
             padding-bottom: 90px;
         }
 
-        /* واجهة البداية مع تأثير الدخان الحقيقي */
+        /* واجهة البداية مع تأثير الدخان */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -46,7 +46,6 @@
             transition: opacity 1s ease;
         }
 
-        /* محاكي الدخان الحقيقي المتصاعد من الأسفل للأعلى */
         .smoke-container {
             position: absolute;
             bottom: -50px;
@@ -68,24 +67,15 @@
             opacity: 0;
         }
 
-        /* توليد فقاعات دخان متعددة بأحجام وسرعات مختلفة */
         .smoke-puff:nth-child(1) { width: 200px; height: 200px; left: 30%; animation-duration: 3.5s; animation-delay: 0s; }
         .smoke-puff:nth-child(2) { width: 300px; height: 300px; left: 50%; animation-duration: 4.5s; animation-delay: 1s; }
         .smoke-puff:nth-child(3) { width: 250px; height: 250px; left: 40%; animation-duration: 3.8s; animation-delay: 2s; }
         .smoke-puff:nth-child(4) { width: 350px; height: 350px; left: 60%; animation-duration: 5s; animation-delay: 0.5s; }
 
         @keyframes riseSmoke {
-            0% {
-                transform: translateY(100px) scale(0.5);
-                opacity: 0;
-            }
-            30% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateY(-500px) scale(1.8);
-                opacity: 0;
-            }
+            0% { transform: translateY(100px) scale(0.5); opacity: 0; }
+            30% { opacity: 0.6; }
+            100% { transform: translateY(-500px) scale(1.8); opacity: 0; }
         }
 
         .splash-content {
@@ -95,11 +85,11 @@
         }
 
         .splash-logo {
-            font-size: 5rem;
+            font-size: 4rem;
             font-weight: bold;
             color: var(--gold);
             text-shadow: 0 0 30px rgba(212, 175, 55, 0.8), 0 0 10px rgba(255, 255, 255, 0.3);
-            letter-spacing: 4px;
+            letter-spacing: 2px;
             animation: pulseLogo 2s infinite alternate;
         }
 
@@ -108,14 +98,7 @@
             100% { transform: scale(1.05); text-shadow: 0 0 40px rgba(212, 175, 55, 0.9); }
         }
 
-        .splash-hint {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 15px;
-            letter-spacing: 1px;
-        }
-
-        /* المنيو الرئيسي */
+        /* التطبيق الرئيسي */
         #main-app {
             display: none;
             padding: 20px;
@@ -128,18 +111,46 @@
             margin-bottom: 30px;
             border-bottom: 2px solid var(--gold);
             padding-bottom: 20px;
+        }
+
+        .brand-logo-container {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px auto;
+            border: 2px dashed var(--gold);
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #151515;
+            position: relative;
             cursor: pointer;
+        }
+
+        .brand-logo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .brand-logo-container span {
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-align: center;
+            padding: 5px;
         }
 
         header h1 {
             color: var(--gold);
-            font-size: 2.5rem;
-            letter-spacing: 2px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
         }
 
         header p {
             color: var(--text-muted);
             margin-top: 5px;
+            font-size: 0.95rem;
         }
 
         .category-section {
@@ -151,15 +162,7 @@
             font-size: 1.8rem;
             border-right: 4px solid var(--gold);
             padding-right: 15px;
-            margin-bottom: 5px;
-        }
-
-        .category-time {
-            color: var(--gold-light);
-            font-size: 0.95rem;
             margin-bottom: 20px;
-            padding-right: 19px;
-            font-style: italic;
         }
 
         .menu-grid {
@@ -172,8 +175,45 @@
             background-color: var(--card-bg);
             border: 1px solid #333;
             border-radius: 10px;
-            padding: 20px;
+            overflow: hidden;
             position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-img-container {
+            width: 100%;
+            height: 160px;
+            background: #222;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .item-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .change-img-btn {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .item-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .menu-item.unavailable {
@@ -183,14 +223,14 @@
 
         .menu-item h3 {
             color: var(--gold);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
         }
 
         .menu-item p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.5;
             margin-bottom: 15px;
         }
 
@@ -235,7 +275,7 @@
         }
 
         .cart-info {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: var(--gold);
         }
 
@@ -245,30 +285,11 @@
             padding: 10px 20px;
             font-size: 1rem;
         }
-
-        #admin-panel {
-            display: none;
-            background: #1e1e1e;
-            border: 2px solid var(--gold);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-
-        .admin-form input, .admin-form textarea, .admin-form select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            background: #2a2a2a;
-            border: 1px solid #444;
-            color: #fff;
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
 
-    <!-- واجهة البداية مع تأثير الدخان الحقيقي المتصاعد -->
+    <!-- واجهة البداية -->
     <div id="splash-screen" onclick="openApp()">
         <div class="smoke-container">
             <div class="smoke-puff"></div>
@@ -277,40 +298,21 @@
             <div class="smoke-puff"></div>
         </div>
         <div class="splash-content">
-            <div class="splash-logo">ZAD</div>
-            <div class="splash-hint">انقر في أي مكان للدخول إلى القائمة</div>
+            <div class="splash-logo">زاد || ZAD Kitchen</div>
         </div>
     </div>
 
     <!-- التطبيق الرئيسي -->
     <div id="main-app">
-        <header id="header-click">
-            <h1>ZAD KITCHEN</h1>
+        <header>
+            <!-- حاوية شعار المطعم (اضغط عليها لرفع أو تغيير لوكو المطعم) -->
+            <div class="brand-logo-container" onclick="changeLogo()" title="اضغط لتغيير لوكو المطعم">
+                <img id="brand-logo-img" src="" alt="شعار المطعم" style="display:none;">
+                <span id="brand-logo-text">اختر شعار المطعم</span>
+            </div>
+            <h1>زاد || ZAD Kitchen</h1>
             <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً | زاد... نكهة تستحق العودة</p>
         </header>
-
-        <div id="admin-panel">
-            <h2>لوحة التحكم الإدارية</h2>
-            <div class="admin-form">
-                <h3>إضافة وجبة جديدة</h3>
-                <input type="text" id="new-name" placeholder="اسم الوجبة">
-                <textarea id="new-desc" placeholder="مكونات الوجبة"></textarea>
-                <input type="number" id="new-price" placeholder="السعر (د.ع)">
-                <select id="new-cat">
-                    <option value="saj">لفات ووجبات الصاج</option>
-                    <option value="burger">البرجر ووجبات البرجر</option>
-                    <option value="rizo">الريزو ووجبات الريزو</option>
-                    <option value="pizza">البيتزا</option>
-                    <option value="crispy">وجبات الكرسبي</option>
-                    <option value="lema">لمات زاد والعروض</option>
-                    <option value="sofra">سفرة زاد ووجبات الدجاج</option>
-                    <option value="seafood">الأسماك والروبيان</option>
-                    <option value="nashaf">الدجاج الناشف</option>
-                    <option value="extras">الإضافات والمشروبات</option>
-                </select>
-                <button onclick="addNewItem()">إضافة للمنيو</button>
-            </div>
-        </div>
 
         <div class="category-section"><h2 class="category-title">لفات ووجبات الصاج</h2><div class="menu-grid" id="saj-menu"></div></div>
         <div class="category-section"><h2 class="category-title">البرجر ووجبات البرجر</h2><div class="menu-grid" id="burger-menu"></div></div>
@@ -326,33 +328,29 @@
 
     <div class="cart-bar">
         <div class="cart-info">
-            الأصناف: <span id="cart-count">0</span> | السعر: <span id="cart-total">0</span> د.ع<br>
-            التوصيل: <span id="delivery-cost">0</span> د.ع (<span id="distance-text">حدد الموقع</span>)
+            الأصناف: <span id="cart-count">0</span> | السعر: <span id="cart-total">0</span> د.ع
         </div>
         <button class="checkout-btn" onclick="processOrder()">إرسال الطلب عبر واتساب</button>
     </div>
 
     <script>
-        const RESTAURANT_LAT = 30.5081; 
-        const RESTAURANT_LON = 47.7835;
-
         let menuItems = [
-            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true },
-            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true },
-            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true },
-            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true },
-            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, available: true },
-            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, available: true },
-            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, available: true },
-            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, available: true },
-            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, available: true },
-            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم كبير عائلي', price: 10000, available: true },
-            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص', price: 6500, available: true },
-            { id: 601, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + بطاطا عائلية + 4 مشروبات', price: 21000, available: true },
-            { id: 701, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة كاملة + تمن عنبر + مرق + لبن', price: 25000, available: true },
-            { id: 801, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, available: true },
-            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'خبز + سلطة + ترشي', price: 9000, available: true },
-            { id: 1001, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, available: true }
+            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true, img: '' },
+            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true, img: '' },
+            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true, img: '' },
+            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true, img: '' },
+            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, available: true, img: '' },
+            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, available: true, img: '' },
+            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, available: true, img: '' },
+            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, available: true, img: '' },
+            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, available: true, img: '' },
+            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم كبير عائلي', price: 10000, available: true, img: '' },
+            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص', price: 6500, available: true, img: '' },
+            { id: 601, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + بطاطا عائلية + 4 مشروبات', price: 21000, available: true, img: '' },
+            { id: 701, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة كاملة + تمن عنبر + مرق + لبن', price: 25000, available: true, img: '' },
+            { id: 801, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, available: true, img: '' },
+            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'خبز + سلطة + ترشي', price: 9000, available: true, img: '' },
+            { id: 1001, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, available: true, img: '' }
         ];
 
         let cart = [];
@@ -371,7 +369,6 @@
             }, 800);
         }
 
-        // انتقال تلقائي بعد 3.5 ثانية أو بالنقر الفوري
         setTimeout(openApp, 3500);
 
         function renderMenu() {
@@ -382,18 +379,46 @@
                 container.innerHTML = '';
                 let items = menuItems.filter(i => i.cat === cat);
                 items.forEach(item => {
+                    let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
                     container.innerHTML += `
                         <div class="menu-item ${item.available ? '' : 'unavailable'}">
-                            <h3>${item.name}</h3>
-                            <p>${item.desc}</p>
-                            <div class="item-footer">
-                                <span class="price">${item.price} د.ع</span>
-                                ${item.available ? `<button onclick="addToCart(${item.id})">أضف للسلة</button>` : '<span style="color:red;">غير متوفر</span>'}
+                            <div class="item-img-container" onclick="changeItemImage(${item.id})">
+                                <img src="${imgSrc}" alt="${item.name}">
+                                <button class="change-img-btn">تغيير الصورة</button>
+                            </div>
+                            <div class="item-body">
+                                <div>
+                                    <h3>${item.name}</h3>
+                                    <p>${item.desc}</p>
+                                </div>
+                                <div class="item-footer">
+                                    <span class="price">${item.price} د.ع</span>
+                                    ${item.available ? `<button onclick="addToCart(${item.id})">أضف للسلة</button>` : '<span style="color:red;">غير متوفر</span>'}
+                                }
+                                </div>
                             </div>
                         </div>
                     `;
                 });
             });
+        }
+
+        function changeLogo() {
+            let url = prompt("أدخل رابط صورة شعار المطعم (Logo URL):");
+            if(url) {
+                document.getElementById('brand-logo-img').src = url;
+                document.getElementById('brand-logo-img').style.display = 'block';
+                document.getElementById('brand-logo-text').style.display = 'none';
+            }
+        }
+
+        function changeItemImage(id) {
+            let item = menuItems.find(i => i.id === id);
+            let url = prompt(`أدخل رابط الصورة الجديد لوجبة (${item.name}):`);
+            if(url) {
+                item.img = url;
+                renderMenu();
+            }
         }
 
         function addToCart(id) {
@@ -416,7 +441,7 @@
                 alert("السلة فارغة!");
                 return;
             }
-            let msg = "مرحباً، أريد طلب الوجبات التالية:%0A";
+            let msg = "مرحباً، أريد طلب الوجبات التالية من زاد || ZAD Kitchen:%0A";
             cart.forEach(item => {
                 msg += `- ${item.name} (عدد: ${item.qty}) - ${item.price * item.qty} د.ع%0A`;
             });
