@@ -14,6 +14,7 @@
             color: #f8f9fa;
             font-family: Tahoma, sans-serif;
         }
+        /* واجهة البداية الفخمة مع الدخان المتحرك */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -27,16 +28,15 @@
             flex-direction: column;
             z-index: 9999;
             transition: opacity 0.8s ease;
-            cursor: pointer;
         }
         .smoke-bg {
             position: absolute;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(197, 160, 89, 0.2) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(197, 160, 89, 0.25) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 80%);
             border-radius: 50%;
             animation: smokeAnimation 6s ease-in-out infinite alternate;
-            filter: blur(35px);
+            filter: blur(40px);
             z-index: 1;
         }
         @keyframes smokeAnimation {
@@ -50,8 +50,8 @@
             text-align: center;
         }
         .logo-img {
-            width: 120px;
-            height: 120px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
             border: 3px solid #c5a059;
             object-fit: cover;
@@ -65,7 +65,7 @@
             100% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
         }
         .restaurant-title {
-            font-size: 3.8rem;
+            font-size: 4rem;
             font-weight: bold;
             color: #c5a059;
             text-shadow: 0 0 20px rgba(197, 160, 89, 0.7);
@@ -76,32 +76,122 @@
             font-size: 1.3rem;
             color: #e0e0e0;
             letter-spacing: 4px;
-            margin-bottom: 30px;
-        }
-        .enter-btn {
-            background: linear-gradient(45deg, #c5a059, #e6ca65);
-            color: #000;
-            font-weight: bold;
-            padding: 12px 35px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-        .enter-btn:hover {
-            transform: scale(1.05);
-            background: linear-gradient(45deg, #d4af37, #f3e5ab);
-            color: #000;
         }
         
-        /* تنسيقات الموقع الرئيسي */
+        /* تنسيقات الموقع الرئيسي (المطبخ الثاني) */
         .navbar { background-color: #1a1a1a !important; border-bottom: 2px solid #c5a059; }
         .navbar-brand img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; margin-left: 10px; border: 2px solid #c5a059; }
         .card { background-color: #1e1e1e; color: #fff; border: 1px solid #333; border-radius: 12px; transition: transform 0.2s; }
         .card:hover { transform: translateY(-5px); border-color: #c5a059; }
         .btn-warning { background-color: #c5a059; border-color: #c5a059; color: #000; font-weight: bold; }
+        .btn-warning:hover { background-color: #d4af37; border-color: #d4af37; }
+        h1, h2 { color: #c5a059 !important; }
+        .whatsapp-float { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
+        #main-website { display: none; }
+    </style>
+</head>
+<body>
+
+    <!-- الصفحة الأولى: واجهة البداية مع الدخان والاسم والشعار فقط -->
+    <div id="splash" class="splash-screen">
+        <div class="smoke-bg"></div>
+        <div class="splash-content">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="شعار مطبخ زاد" class="logo-img">
+            <h1 class="restaurant-title">مطبخ زاد</h1>
+            <p class="restaurant-subtitle">ZAD KITCHEN - البصرة</p>
+        </div>
+    </div>
+
+    <!-- الصفحة الثانية: المطبخ الثاني وقائمة الوجبات -->
+    <div id="main-website">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="#">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="شعار مطبخ زاد">
+                    <span class="fw-bold fs-4" style="color: #c5a059;">المطبخ الثاني <span style="font-size: 14px; color: #fff; display: block; font-weight: normal;">ZAD Kitchen - Basra</span></span>
+                </a>
+                <div class="ms-auto">
+                    <a href="https://wa.me/9647838021664" target="_blank" class="btn btn-warning"><i class="fab fa-whatsapp"></i> اطلب الآن</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bold">قائمة وجبات المطبخ الثاني</h1>
+                <p class="text-muted">ريزو • كرسبي • برجر • وجبات خاصة في البصرة</p>
+                <a href="https://maps.app.goo.gl/oDWftjxwFw9hpaYK7?g_st=iwb" target="_blank" class="btn btn-outline-warning mt-2">
+                    <i class="fas fa-map-marker-alt"></i> موقع التوصيل (GPS)
+                </a>
+            </div>
+
+            <!-- شبكة الوجبات الخاصة بالمطبخ الثاني -->
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100 p-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title fw-bold mb-0" style="color: #c5a059;">ريزو المطبخ الثاني</h5>
+                                <span class="badge bg-dark border border-warning text-warning">ريزو</span>
+                            </div>
+                            <p class="text-success fw-bold">السعر: حسب الطلب</p>
+                            <hr style="border-color: #444;">
+                            <p class="card-text text-light"><strong>المكونات:</strong> أرز ريزو خاص، قطع دجاج مقرمشة ساخنة، صوصات مميزة.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100 p-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title fw-bold mb-0" style="color: #c5a059;">ساندويتش كرسبي</h5>
+                                <span class="badge bg-dark border border-warning text-warning">كرسبي</span>
+                            </div>
+                            <p class="text-success fw-bold">السعر: حسب الطلب</p>
+                            <hr style="border-color: #444;">
+                            <p class="card-text text-light"><strong>المكونات:</strong> صدور دجاج كرسبي طازجة، جبنة، خس وصوص خاص.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm h-100 p-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title fw-bold mb-0" style="color: #c5a059;">برجر المطبخ الثاني</h5>
+                                <span class="badge bg-dark border border-warning text-warning">برجر</span>
+                            </div>
+                            <p class="text-success fw-bold">السعر: حسب الطلب</p>
+                            <hr style="border-color: #444;">
+                            <p class="card-text text-light"><strong>المكونات:</strong> لحم أو دجاج مشوي على الفحم، إضافات طازجة.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="whatsapp-float">
+            <a href="https://wa.me/9647838021664" target="_blank" class="btn btn-success btn-lg rounded-circle shadow" title="تواصل عبر الواتساب">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // الانتقال التلقائي بعد 4 ثوانٍ بدون أي تدخل
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            const main = document.getElementById('main-website');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                main.style.display = 'block';
+            }, 800);
+        }, 4000);
+    </script>
+</body>
+</html>
         .btn-warning:hover { background-color: #d4af37; border-color: #d4af37; }
         h1, h2 { color: #c5a059 !important; }
         .whatsapp-float { position: fixed; bottom: 20px; left: 20px; z-index: 1000; }
