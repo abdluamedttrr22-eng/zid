@@ -80,6 +80,124 @@ LAYOUT = """
 </html>
 """
 
+# واجهة البداية (Splash Screen) مع اللون الأسود والذهبي والدخان المتحرك في المنتصف
+@app.route('/zad-kitchen/')
+def splash_screen():
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="ar" dir="rtl">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>مطبخ زاد - ZAD Kitchen</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body, html {
+                height: 100%;
+                margin: 0;
+                background-color: #0b0b0b;
+                overflow: hidden;
+                font-family: Tahoma, sans-serif;
+            }
+            .splash-container {
+                position: relative;
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background: radial-gradient(circle, #1a1a1a 0%, #050505 100%);
+                cursor: pointer;
+            }
+            /* تأثير الدخان المتحرك خلف الاسم في المنتصف */
+            .smoke-bg {
+                position: absolute;
+                width: 450px;
+                height: 450px;
+                background: radial-gradient(circle, rgba(197, 160, 89, 0.2) 0%, rgba(255, 255, 255, 0.04) 50%, transparent 80%);
+                border-radius: 50%;
+                animation: smokeAnimation 6s ease-in-out infinite alternate;
+                filter: blur(35px);
+                z-index: 1;
+            }
+            @keyframes smokeAnimation {
+                0% { transform: scale(0.8) translate(-20px, -10px); opacity: 0.4; }
+                50% { transform: scale(1.3) translate(25px, 20px); opacity: 0.85; }
+                100% { transform: scale(1.1) translate(-15px, 20px); opacity: 0.5; }
+            }
+            .content-box {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+            }
+            .logo-img {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                border: 3px solid #c5a059;
+                object-fit: cover;
+                margin-bottom: 20px;
+                box-shadow: 0 0 25px rgba(197, 160, 89, 0.5);
+                animation: pulseLogo 2s infinite;
+            }
+            @keyframes pulseLogo {
+                0% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
+                50% { box-shadow: 0 0 35px rgba(197, 160, 89, 0.8); }
+                100% { box-shadow: 0 0 15px rgba(197, 160, 89, 0.4); }
+            }
+            .restaurant-title {
+                font-size: 3.8rem;
+                font-weight: bold;
+                color: #c5a059;
+                text-shadow: 0 0 20px rgba(197, 160, 89, 0.7);
+                letter-spacing: 2px;
+                margin-bottom: 10px;
+            }
+            .restaurant-subtitle {
+                font-size: 1.3rem;
+                color: #e0e0e0;
+                letter-spacing: 4px;
+                margin-bottom: 30px;
+            }
+            .enter-btn {
+                background: linear-gradient(45deg, #c5a059, #e6ca65);
+                color: #000;
+                font-weight: bold;
+                padding: 12px 35px;
+                border-radius: 30px;
+                text-decoration: none;
+                font-size: 1.1rem;
+                box-shadow: 0 5px 20px rgba(197, 160, 89, 0.4);
+                transition: all 0.3s ease;
+            }
+            .enter-btn:hover {
+                transform: scale(1.05);
+                background: linear-gradient(45deg, #d4af37, #f3e5ab);
+                color: #000;
+            }
+        </style>
+        <script>
+            // الانتقال التلقائي لقائمة الوجبات بعد 4 ثوانٍ
+            setTimeout(function() {
+                window.location.href = "/zad-kitchen/menu";
+            }, 4000);
+        </script>
+    </head>
+    <body>
+        <div class="splash-container" onclick="window.location.href='/zad-kitchen/menu'">
+            <div class="smoke-bg"></div>
+            <div class="content-box">
+                <img src="https://raw.githubusercontent.com/abduhamedttrr22-eng/zad/main/IMG-20260719-WA0009.jpg" alt="شعار مطبخ زاد" class="logo-img">
+                <h1 class="restaurant-title">مطبخ زاد</h1>
+                <p class="restaurant-subtitle">ZAD KITCHEN - البصرة</p>
+                <a href="/zad-kitchen/menu" class="enter-btn">دخول القائمة <i class="fas fa-arrow-left ms-2"></i></a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+    return html_content
+
 @app.route('/zad-kitchen/menu')
 def zad_menu():
     meals = Meal.query.all()
@@ -108,6 +226,237 @@ def zad_menu():
                             <p class="card-text text-muted"><strong>التحضير:</strong> <br>{{ meal.instructions }}</p>
                         </div>
                         <div class="card-footer bg-transparent d-flex justify-content-between border-top border-secondary">
+                            <a href="/zad-kitchen/edit/{{ meal.id }}" class="btn btn-sm btn-outline-info"><i class="fas fa-edit"></i> تعديل</a>
+                            <a href="/zad-kitchen/delete/{{ meal.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')"><i class="fas fa-trash"></i> حذف</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted fs-5">لا توجد وجبات مضافة حالياً في المنيو.</p>
+                </div>
+            {% endif %}
+        </div>
+    """
+    return render_template_string(LAYOUT, content=render_template_string(html_content, meals=meals))
+
+@app.route('/zad-kitchen/add', methods=['GET', 'POST'])
+def add_meal():
+    if request.method == 'POST':
+        title = request.form.get('title')
+        category = request.form.get('category')
+        price = request.form.get('price')
+        ingredients = request.form.get('ingredients')
+        instructions = request.form.get('instructions')
+        if title and category and ingredients:
+            new_meal = Meal(title=title, category=category, price=price, ingredients=ingredients, instructions=instructions)
+            db.session.add(new_meal)
+            db.session.commit()
+            return redirect(url_for('zad_menu'))
+            
+    html_content = """
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4">
+                    <h2 class="mb-4 text-center">إضافة وجبة جديدة</h2>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الوجبة</label>
+                            <input type="text" class="form-control" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">التصنيف (ريزو، كرسبي، برجر، غداء عراقي...)</label>
+                            <input type="text" class="form-control" name="category" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">السعر</label>
+                            <input type="text" class="form-control" name="price" value="حسب الطلب">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">المكونات</label>
+                            <textarea class="form-control" name="ingredients" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">طريقة التحضير</label>
+                            <textarea class="form-control" name="instructions" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">حفظ الوجبة</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="/zad-kitchen/menu" class="text-decoration-none text-warning">العودة إلى المنيو</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    """
+    return render_template_string(LAYOUT, content=html_content)
+
+@app.route('/zad-kitchen/edit/<int:id>', methods=['GET', 'POST'])
+def edit_meal(id):
+    meal = Meal.query.get_or_404(id)
+    if request.method == 'POST':
+        meal.title = request.form.get('title')
+        meal.category = request.form.get('category')
+        meal.price = request.form.get('price')
+        meal.ingredients = request.form.get('ingredients')
+        meal.instructions = request.form.get('instructions')
+        db.session.commit()
+        return redirect(url_for('zad_menu'))
+        
+    html_content = """
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4">
+                    <h2 class="mb-4 text-center">تعديل الوجبة</h2>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الوجبة</label>
+                            <input type="text" class="form-control" name="title" value="{{ meal.title }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">التصنيف</label>
+                            <input type="text" class="form-control" name="category" value="{{ meal.category }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">السعر</label>
+                            <input type="text" class="form-control" name="price" value="{{ meal.price }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">المكونات</label>
+                            <textarea class="form-control" name="ingredients" rows="3" required>{{ meal.ingredients }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">طريقة التحضير</label>
+                            <textarea class="form-control" name="instructions" rows="3">{{ meal.instructions }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">تحديث الوجبة</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="/zad-kitchen/menu" class="text-decoration-none text-warning">العودة إلى المنيو</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    """
+    return render_template_string(LAYOUT, content=render_template_string(html_content, meal=meal))
+
+@app.route('/zad-kitchen/delete/<int:id>')
+def delete_meal(id):
+    meal = Meal.query.get_or_404(id)
+    db.session.delete(meal)
+    db.session.commit()
+    return redirect(url_for('zad_menu'))
+
+@app.route('/zad-kitchen/order', methods=['GET', 'POST'])
+def place_order():
+    if request.method == 'POST':
+        customer_name = request.form.get('customer_name')
+        phone = request.form.get('phone')
+        address = request.form.get('address')
+        meal_details = request.form.get('meal_details')
+        if customer_name and phone and address:
+            new_order = Order(customer_name=customer_name, phone=phone, address=address, meal_details=meal_details)
+            db.session.add(new_order)
+            db.session.commit()
+            return redirect(url_for('order_success'))
+            
+    html_content = """
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-4">
+                    <h2 class="mb-4 text-center">نموذج طلب وجبة</h2>
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">اسم الزبون الكريم</label>
+                            <input type="text" class="form-control" name="customer_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="text" class="form-control" name="phone" required placeholder="07XXXXXXXXX">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">العنوان بالتفصيل (في البصرة)</label>
+                            <textarea class="form-control" name="address" rows="2" required placeholder="مثال: البصرة - الجزائر..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">تفاصيل الطلب والوجبات (ريزو، كرسبي، برجر...)</label>
+                            <textarea class="form-control" name="meal_details" rows="3" required placeholder="اكتب الوجبات المطلوبة..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100">إرسال الطلب الآن</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <a href="/zad-kitchen/menu" class="text-decoration-none text-warning">العودة إلى المنيو</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    """
+    return render_template_string(LAYOUT, content=html_content)
+
+@app.route('/zad-kitchen/order-success')
+def order_success():
+    html_content = """
+        <div class="row justify-content-center text-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm p-5">
+                    <h1 class="text-success mb-3">تم استلام طلبك بنجاح! 🎉</h1>
+                    <p class="fs-5 text-muted">شكراً لطلبك من مطبخ زاد. سيتم التواصل معك قريباً للتوصيل.</p>
+                    <a href="/zad-kitchen/menu" class="btn btn-warning mt-3">العودة إلى المنيو الرئيسي</a>
+                </div>
+            </div>
+        </div>
+    """
+    return render_template_string(LAYOUT, content=html_content)
+
+@app.route('/zad-kitchen/admin/orders')
+def admin_orders():
+    orders = Order.query.all()
+    html_content = """
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary">لوحة تحكم الطلبات الواردة</h2>
+            <a href="/zad-kitchen/menu" class="btn btn-secondary">العودة للمنيو</a>
+        </div>
+        <div class="card shadow-sm p-3">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>رقم الطلب</th>
+                            <th>اسم الزبون</th>
+                            <th>الهاتف</th>
+                            <th>العنوان</th>
+                            <th>الطلب</th>
+                            <th>الحالة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if orders %}
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.customer_name }}</td>
+                                <td>{{ order.phone }}</td>
+                                <td>{{ order.address }}</td>
+                                <td>{{ order.meal_details }}</td>
+                                <td><span class="badge bg-warning text-dark">{{ order.status }}</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">لا توجد طلبات جديدة حتى الآن.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    """
+    return render_template_string(LAYOUT, content=render_template_string(html_content, orders=orders))
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
                             <a href="/zad-kitchen/edit/{{ meal.id }}" class="btn btn-sm btn-outline-info"><i class="fas fa-edit"></i> تعديل</a>
                             <a href="/zad-kitchen/delete/{{ meal.id }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('هل أنت متأكد من الحذف؟')"><i class="fas fa-trash"></i> حذف</a>
                         </div>
