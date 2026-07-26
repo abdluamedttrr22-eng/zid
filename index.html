@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زاد || ZAD Kitchen</title>
+    <title>زاد|ZAD Kitchen</title>
     <style>
         :root {
             --bg-color: #0d0d0d;
@@ -26,10 +26,9 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 90px;
+            padding-bottom: 110px;
         }
 
-        /* واجهة البداية مع تأثير الدخان */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -82,23 +81,18 @@
             position: relative;
             z-index: 2;
             text-align: center;
+            width: 100%;
+            padding: 0 10px;
         }
 
         .splash-logo {
-            font-size: 4rem;
+            font-size: 2.3rem;
             font-weight: bold;
             color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8), 0 0 10px rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-            animation: pulseLogo 2s infinite alternate;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.8);
+            white-space: nowrap;
         }
 
-        @keyframes pulseLogo {
-            0% { transform: scale(1); text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-            100% { transform: scale(1.05); text-shadow: 0 0 40px rgba(212, 175, 55, 0.9); }
-        }
-
-        /* التطبيق الرئيسي */
         #main-app {
             display: none;
             padding: 20px;
@@ -125,7 +119,6 @@
             align-items: center;
             background: #151515;
             position: relative;
-            cursor: pointer;
         }
 
         .brand-logo-container img {
@@ -143,14 +136,37 @@
 
         header h1 {
             color: var(--gold);
-            font-size: 2.2rem;
+            font-size: 1.9rem;
             letter-spacing: 1px;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
         }
 
         header p {
             color: var(--text-muted);
             margin-top: 5px;
             font-size: 0.95rem;
+        }
+
+        .location-box {
+            background: #1c1c1c;
+            border: 1px solid var(--gold);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .location-box button {
+            background-color: var(--gold);
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 5px;
         }
 
         .category-section {
@@ -176,7 +192,6 @@
             border: 1px solid #333;
             border-radius: 10px;
             overflow: hidden;
-            position: relative;
             display: flex;
             flex-direction: column;
         }
@@ -186,7 +201,6 @@
             height: 160px;
             background: #222;
             position: relative;
-            cursor: pointer;
         }
 
         .item-img-container img {
@@ -199,13 +213,14 @@
             position: absolute;
             bottom: 8px;
             left: 8px;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             color: var(--gold);
             border: 1px solid var(--gold);
             font-size: 0.75rem;
-            padding: 3px 8px;
+            padding: 4px 8px;
             border-radius: 4px;
             cursor: pointer;
+            display: none;
         }
 
         .item-body {
@@ -214,11 +229,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-        }
-
-        .menu-item.unavailable {
-            opacity: 0.5;
-            border-color: var(--danger);
         }
 
         .menu-item h3 {
@@ -256,10 +266,6 @@
             font-weight: bold;
         }
 
-        button:hover {
-            background-color: var(--gold-light);
-        }
-
         .cart-bar {
             position: fixed;
             bottom: 0;
@@ -267,7 +273,7 @@
             width: 100%;
             background: #111;
             border-top: 2px solid var(--gold);
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -275,21 +281,24 @@
         }
 
         .cart-info {
-            font-size: 1.05rem;
+            font-size: 0.9rem;
             color: var(--gold);
         }
 
         .checkout-btn {
             background-color: var(--success);
             color: #fff;
-            padding: 10px 20px;
-            font-size: 1rem;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+        }
+
+        input[type="file"] {
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- واجهة البداية -->
     <div id="splash-screen" onclick="openApp()">
         <div class="smoke-container">
             <div class="smoke-puff"></div>
@@ -298,21 +307,26 @@
             <div class="smoke-puff"></div>
         </div>
         <div class="splash-content">
-            <div class="splash-logo">زاد || ZAD Kitchen</div>
+            <div class="splash-logo">زاد|ZAD Kitchen</div>
         </div>
     </div>
 
-    <!-- التطبيق الرئيسي -->
     <div id="main-app">
         <header>
-            <!-- حاوية شعار المطعم (اضغط عليها لرفع أو تغيير لوكو المطعم) -->
-            <div class="brand-logo-container" onclick="changeLogo()" title="اضغط لتغيير لوكو المطعم">
-                <img id="brand-logo-img" src="" alt="شعار المطعم" style="display:none;">
-                <span id="brand-logo-text">اختر شعار المطعم</span>
+            <div class="brand-logo-container" id="logo-container" title="شعار المطعم">
+                <img id="brand-logo-img" src="" alt="شعار" style="display:none;">
+                <span id="brand-logo-text">شعار المطعم</span>
+                <input type="file" id="logo-file-input" accept="image/*" onchange="uploadLogo(event)">
             </div>
-            <h1>زاد || ZAD Kitchen</h1>
-            <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً | زاد... نكهة تستحق العودة</p>
+            <h1 onclick="handleTitleClick()">زاد|ZAD Kitchen</h1>
+            <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً</p>
         </header>
+
+        <div class="location-box">
+            <p>📍 لتحديد سعر التوصيل بدقة حسب مسافتك:</p>
+            <button onclick="getLoc()">تحديد موقعي الحالي (GPS)</button>
+            <p id="loc-status" style="margin-top: 8px; font-size: 0.9rem; color: var(--gold-light);">لم يتم تحديد الموقع بعد</p>
+        </div>
 
         <div class="category-section"><h2 class="category-title">لفات ووجبات الصاج</h2><div class="menu-grid" id="saj-menu"></div></div>
         <div class="category-section"><h2 class="category-title">البرجر ووجبات البرجر</h2><div class="menu-grid" id="burger-menu"></div></div>
@@ -328,12 +342,20 @@
 
     <div class="cart-bar">
         <div class="cart-info">
-            الأصناف: <span id="cart-count">0</span> | السعر: <span id="cart-total">0</span> د.ع
+            الأصناف: <span id="cart-count">0</span> | اجمالي: <span id="cart-total">0</span> د.ع<br>
+            التوصيل: <span id="delivery-fee">0</span> د.ع
         </div>
-        <button class="checkout-btn" onclick="processOrder()">إرسال الطلب عبر واتساب</button>
+        <button class="checkout-btn" onclick="processOrder()">إرسال الطلب واتساب</button>
     </div>
 
     <script>
+        const REST_LAT = 30.5081;
+        const REST_LON = 47.7835;
+        let deliveryCost = 0;
+        let distanceKm = 0;
+        let isAdmin = false;
+        let titleClicks = 0;
+
         let menuItems = [
             { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true, img: '' },
             { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true, img: '' },
@@ -359,17 +381,46 @@
         function openApp() {
             if (appOpened) return;
             appOpened = true;
-            const splash = document.getElementById('splash-screen');
-            const app = document.getElementById('main-app');
-            splash.style.opacity = '0';
+            document.getElementById('splash-screen').style.opacity = '0';
             setTimeout(() => {
-                splash.style.display = 'none';
-                app.style.display = 'block';
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('main-app').style.display = 'block';
                 renderMenu();
             }, 800);
         }
 
         setTimeout(openApp, 3500);
+
+        function handleTitleClick() {
+            titleClicks++;
+            if (titleClicks >= 3) {
+                titleClicks = 0;
+                let pass = prompt("أدخل رمز لوحة التحكم:");
+                if (pass === "200z") {
+                    isAdmin = true;
+                    alert("تم تفعيل صلاحيات التعديل بنجاح!");
+                    renderMenu();
+                    document.getElementById('logo-container').onclick = function() {
+                        document.getElementById('logo-file-input').click();
+                    };
+                } else {
+                    alert("الرمز غير صحيح!");
+                }
+            }
+        }
+
+        function uploadLogo(event) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('brand-logo-img').src = e.target.result;
+                    document.getElementById('brand-logo-img').style.display = 'block';
+                    document.getElementById('brand-logo-text').style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
 
         function renderMenu() {
             const categories = ['saj', 'burger', 'rizo', 'pizza', 'crispy', 'lema', 'sofra', 'seafood', 'nashaf', 'extras'];
@@ -380,11 +431,13 @@
                 let items = menuItems.filter(i => i.cat === cat);
                 items.forEach(item => {
                     let imgSrc = item.img ? item.img : 'https://via.placeholder.com/300x160?text=ZAD+Kitchen';
+                    let editBtnStyle = isAdmin ? 'display: block;' : 'display: none;';
                     container.innerHTML += `
-                        <div class="menu-item ${item.available ? '' : 'unavailable'}">
-                            <div class="item-img-container" onclick="changeItemImage(${item.id})">
+                        <div class="menu-item">
+                            <div class="item-img-container">
                                 <img src="${imgSrc}" alt="${item.name}">
-                                <button class="change-img-btn">تغيير الصورة</button>
+                                <button class="change-img-btn" style="${editBtnStyle}" onclick="triggerImgUpload(${item.id})">تغيير الصورة</button>
+                                <input type="file" id="file-${item.id}" accept="image/*" onchange="updateItemImg(event, ${item.id})">
                             </div>
                             <div class="item-body">
                                 <div>
@@ -393,8 +446,7 @@
                                 </div>
                                 <div class="item-footer">
                                     <span class="price">${item.price} د.ع</span>
-                                    ${item.available ? `<button onclick="addToCart(${item.id})">أضف للسلة</button>` : '<span style="color:red;">غير متوفر</span>'}
-                                }
+                                    <button onclick="addToCart(${item.id})">أضف للسلة</button>
                                 </div>
                             </div>
                         </div>
@@ -403,22 +455,55 @@
             });
         }
 
-        function changeLogo() {
-            let url = prompt("أدخل رابط صورة شعار المطعم (Logo URL):");
-            if(url) {
-                document.getElementById('brand-logo-img').src = url;
-                document.getElementById('brand-logo-img').style.display = 'block';
-                document.getElementById('brand-logo-text').style.display = 'none';
+        function triggerImgUpload(id) {
+            document.getElementById(`file-${id}`).click();
+        }
+
+        function updateItemImg(event, id) {
+            let file = event.target.files[0];
+            if (file) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    let item = menuItems.find(i => i.id === id);
+                    if (item) {
+                        item.img = e.target.result;
+                        renderMenu();
+                    }
+                }
+                reader.readAsDataURL(file);
             }
         }
 
-        function changeItemImage(id) {
-            let item = menuItems.find(i => i.id === id);
-            let url = prompt(`أدخل رابط الصورة الجديد لوجبة (${item.name}):`);
-            if(url) {
-                item.img = url;
-                renderMenu();
+        function getLoc() {
+            if (navigator.geolocation) {
+                document.getElementById('loc-status').innerText = "جاري تحديد موقعك...";
+                navigator.geolocation.getCurrentPosition(position => {
+                    let userLat = position.coords.latitude;
+                    let userLon = position.coords.longitude;
+                    distanceKm = calculateDistance(REST_LAT, REST_LON, userLat, userLon);
+                    
+                    deliveryCost = Math.round(2000 + (distanceKm * 1000));
+                    
+                    document.getElementById('loc-status').innerText = `المسافة: ${distanceKm.toFixed(1)} كم | التوصيل: ${deliveryCost} د.ع`;
+                    updateCartUI();
+                }, error => {
+                    alert("تعذر تحديد الموقع. يجب تفعيل الـ GPS في هاتفك.");
+                    document.getElementById('loc-status').innerText = "فشل تحديد الموقع";
+                });
+            } else {
+                alert("متصفحك لا يدعم خاصية تحديد الموقع");
             }
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            let R = 6371;
+            let dLat = (lat2 - lat1) * Math.PI / 180;
+            let dLon = (lon2 - lon1) * Math.PI / 180;
+            let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
         }
 
         function addToCart(id) {
@@ -431,9 +516,12 @@
 
         function updateCartUI() {
             let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let finalTotal = itemsPrice + deliveryCost;
+
             document.getElementById('cart-count').innerText = totalCount;
-            document.getElementById('cart-total').innerText = totalPrice;
+            document.getElementById('cart-total').innerText = finalTotal;
+            document.getElementById('delivery-fee').innerText = deliveryCost;
         }
 
         function processOrder() {
@@ -441,10 +529,17 @@
                 alert("السلة فارغة!");
                 return;
             }
-            let msg = "مرحباً، أريد طلب الوجبات التالية من زاد || ZAD Kitchen:%0A";
+            let itemsPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let finalTotal = itemsPrice + deliveryCost;
+
+            let msg = "مرحباً، أريد طلب الوجبات التالية من زاد|ZAD Kitchen:%0A";
             cart.forEach(item => {
                 msg += `- ${item.name} (عدد: ${item.qty}) - ${item.price * item.qty} د.ع%0A`;
             });
+            msg += `%0Aسعر الوجبات: ${itemsPrice} د.ع`;
+            msg += `%0Aسعر التوصيل (${distanceKm.toFixed(1)} كم): ${deliveryCost} د.ع`;
+            msg += `%0Aالإجمالي الكلي: ${finalTotal} د.ع`;
+
             window.open(`https://wa.me/9647838021664?text=${msg}`, '_blank');
         }
     </script>
