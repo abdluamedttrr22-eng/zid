@@ -6,12 +6,13 @@
     <title>منيو مطبخ زاد - ZAD KITCHEN</title>
     <style>
         :root {
-            --bg-color: #0d0d0d;
-            --card-bg: #1a1a1a;
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --card-border: #262626;
             --gold: #d4af37;
             --gold-light: #f3e5ab;
             --text-color: #f1f1f1;
-            --text-muted: #aaa;
+            --text-muted: #999;
             --danger: #ff4d4d;
             --success: #28a745;
         }
@@ -29,7 +30,7 @@
             padding-bottom: 90px;
         }
 
-        /* واجهة البداية */
+        /* واجهة البداية - ثانيتين */
         #splash-screen {
             position: fixed;
             top: 0;
@@ -41,38 +42,37 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            transition: opacity 1s ease;
+            transition: opacity 0.6s ease;
         }
 
         .smoke-container {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(0,0,0,0.9) 70%);
+            background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, rgba(0,0,0,0.95) 75%);
             filter: blur(20px);
-            animation: smokeEffect 4s infinite alternate;
+            animation: smokeEffect 3s infinite alternate;
             z-index: 1;
         }
 
         @keyframes smokeEffect {
             0% { transform: scale(1) translate(0, 0); opacity: 0.4; }
-            50% { transform: scale(1.2) translate(-20px, -10px); opacity: 0.7; }
-            100% { transform: scale(1.1) translate(20px, 15px); opacity: 0.5; }
+            100% { transform: scale(1.15) translate(15px, 10px); opacity: 0.7; }
         }
 
         .splash-logo {
             position: relative;
             z-index: 2;
-            font-size: 6rem;
+            font-size: 5.5rem;
             font-weight: bold;
             color: var(--gold);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-            letter-spacing: 5px;
-            animation: fadeInLogo 2s ease-in-out;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            letter-spacing: 4px;
+            animation: fadeInLogo 1.2s ease-in-out;
         }
 
         @keyframes fadeInLogo {
-            0% { opacity: 0; transform: scale(0.8); }
+            0% { opacity: 0; transform: scale(0.85); }
             100% { opacity: 1; transform: scale(1); }
         }
 
@@ -80,28 +80,564 @@
         #main-app {
             display: none;
             padding: 20px;
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--gold);
+            margin-bottom: 25px;
+            border-bottom: 1px solid #222;
             padding-bottom: 20px;
             cursor: pointer;
         }
 
         header h1 {
             color: var(--gold);
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             letter-spacing: 2px;
         }
 
         header p {
             color: var(--text-muted);
-            margin-top: 5px;
+            margin-top: 6px;
+            font-size: 0.9rem;
         }
+
+        /* تصميم الأقسام المطبقة بشكل نظيف */
+        .category-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .category-title {
+            color: var(--gold);
+            font-size: 1.5rem;
+            border-right: 3px solid var(--gold);
+            padding-right: 12px;
+        }
+
+        .toggle-icon {
+            color: var(--gold);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .category-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            transition: max-height 0.3s ease;
+        }
+
+        .category-content.collapsed {
+            display: none;
+        }
+
+        .menu-item {
+            background-color: #1a1a1a;
+            border: 1px solid #282828;
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            transition: border-color 0.2s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--gold);
+        }
+
+        .menu-item.unavailable {
+            opacity: 0.4;
+            border-color: var(--danger);
+        }
+
+        .menu-item h3 {
+            color: var(--gold-light);
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+        }
+
+        .menu-item p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .item-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--gold);
+            color: #000;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--gold-light);
+        }
+
+        /* شريط السلة العائم */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #111;
+            border-top: 2px solid var(--gold);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.5);
+        }
+
+        .cart-info {
+            font-size: 0.9rem;
+            color: var(--gold);
+            line-height: 1.4;
+        }
+
+        .checkout-btn {
+            background-color: var(--success);
+            color: #fff;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+        }
+
+        /* لوحة التحكم السرية */
+        #admin-panel {
+            display: none;
+            background: #181818;
+            border: 2px solid var(--gold);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        #admin-panel h2 {
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+
+        .admin-form input, .admin-form textarea, .admin-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .admin-controls {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- واجهة البداية (ثانيتين) -->
+    <div id="splash-screen">
+        <div class="smoke-container"></div>
+        <div class="splash-logo">zad</div>
+    </div>
+
+    <!-- التطبيق الرئيسي -->
+    <div id="main-app">
+        <header id="header-click">
+            <h1>ZAD KITCHEN</h1>
+            <p>نستقبل الطلبات من 4:00 مساءً إلى 12:00 ليلاً | زاد... نكهة تستحق العودة</p>
+        </header>
+
+        <!-- لوحة التحكم السرية -->
+        <div id="admin-panel">
+            <h2>لوحة التحكم الإدارية</h2>
+            <div class="admin-form">
+                <h3>إضافة وجبة جديدة</h3>
+                <input type="text" id="new-name" placeholder="اسم الوجبة">
+                <textarea id="new-desc" placeholder="مكونات الوجبة"></textarea>
+                <input type="number" id="new-price" placeholder="السعر (د.ع)">
+                <select id="new-cat">
+                    <option value="saj">لفات ووجبات الصاج</option>
+                    <option value="burger">البرجر ووجبات البرجر</option>
+                    <option value="rizo">الريزو ووجبات الريزو</option>
+                    <option value="pizza">البيتزا</option>
+                    <option value="crispy">وجبات الكرسبي</option>
+                    <option value="lema">لمات زاد والعروض</option>
+                    <option value="sofra">سفرة زاد ووجبات الدجاج</option>
+                    <option value="seafood">الأسماك والروبيان</option>
+                    <option value="nashaf">الدجاج الناشف</option>
+                    <option value="extras">الإضافات والمشروبات</option>
+                </select>
+                <button onclick="addNewItem()">إضافة للمنيو</button>
+            </div>
+        </div>
+
+        <!-- الأقسام المتعددة والمطوية بشكل نظيف -->
+        <div id="menu-container"></div>
+    </div>
+
+    <!-- سلة الطلبات العائمة -->
+    <div class="cart-bar">
+        <div class="cart-info">
+            الأصناف: <span id="cart-count">0</span> | المجموع: <span id="cart-total">0</span> د.ع<br>
+            التوصيل: <span id="delivery-cost">0</span> د.ع (<span id="distance-text">حدد الموقع</span>)
+        </div>
+        <button class="checkout-btn" onclick="processOrder()">إرسال الطلب واتساب</button>
+    </div>
+
+    <script>
+        const RESTAURANT_LAT = 30.5081; 
+        const RESTAURANT_LON = 47.7835;
+
+        const categoriesData = [
+            { id: 'saj', title: 'لفات ووجبات الصاج' },
+            { id: 'burger', title: 'البرجر ووجبات البرجر' },
+            { id: 'rizo', title: 'الريزو ووجبات الريزو' },
+            { id: 'pizza', title: 'البيتزا' },
+            { id: 'crispy', title: 'وجبات الكرسبي' },
+            { id: 'lema', title: 'لمات زاد والعروض' },
+            { id: 'sofra', title: 'سفرة زاد ووجبات الدجاج' },
+            { id: 'seafood', title: 'الأسماك والروبيان' },
+            { id: 'nashaf', title: 'الدجاج الناشف' },
+            { id: 'extras', title: 'الإضافات والمشروبات' }
+        ];
+
+        let menuItems = [
+            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true },
+            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true },
+            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true },
+            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true },
+            { id: 105, cat: 'saj', name: 'وجبة صاج دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true },
+            { id: 106, cat: 'saj', name: 'وجبة صاج لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true },
+
+            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, available: true },
+            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, available: true },
+            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, available: true },
+            { id: 204, cat: 'burger', name: 'وجبة دبل برجر', desc: 'دبل + بطاطا + مشروب', price: 9000, available: true },
+            { id: 205, cat: 'burger', name: 'وجبة برجر كلاسيك', desc: 'برجر + بطاطا + مشروب', price: 7000, available: true },
+
+            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, available: true },
+            { id: 302, cat: 'rizo', name: 'ريزو شاورما دجاج', desc: 'أرز ريزو مع شاورما دجاج', price: 5000, available: true },
+            { id: 303, cat: 'rizo', name: 'ريزو شاورما لحم', desc: 'أرز ريزو مع شاورما لحم', price: 5500, available: true },
+            { id: 304, cat: 'rizo', name: 'وجبة ريزو كرسبي', desc: 'ريزو كرسبي + مشروب', price: 6000, available: true },
+            { id: 305, cat: 'rizo', name: 'وجبة ريزو شاورما دجاج', desc: 'ريزو شاورما دجاج + مشروب', price: 6000, available: true },
+            { id: 306, cat: 'rizo', name: 'وجبة ريزو شاورما لحم', desc: 'ريزو شاورما لحم + مشروب', price: 6500, available: true },
+
+            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, available: true },
+            { id: 402, cat: 'pizza', name: 'بيتزا خضار (25 سم)', desc: 'خضار مشكلة وجبنة', price: 5500, available: true },
+            { id: 403, cat: 'pizza', name: 'بيتزا دجاج (25 سم)', desc: 'قطع دجاج وجبنة', price: 6500, available: true },
+            { id: 404, cat: 'pizza', name: 'بيتزا بيبروني (25 سم)', desc: 'بيبروني وجبنة', price: 7000, available: true },
+            { id: 405, cat: 'pizza', name: 'بيتزا لحم (25 سم)', desc: 'لحم مفروم وجبنة', price: 7500, available: true },
+            { id: 406, cat: 'pizza', name: 'بيتزا زاد الخاصة (25 سم)', desc: 'خلطة زاد المميزة', price: 9000, available: true },
+            { id: 407, cat: 'pizza', name: 'بيتزا مارغريتا (30 سم)', desc: 'حجم متوسط', price: 7000, available: true },
+            { id: 408, cat: 'pizza', name: 'بيتزا خضار (30 سم)', desc: 'حجم متوسط', price: 7500, available: true },
+            { id: 409, cat: 'pizza', name: 'بيتزا دجاج (30 سم)', desc: 'حجم متوسط', price: 8500, available: true },
+            { id: 410, cat: 'pizza', name: 'بيتزا بيبروني (30 سم)', desc: 'حجم متوسط', price: 9000, available: true },
+            { id: 411, cat: 'pizza', name: 'بيتزا لحم (30 سم)', desc: 'حجم متوسط', price: 9500, available: true },
+            { id: 412, cat: 'pizza', name: 'بيتزا زاد الخاصة (30 سم)', desc: 'حجم متوسط', price: 11000, available: true },
+            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم عائلي', price: 10000, available: true },
+            { id: 414, cat: 'pizza', name: 'بيتزا خضار (40 سم)', desc: 'حجم عائلي', price: 11000, available: true },
+            { id: 415, cat: 'pizza', name: 'بيتزا دجاج (40 سم)', desc: 'حجم عائلي', price: 13000, available: true },
+            { id: 416, cat: 'pizza', name: 'بيتزا بيبروني (40 سم)', desc: 'حجم عائلي', price: 14000, available: true },
+            { id: 417, cat: 'pizza', name: 'بيتزا لحم (40 سم)', desc: 'حجم عائلي', price: 15000, available: true },
+            { id: 418, cat: 'pizza', name: 'بيتزا زاد الخاصة (40 سم)', desc: 'حجم عائلي', price: 17000, available: true },
+
+            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص + خبز', price: 6500, available: true },
+            { id: 502, cat: 'crispy', name: 'وجبة كرسبي (5 قطع)', desc: '5 قطع + بطاطا + كولسلو + صوص + خبز', price: 8500, available: true },
+
+            { id: 601, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + 2 بطاطا + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 21000, available: true },
+            { id: 602, cat: 'lema', name: 'لمة زاد لحم', desc: '4 صاج لحم + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 25000, available: true },
+            { id: 603, cat: 'lema', name: 'لمة زاد برجر', desc: '4 برجر كلاسيك + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 27000, available: true },
+            { id: 604, cat: 'lema', name: 'لمة زاد ميكس', desc: '2 صاج دجاج + 2 صاج لحم + 2 برجر كلاسيك + ريزو + بطاطا عائلية + 6 مشروبات + 6 صوصات', price: 39000, available: true },
+            { id: 605, cat: 'lema', name: 'لمة زاد العائلية', desc: 'بيتزا 40 سم + 2 صاج دجاج + 2 برجر كلاسيك + بطاطا عائلية + 1 لتر مشروب + 6 صوصات', price: 34000, available: true },
+            { id: 606, cat: 'lema', name: 'العرض الثنائي', desc: '2 صاج دجاج + بطاطا وسط + 2 مشروب', price: 13000, available: true },
+            { id: 607, cat: 'lema', name: 'عرض الأصدقاء', desc: '2 برجر كلاسيك + 2 صاج دجاج + بطاطا عائلية + 4 مشروبات', price: 28000, available: true },
+            { id: 608, cat: 'lema', name: 'عرض البيتزا', desc: 'أي بيتزا (30 سم) + 1 لتر مشروب', price: 1000, available: true },
+
+            { id: 701, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + ترشي + خبزتين', price: 25000, available: true },
+            { id: 702, cat: 'sofra', name: 'ربع دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 8000, available: true },
+            { id: 703, cat: 'sofra', name: 'نصف دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 14000, available: true },
+            { id: 704, cat: 'sofra', name: 'دجاجة كاملة', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 18000, available: true },
+            { id: 705, cat: 'sofra', name: 'رز ومرق أحمر', desc: 'طبق أرز مع مرق أحمر', price: 4000, available: true },
+            { id: 706, cat: 'sofra', name: 'رز ومرق سمك', desc: 'طبق أرز مع مرق سمك', price: 6000, available: true },
+
+            { id: 801, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, available: true },
+            { id: 802, cat: 'seafood', name: 'كيلو سمك مشوي (مع تمن)', desc: 'تمن + سلطة + ترشي + خبز', price: 15000, available: true },
+            { id: 803, cat: 'seafood', name: 'نفر سمك مقلي', desc: 'سمك مقلي مع الملحقات', price: 10000, available: true },
+            { id: 804, cat: 'seafood', name: 'نفر روبيان', desc: 'تمن + سلطة + ترشي', price: 10000, available: true },
+
+            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'خبز + سلطة + ترشي', price: 9000, available: true },
+            { id: 902, cat: 'nashaf', name: 'دجاج ناشف كامل', desc: 'خبز + سلطة + ترشي', price: 14000, available: true },
+
+            { id: 1001, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, available: true },
+            { id: 1002, cat: 'extras', name: 'بطاطا عائلية', desc: 'حصة بطاطا كبيرة', price: 3000, available: true },
+            { id: 1003, cat: 'extras', name: 'مشروب غازي (علبة)', desc: 'بيبسي أو ما شابه', price: 1000, available: true },
+            { id: 1004, cat: 'extras', name: 'مشروب 1 لتر', desc: 'قنينة لتر واحد', price: 2000, available: true },
+            { id: 1005, cat: 'extras', name: 'جبنة إضافية', desc: 'إضافة جبنة للوجبة', price: 500, available: true },
+            { id: 1006, cat: 'extras', name: 'صوص إضافي', desc: 'أي صوص مرغوب', price: 500, available: true },
+            { id: 1007, cat: 'extras', name: 'تمن إضافي', desc: 'صحن أرز إضافي', price: 1500, available: true },
+            { id: 1008, cat: 'extras', name: 'سلطة إضافية', desc: 'صحن سلطة', price: 1000, available: true },
+            { id: 1009, cat: 'extras', name: 'ترشي إضافي', desc: 'صحن ترشي', price: 500, available: true },
+            { id: 1010, cat: 'extras', name: 'ثومية', desc: 'علبة ثومية', price: 500, available: true },
+            { id: 1011, cat: 'extras', name: 'خبز إضافي', desc: 'خبز', price: 500, available: true },
+            { id: 1012, cat: 'extras', name: '4 لبن', desc: '4 علب لبن', price: 250, available: true }
+        ];
+
+        let cart = [];
+        let clickCount = 0;
+        let currentDistance = 0;
+        let deliveryFee = 0;
+        let userMapsLink = "";
+
+        // واجهة البداية لمدة ثانيتين فقط (2000 ميلي ثانية)
+        setTimeout(function() {
+            const splash = document.getElementById('splash-screen');
+            const app = document.getElementById('main-app');
+            splash.style.opacity = '0';
+            setTimeout(function() {
+                splash.style.display = 'none';
+                app.style.display = 'block';
+                renderMenu();
+            }, 500);
+        }, 2000);
+
+        function renderMenu() {
+            const container = document.getElementById('menu-container');
+            container.innerHTML = '';
+
+            categoriesData.forEach(cat => {
+                let items = menuItems.filter(i => i.cat === cat.id);
+                if(items.length === 0) return;
+
+                let sectionHtml = `
+                    <div class="category-section">
+                        <div class="category-header" onclick="toggleCategory('${cat.id}')">
+                            <h2 class="category-title">${cat.title}</h2>
+                            <span class="toggle-icon" id="icon-${cat.id}">▼</span>
+                        </div>
+                        <div class="category-content" id="cat-content-${cat.id}">
+                `;
+
+                items.forEach(item => {
+                    sectionHtml += `
+                        <div class="menu-item ${item.available ? '' : 'unavailable'}">
+                            <h3>${item.name}</h3>
+                            <p>${item.desc}</p>
+                            <div class="item-footer">
+                                <span class="price">${item.price} د.ع</span>
+                                <div>
+                                    ${item.available ? `<button onclick="addToCart(${item.id})">أضف</button>` : '<span style="color:red; font-size:0.8rem; font-weight:bold;">نفذت</span>'}
+                                </div>
+                            </div>
+                            <div class="admin-controls" style="display:none;" id="admin-ctrl-${item.id}">
+                                <button onclick="toggleAvailability(${item.id})">${item.available ? 'إيقاف' : 'تفعيل'}</button>
+                                <button class="btn-danger" onclick="deleteItem(${item.id})">حذف</button>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                sectionHtml += `</div></div>`;
+                container.innerHTML += sectionHtml;
+            });
+            checkAdminVisibility();
+        }
+
+        function toggleCategory(catId) {
+            let content = document.getElementById(`cat-content-${catId}`);
+            let icon = document.getElementById(`icon-${catId}`);
+            if(content.classList.contains('collapsed')) {
+                content.classList.remove('collapsed');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('collapsed');
+                icon.style.transform = 'rotate(-90deg)';
+            }
+        }
+
+        function addToCart(id) {
+            let item = menuItems.find(i => i.id === id);
+            let cartItem = cart.find(c => c.id === id);
+            if(cartItem) cartItem.qty++;
+            else cart.push({ ...item, qty: 1 });
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+            let totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            document.getElementById('cart-count').innerText = totalCount;
+            document.getElementById('cart-total').innerText = totalPrice;
+            document.getElementById('delivery-cost').innerText = deliveryFee;
+        }
+
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            let R = 6371;
+            let dLat = (lat2 - lat1) * Math.PI / 180;
+            let dLon = (lon2 - lon1) * Math.PI / 180;
+            let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+
+        function updateDeliveryFee(distance) {
+            currentDistance = distance.toFixed(1);
+            document.getElementById('distance-text').innerText = `${currentDistance} كم`;
+
+            if (distance <= 5) deliveryFee = 1000;
+            else if (distance <= 8) deliveryFee = 2000;
+            else if (distance <= 12) deliveryFee = 3000;
+            else deliveryFee = 4000;
+            updateCartUI();
+        }
+
+        function processOrder() {
+            if(cart.length === 0) {
+                alert("السلة فارغة! أضف بعض الوجبات أولاً.");
+                return;
+            }
+
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    let userLat = position.coords.latitude;
+                    let userLon = position.coords.longitude;
+                    userMapsLink = `https://www.google.com/maps?q=${userLat},${userLon}`;
+
+                    let dist = calculateDistance(RESTAURANT_LAT, RESTAURANT_LON, userLat, userLon);
+                    updateDeliveryFee(dist);
+                    sendWhatsAppOrder();
+                }, error => {
+                    userMapsLink = "لم يتم تحديده";
+                    sendWhatsAppOrder();
+                });
+            } else {
+                sendWhatsAppOrder();
+            }
+        }
+
+        function sendWhatsAppOrder() {
+            let msg = "مرحباً، أريد طلب الوجبات التالية من مطبخ ZAD:%0A%0A";
+            let itemsTotal = 0;
+            
+            cart.forEach(item => {
+                let subTotal = item.price * item.qty;
+                itemsTotal += subTotal;
+                msg += `- ${item.name} (عدد: ${item.qty}) - ${subTotal} د.ع%0A`;
+            });
+
+            let grandTotal = itemsTotal + deliveryFee;
+            msg += `%0Aسعر الوجبات: ${itemsTotal} د.ع`;
+            msg += `%0Aأجرة التوصيل (${currentDistance} كم): ${deliveryFee} د.ع`;
+            msg += `%0A*المجموع الكلي مع التوصيل: ${grandTotal} د.ع*%0A`;
+            msg += `موقعي على الخريطة: ${userMapsLink}`;
+
+            let phone = "9647838021664";
+            window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+        }
+
+        // لوحة التحكم السرية (3 نقرات على العنوان وكلمة المرور 200)
+        document.getElementById('header-click').addEventListener('click', function() {
+            clickCount++;
+            setTimeout(() => { clickCount = 0; }, 1000);
+            if(clickCount >= 3) {
+                let pass = prompt("أدخل كلمة المرور للتحكم بالمنيو:");
+                if(pass === "200") {
+                    document.getElementById('admin-panel').style.display = 'block';
+                    window.isAdmin = true;
+                    renderMenu();
+                    alert("تم فتح لوحة التحكم!");
+                } else if(pass !== null) {
+                    alert("كلمة المرور غير صحيحة!");
+                }
+                clickCount = 0;
+            }
+        });
+
+        function checkAdminVisibility() {
+            menuItems.forEach(item => {
+                let ctrl = document.getElementById(`admin-ctrl-${item.id}`);
+                if(ctrl) ctrl.style.display = window.isAdmin ? 'flex' : 'none';
+            });
+        }
+
+        function addNewItem() {
+            let name = document.getElementById('new-name').value;
+            let desc = document.getElementById('new-desc').value;
+            let price = Number(document.getElementById('new-price').value);
+            let cat = document.getElementById('new-cat').value;
+
+            if(!name || !price) {
+                alert("يرجى إدخال اسم الوجبة والسعر!");
+                return;
+            }
+
+            menuItems.push({ id: Date.now(), cat, name, desc, price, available: true });
+            renderMenu();
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-desc').value = '';
+            document.getElementById('new-price').value = '';
+            alert("تمت الإضافة بنجاح!");
+        }
+
+        function deleteItem(id) {
+            if(confirm("هل أنت متأكد من الحذف؟")) {
+                menuItems = menuItems.filter(i => i.id !== id);
+                cart = cart.filter(c => c.id !== id);
+                renderMenu();
+                updateCartUI();
+            }
+        }
+
+        function toggleAvailability(id) {
+            let item = menuItems.find(i => i.id === id);
+            if(item) {
+                item.available = !item.available;
+                renderMenu();
+            }
+        }
+    </script>
+</body>
+</html>
 
         .category-section {
             margin-bottom: 40px;
