@@ -760,7 +760,6 @@
         let userGpsLocationText = "";
         let isAdmin = false;
         let titleClicks = 0;
-        let savedLogoSrc = "";
 
         let categoriesData = [
             { id: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)' },
@@ -779,75 +778,98 @@
         ];
 
         let menuItems = [
-            { id: 1, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + ترشي + خبزتين', price: 25000, available: true, img: '' },
-            { id: 2, cat: 'chicken-meals', name: 'ربع دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 8000, available: true, img: '' },
-            { id: 3, cat: 'chicken-meals', name: 'نصف دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 14000, available: true, img: '' },
-            { id: 4, cat: 'chicken-meals', name: 'دجاجة كاملة', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 18000, available: true, img: '' },
-            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, available: true, img: '' },
-            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, available: true, img: '' },
-            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, available: true, img: '' },
-            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, available: true, img: '' },
-            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, available: true, img: '' },
-            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, available: true, img: '' },
-            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, available: true, img: '' },
-            { id: 204, cat: 'burger', name: 'وجبة دبل برجر', desc: 'دبل + بطاطا + مشروب', price: 9000, available: true, img: '' },
-            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, available: true, img: '' },
-            { id: 302, cat: 'rizo', name: 'ريزو شاورما دجاج', desc: 'أرز ريزو مع شاورما دجاج', price: 5000, available: true, img: '' },
-            { id: 303, cat: 'rizo', name: 'ريزو شاورما لحم', desc: 'أرز ريزو مع شاورما لحم', price: 5500, available: true, img: '' },
-            { id: 304, cat: 'rizo', name: 'وجبة ريزو كرسبي + مشروب', desc: 'ريزو كرسبي + مشروب', price: 6000, available: true, img: '' },
-            { id: 305, cat: 'rizo', name: 'وجبة ريزو شاورما دجاج + مشروب', desc: 'ريزو دجاج + مشروب', price: 6000, available: true, img: '' },
-            { id: 306, cat: 'rizo', name: 'وجبة ريزو شاورما لحم + مشروب', desc: 'ريزو لحم + مشروب', price: 6500, available: true, img: '' },
-            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, available: true, img: '' },
-            { id: 402, cat: 'pizza', name: 'بيتزا خضار (25 سم)', desc: 'خضار مشكلة وجبنة', price: 5500, available: true, img: '' },
-            { id: 403, cat: 'pizza', name: 'بيتزا دجاج (25 سم)', desc: 'قطع دجاج وجبنة', price: 6500, available: true, img: '' },
-            { id: 404, cat: 'pizza', name: 'بيتزا بيبروني (25 سم)', desc: 'بيبروني وجبنة', price: 7000, available: true, img: '' },
-            { id: 405, cat: 'pizza', name: 'بيتزا لحم (25 سم)', desc: 'لحم مفروم وجبنة', price: 7500, available: true, img: '' },
-            { id: 406, cat: 'pizza', name: 'بيتزا زاد الخاصة (25 سم)', desc: 'خلطة زاد المميزة', price: 9000, available: true, img: '' },
-            { id: 407, cat: 'pizza', name: 'بيتزا مارغريتا (30 سم)', desc: 'حجم وسط', price: 7000, available: true, img: '' },
-            { id: 408, cat: 'pizza', name: 'بيتزا خضار (30 سم)', desc: 'حجم وسط', price: 7500, available: true, img: '' },
-            { id: 409, cat: 'pizza', name: 'بيتزا دجاج (30 سم)', desc: 'حجم وسط', price: 8500, available: true, img: '' },
-            { id: 410, cat: 'pizza', name: 'بيتزا بيبروني (30 سم)', desc: 'حجم وسط', price: 9000, available: true, img: '' },
-            { id: 411, cat: 'pizza', name: 'بيتزا لحم (30 سم)', desc: 'حجم وسط', price: 9500, available: true, img: '' },
-            { id: 412, cat: 'pizza', name: 'بيتزا زاد الخاصة (30 سم)', desc: 'حجم وسط', price: 11000, available: true, img: '' },
-            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم كبير عائلي', price: 10000, available: true, img: '' },
-            { id: 414, cat: 'pizza', name: 'بيتزا خضار (40 سم)', desc: 'حجم كبير عائلي', price: 11000, available: true, img: '' },
-            { id: 415, cat: 'pizza', name: 'بيتزا دجاج (40 سم)', desc: 'حجم كبير عائلي', price: 13000, available: true, img: '' },
-            { id: 416, cat: 'pizza', name: 'بيتزا بيبروني (40 سم)', desc: 'حجم كبير عائلي', price: 14000, available: true, img: '' },
-            { id: 417, cat: 'pizza', name: 'بيتزا لحم (40 سم)', desc: 'حجم كبير عائلي', price: 15000, available: true, img: '' },
-            { id: 418, cat: 'pizza', name: 'بيتزا زاد الخاصة (40 سم)', desc: 'حجم كبير عائلي', price: 17000, available: true, img: '' },
-            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص + خبز', price: 6500, available: true, img: '' },
-            { id: 502, cat: 'crispy', name: 'وجبة كرسبي (5 قطع)', desc: '5 قطع + بطاطا + كولسلو + صوص + خبز', price: 8500, available: true, img: '' },
-            { id: 601, cat: 'rice-meals', name: 'رز ومرق أحمر', desc: 'طبق رز مع مرق أحمر', price: 4000, available: true, img: '' },
-            { id: 602, cat: 'rice-meals', name: 'رز ومرق سمك', desc: 'طبق رز مع مرق سمك', price: 6000, available: true, img: '' },
-            { id: 701, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, available: true, img: '' },
-            { id: 702, cat: 'seafood', name: 'كيلو سمك مشوي (مع الترتيب)', desc: 'كيلو سمك مشوي + تمن + سلطة + ترشي + خبز', price: 15000, available: true, img: '' },
-            { id: 703, cat: 'seafood', name: 'نفر سمك مقلي', desc: 'سمك مقلي مع الترتيب', price: 10000, available: true, img: '' },
-            { id: 801, cat: 'shrimp', name: 'نفر روبيان', desc: 'روبيان + تمن + سلطة + ترشي', price: 10000, available: true, img: '' },
-            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'نصف دجاج + خبز + سلطة + ترشي', price: 9000, available: true, img: '' },
-            { id: 902, cat: 'nashaf', name: 'دجاج ناشف كامل', desc: 'دجاجة كاملة + خبز + سلطة + ترشي', price: 14000, available: true, img: '' },
-            { id: 1001, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + 2 بطاطا وسطي + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 21000, available: true, img: '' },
-            { id: 1002, cat: 'lema', name: 'لمة زاد لحم', desc: '4 صاج لحم + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 25000, available: true, img: '' },
-            { id: 1003, cat: 'lema', name: 'لمة زاد بركر', desc: '4 بركر كلاسيك + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 27000, available: true, img: '' },
-            { id: 1004, cat: 'lema', name: 'لمة زاد ميكس', desc: '2 صاج دجاج + 2 صاج لحم + 2 بركر كلاسيك + ريزو + بطاطا عائلية + 6 مشروبات + 6 صوصات', price: 39000, available: true, img: '' },
-            { id: 1005, cat: 'lema', name: 'لمة زاد العائلية', desc: 'بيتزا 40 سم (أي نوع) + 2 صاج دجاج + 2 بركر كلاسيك + بطاطا عائلية + 1 لتر مشروب + 6 صوصات', price: 34000, available: true, img: '' },
-            { id: 1006, cat: 'lema', name: 'عرض الثنائي', desc: '2 صاج دجاج + بطاطا وسط + 2 مشروب', price: 13000, available: true, img: '' },
-            { id: 1007, cat: 'lema', name: 'عرض الأصدقاء', desc: '2 بركر كلاسيك + 2 صاج دجاج + بطاطا عائلية + 4 مشروبات', price: 28000, available: true, img: '' },
-            { id: 1101, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, available: true, img: '' },
-            { id: 1102, cat: 'extras', name: 'بطاطا عائلية', desc: 'حصة بطاطا عائلية', price: 3000, available: true, img: '' },
-            { id: 1103, cat: 'extras', name: 'مشروب', desc: 'قمرة أو علبة', price: 1000, available: true, img: '' },
-            { id: 1104, cat: 'extras', name: 'مشروب 1 لتر', desc: 'مشروب غازي عائلي', price: 2000, available: true, img: '' },
-            { id: 1105, cat: 'extras', name: 'تمن إضافي', desc: 'صحن أرز إضافي', price: 1500, available: true, img: '' },
-            { id: 1106, cat: 'extras', name: 'سلطة إضافية', desc: 'صحن سلطة', price: 1000, available: true, img: '' },
-            { id: 1107, cat: 'extras', name: 'ترشي إضافي', desc: 'صحن ترشي', price: 500, available: true, img: '' },
-            { id: 1108, cat: 'extras', name: 'تومية', desc: 'علبة صوص تومية', price: 500, available: true, img: '' },
-            { id: 1109, cat: 'extras', name: 'خبز إضافي', desc: 'عدد من الخبز', price: 500, available: true, img: '' },
-            { id: 1110, cat: 'extras', name: '4 لبن', desc: 'علب لبن', price: 250, available: true, img: '' },
-            { id: 1111, cat: 'extras', name: 'جبنة إضافية', desc: 'إضافة جبنة للطلب', price: 500, available: true, img: '' },
-            { id: 1112, cat: 'extras', name: 'صوص إضافي', desc: 'أنواع الصوصات المختلفة', price: 500, available: true, img: '' }
+            { id: 1, cat: 'sofra', name: 'سفرة زاد (تكفي 4 أشخاص)', desc: 'دجاجة مشوية كاملة + 2 كيلو تمن عنبر + 4 كاسات مرق + 4 لبن + سلطة كبيرة + ترشي + خبزتين', price: 25000, img: '' },
+            { id: 2, cat: 'chicken-meals', name: 'ربع دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 8000, img: '' },
+            { id: 3, cat: 'chicken-meals', name: 'نصف دجاج', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 14000, img: '' },
+            { id: 4, cat: 'chicken-meals', name: 'دجاجة كاملة', desc: 'تمن + سلطة + ترشي + 2 لبن', price: 18000, img: '' },
+            { id: 101, cat: 'saj', name: 'صاج شاورما دجاج (لفة)', desc: 'شاورما دجاج', price: 3500, img: '' },
+            { id: 102, cat: 'saj', name: 'صاج شاورما لحم (لفة)', desc: 'شاورما لحم', price: 4500, img: '' },
+            { id: 103, cat: 'saj', name: 'وجبة صاج شاورما دجاج', desc: 'صاج دجاج + بطاطا + مشروب', price: 5500, img: '' },
+            { id: 104, cat: 'saj', name: 'وجبة صاج شاورما لحم', desc: 'صاج لحم + بطاطا + مشروب', price: 6500, img: '' },
+            { id: 201, cat: 'burger', name: 'برجر كلاسيك', desc: 'برجر لحم كلاسيك', price: 4500, img: '' },
+            { id: 202, cat: 'burger', name: 'برجر دبل', desc: 'برجر لحم دبل', price: 6500, img: '' },
+            { id: 203, cat: 'burger', name: 'وجبة كلاسيك برجر', desc: 'كلاسيك + بطاطا + مشروب', price: 7000, img: '' },
+            { id: 204, cat: 'burger', name: 'وجبة دبل برجر', desc: 'دبل + بطاطا + مشروب', price: 9000, img: '' },
+            { id: 301, cat: 'rizo', name: 'ريزو كرسبي', desc: 'أرز ريزو مع قطع كرسبي', price: 5000, img: '' },
+            { id: 302, cat: 'rizo', name: 'ريزو شاورما دجاج', desc: 'أرز ريزو مع شاورما دجاج', price: 5000, img: '' },
+            { id: 303, cat: 'rizo', name: 'ريزو شاورما لحم', desc: 'أرز ريزو مع شاورما لحم', price: 5500, img: '' },
+            { id: 304, cat: 'rizo', name: 'وجبة ريزو كرسبي + مشروب', desc: 'ريزو كرسبي + مشروب', price: 6000, img: '' },
+            { id: 305, cat: 'rizo', name: 'وجبة ريزو شاورما دجاج + مشروب', desc: 'ريزو دجاج + مشروب', price: 6000, img: '' },
+            { id: 306, cat: 'rizo', name: 'وجبة ريزو شاورما لحم + مشروب', desc: 'ريزو لحم + مشروب', price: 6500, img: '' },
+            { id: 401, cat: 'pizza', name: 'بيتزا مارغريتا (25 سم)', desc: 'جبنة وصوص طماطم', price: 5000, img: '' },
+            { id: 402, cat: 'pizza', name: 'بيتزا خضار (25 سم)', desc: 'خضار مشكلة وجبنة', price: 5500, img: '' },
+            { id: 403, cat: 'pizza', name: 'بيتزا دجاج (25 سم)', desc: 'قطع دجاج وجبنة', price: 6500, img: '' },
+            { id: 404, cat: 'pizza', name: 'بيتزا بيبروني (25 سم)', desc: 'بيبروني وجبنة', price: 7000, img: '' },
+            { id: 405, cat: 'pizza', name: 'بيتزا لحم (25 سم)', desc: 'لحم مفروم وجبنة', price: 7500, img: '' },
+            { id: 406, cat: 'pizza', name: 'بيتزا زاد الخاصة (25 سم)', desc: 'خلطة زاد المميزة', price: 9000, img: '' },
+            { id: 407, cat: 'pizza', name: 'بيتزا مارغريتا (30 سم)', desc: 'حجم وسط', price: 7000, img: '' },
+            { id: 408, cat: 'pizza', name: 'بيتزا خضار (30 سم)', desc: 'حجم وسط', price: 7500, img: '' },
+            { id: 409, cat: 'pizza', name: 'بيتزا دجاج (30 سم)', desc: 'حجم وسط', price: 8500, img: '' },
+            { id: 410, cat: 'pizza', name: 'بيتزا بيبروني (30 سم)', desc: 'حجم وسط', price: 9000, img: '' },
+            { id: 411, cat: 'pizza', name: 'بيتزا لحم (30 سم)', desc: 'حجم وسط', price: 9500, img: '' },
+            { id: 412, cat: 'pizza', name: 'بيتزا زاد الخاصة (30 سم)', desc: 'حجم وسط', price: 11000, img: '' },
+            { id: 413, cat: 'pizza', name: 'بيتزا مارغريتا (40 سم)', desc: 'حجم كبير عائلي', price: 10000, img: '' },
+            { id: 414, cat: 'pizza', name: 'بيتزا خضار (40 سم)', desc: 'حجم كبير عائلي', price: 11000, img: '' },
+            { id: 415, cat: 'pizza', name: 'بيتزا دجاج (40 سم)', desc: 'حجم كبير عائلي', price: 13000, img: '' },
+            { id: 416, cat: 'pizza', name: 'بيتزا بيبروني (40 سم)', desc: 'حجم كبير عائلي', price: 14000, img: '' },
+            { id: 417, cat: 'pizza', name: 'بيتزا لحم (40 سم)', desc: 'حجم كبير عائلي', price: 15000, img: '' },
+            { id: 418, cat: 'pizza', name: 'بيتزا زاد الخاصة (40 سم)', desc: 'حجم كبير عائلي', price: 17000, img: '' },
+            { id: 501, cat: 'crispy', name: 'وجبة كرسبي (3 قطع)', desc: '3 قطع + بطاطا + كولسلو + صوص + خبز', price: 6500, img: '' },
+            { id: 502, cat: 'crispy', name: 'وجبة كرسبي (5 قطع)', desc: '5 قطع + بطاطا + كولسلو + صوص + خبز', price: 8500, img: '' },
+            { id: 601, cat: 'rice-meals', name: 'رز ومرق أحمر', desc: 'طبق رز مع مرق أحمر', price: 4000, img: '' },
+            { id: 602, cat: 'rice-meals', name: 'رز ومرق سمك', desc: 'طبق رز مع مرق سمك', price: 6000, img: '' },
+            { id: 701, cat: 'seafood', name: 'كيلو سمك مشوي', desc: 'سمك مشوي طازج', price: 12000, img: '' },
+            { id: 702, cat: 'seafood', name: 'كيلو سمك مشوي (مع الترتيب)', desc: 'كيلو سمك مشوي + تمن + سلطة + ترشي + خبز', price: 15000, img: '' },
+            { id: 703, cat: 'seafood', name: 'نفر سمك مقلي', desc: 'سمك مقلي مع الترتيب', price: 10000, img: '' },
+            { id: 801, cat: 'shrimp', name: 'نفر روبيان', desc: 'روبيان + تمن + سلطة + ترشي', price: 10000, img: '' },
+            { id: 901, cat: 'nashaf', name: 'نصف دجاج ناشف', desc: 'نصف دجاج + خبز + سلطة + ترشي', price: 9000, img: '' },
+            { id: 902, cat: 'nashaf', name: 'دجاج ناشف كامل', desc: 'دجاجة كاملة + خبز + سلطة + ترشي', price: 14000, img: '' },
+            { id: 1001, cat: 'lema', name: 'لمة زاد دجاج', desc: '2 دجاج + 2 بطاطا وسطي + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 21000, img: '' },
+            { id: 1002, cat: 'lema', name: 'لمة زاد لحم', desc: '4 صاج لحم + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 25000, img: '' },
+            { id: 1003, cat: 'lema', name: 'لمة زاد بركر', desc: '4 بركر كلاسيك + بطاطا عائلية + 4 مشروبات + 4 صوصات', price: 27000, img: '' },
+            { id: 1004, cat: 'lema', name: 'لمة زاد ميكس', desc: '2 صاج دجاج + 2 صاج لحم + 2 بركر كلاسيك + ريزو + بطاطا عائلية + 6 مشروبات + 6 صوصات', price: 39000, img: '' },
+            { id: 1005, cat: 'lema', name: 'لمة زاد العائلية', desc: 'بيتزا 40 سم (أي نوع) + 2 صاج دجاج + 2 بركر كلاسيك + بطاطا عائلية + 1 لتر مشروب + 6 صوصات', price: 34000, img: '' },
+            { id: 1006, cat: 'lema', name: 'عرض الثنائي', desc: '2 صاج دجاج + بطاطا وسط + 2 مشروب', price: 13000, img: '' },
+            { id: 1007, cat: 'lema', name: 'عرض الأصدقاء', desc: '2 بركر كلاسيك + 2 صاج دجاج + بطاطا عائلية + 4 مشروبات', price: 28000, img: '' },
+            { id: 1101, cat: 'extras', name: 'بطاطا عادية', desc: 'حصة بطاطا مقلية', price: 1500, img: '' },
+            { id: 1102, cat: 'extras', name: 'بطاطا عائلية', desc: 'حصة بطاطا عائلية', price: 3000, img: '' },
+            { id: 1103, cat: 'extras', name: 'مشروب', desc: 'قمرة أو علبة', price: 1000, img: '' },
+            { id: 1104, cat: 'extras', name: 'مشروب 1 لتر', desc: 'مشروب غازي عائلي', price: 2000, img: '' },
+            { id: 1105, cat: 'extras', name: 'تمن إضافي', desc: 'صحن أرز إضافي', price: 1500, img: '' },
+            { id: 1106, cat: 'extras', name: 'سلطة إضافية', desc: 'صحن سلطة', price: 1000, img: '' },
+            { id: 1107, cat: 'extras', name: 'ترشي إضافي', desc: 'صحن ترشي', price: 500, img: '' },
+            { id: 1108, cat: 'extras', name: 'تومية', desc: 'علبة صوص تومية', price: 500, img: '' },
+            { id: 1109, cat: 'extras', name: 'خبز إضافي', desc: 'عدد من الخبز', price: 500, img: '' },
+            { id: 1110, cat: 'extras', name: '4 لبن', desc: 'علب لبن', price: 250, img: '' },
+            { id: 1111, cat: 'extras', name: 'جبنة إضافية', desc: 'إضافة جبنة للطلب', price: 500, img: '' },
+            { id: 1112, cat: 'extras', name: 'صوص إضافي', desc: 'أنواع الصوصات المختلفة', price: 500, img: '' }
         ];
 
         let cart = [];
         let appOpened = false;
+        let globalLogoUrl = "";
+
+        // تحميل البيانات المحفوظة محلياً عند بدء التشغيل
+        function loadSavedData() {
+            let savedLogo = localStorage.getItem('zad_logo');
+            if (savedLogo) {
+                globalLogoUrl = savedLogo;
+                let imgEl = document.getElementById('brand-logo-img');
+                imgEl.src = globalLogoUrl;
+                imgEl.style.display = 'block';
+                document.getElementById('brand-logo-text').style.display = 'none';
+            }
+
+            let savedCats = localStorage.getItem('zad_categories');
+            if (savedCats) {
+                try { categoriesData = JSON.parse(savedCats); } catch(e){}
+            }
+
+            let savedItems = localStorage.getItem('zad_menu_items');
+            if (savedItems) {
+                try { menuItems = JSON.parse(savedItems); } catch(e){}
+            }
+        }
 
         function openApp() {
             if (appOpened) return;
@@ -856,6 +878,7 @@
             setTimeout(() => {
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-app').style.display = 'block';
+                loadSavedData();
                 renderApp();
             }, 800);
         }
@@ -902,11 +925,10 @@
 
         function confirmLogo() {
             let imgSrc = document.getElementById('brand-logo-img').src;
-            if (imgSrc && imgSrc !== window.location.href) {
-                savedLogoSrc = imgSrc;
-                alert("تم تأكيد وحفظ شعار المطعم بنجاح! ✓");
-            } else {
-                alert("يرجى اختيار صورة أولاً.");
+            if (imgSrc) {
+                globalLogoUrl = imgSrc;
+                localStorage.setItem('zad_logo', globalLogoUrl);
+                alert("تم حفظ شعار المطعم بنجاح! ✓");
             }
         }
 
@@ -961,8 +983,9 @@
             if (cat && cat.tempName) {
                 cat.name = cat.tempName;
                 delete cat.tempName;
+                localStorage.setItem('zad_categories', JSON.stringify(categoriesData));
                 renderApp();
-                alert(`تم تأكيد وحفظ اسم القسم الجديد بنجاح! ✓`);
+                alert(`تم حفظ وتأكيد اسم القسم بنجاح! ✓`);
             } else {
                 alert("لم يتم إجراء أي تعديل لتأكيده على هذا القسم.");
             }
@@ -1013,8 +1036,10 @@
                 reader.onload = function(e) {
                     let item = menuItems.find(i => i.id === id);
                     if (item) {
-                        item.tempImg = e.target.result;
-                        event.target.previousElementSibling.previousElementSibling.previousElementSibling.src = item.tempImg;
+                        item.img = e.target.result;
+                        localStorage.setItem('zad_menu_items', JSON.stringify(menuItems));
+                        renderSections();
+                        alert("تم تحديث وحفظ صورة الصنف بنجاح! ✓");
                     }
                 }
                 reader.readAsDataURL(file);
@@ -1026,9 +1051,9 @@
             if (!item) return;
 
             document.getElementById('edit-item-id').value = item.id;
-            document.getElementById('edit-item-name').value = item.tempName !== undefined ? item.tempName : item.name;
-            document.getElementById('edit-item-price').value = item.tempPrice !== undefined ? item.tempPrice : item.price;
-            document.getElementById('edit-item-desc').value = item.tempDesc !== undefined ? item.tempDesc : item.desc;
+            document.getElementById('edit-item-name').value = item.name;
+            document.getElementById('edit-item-price').value = item.price;
+            document.getElementById('edit-item-desc').value = item.desc;
 
             document.getElementById('edit-item-modal').style.display = 'flex';
         }
@@ -1066,30 +1091,20 @@
                 if (item.tempName !== undefined) { item.name = item.tempName; delete item.tempName; }
                 if (item.tempPrice !== undefined) { item.price = item.tempPrice; delete item.tempPrice; }
                 if (item.tempDesc !== undefined) { item.desc = item.tempDesc; delete item.tempDesc; }
-                if (item.tempImg !== undefined) { item.img = item.tempImg; delete item.tempImg; }
 
-                let cartItem = cart.find(c => c.id === id);
-                if (cartItem) {
-                    cartItem.name = item.name;
-                    cartItem.price = item.price;
-                    updateCartUI();
-                }
-
+                localStorage.setItem('zad_menu_items', JSON.stringify(menuItems));
                 renderSections();
-                alert(`تم تأكيد وحفظ التغييرات للصنف (${item.name}) وصورته بنجاح في النظام! ✓`);
+                alert(`تم تأكيد وحفظ التغييرات للصنف (${item.name}) بنجاح! ✓`);
             }
         }
 
         function addToCart(id) {
             let item = menuItems.find(i => i.id === id);
-            let activePrice = item.tempPrice !== undefined ? item.tempPrice : item.price;
-            let activeName = item.tempName !== undefined ? item.tempName : item.name;
-            
             let cartItem = cart.find(c => c.id === id);
             if(cartItem) {
                 cartItem.qty++;
             } else {
-                cart.push({ ...item, name: activeName, price: activePrice, qty: 1 });
+                cart.push({ ...item, qty: 1 });
             }
             updateCartUI();
         }
