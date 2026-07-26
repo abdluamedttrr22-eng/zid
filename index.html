@@ -3,463 +3,407 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>زاد | ZAD Kitchen</title>
+    <title>زيست برغر</title>
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --card-bg: #ffffff;
-            --primary-green: #2e7d32;
-            --accent-green: #4caf50;
-            --text-color: #222222;
-            --text-muted: #777777;
-            --border-color: #eeeeee;
-            --gold: #d4af37;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 100px;
+            background-color: #ffffff;
+            color: #111;
+            padding-bottom: 90px;
         }
 
-        /* شريط التنقل العلوي للأقسام */
-        .category-nav-container {
+        /* رأس الصفحة العلوي مع صورة الخلفية */
+        .header-bg {
+            position: relative;
+            width: 100%;
+            height: 140px;
+            overflow: hidden;
+            background-color: #222;
+        }
+
+        .header-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.65;
+        }
+
+        .header-top-bar {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+
+        .header-title {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        /* شريط الأقسام */
+        .categories-bar {
+            display: flex;
+            gap: 22px;
+            padding: 14px 15px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            overflow-x: auto;
+            white-space: nowrap;
             position: sticky;
             top: 0;
-            background-color: var(--bg-color);
-            z-index: 900;
-            padding: 12px 10px;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .category-nav {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 4px;
+            z-index: 100;
             scrollbar-width: none;
         }
 
-        .category-nav::-webkit-scrollbar {
+        .categories-bar::-webkit-scrollbar {
             display: none;
         }
 
-        .cat-btn {
-            background: none;
-            color: var(--text-muted);
-            border: none;
-            padding: 6px 4px;
-            white-space: nowrap;
+        .cat-item {
+            font-size: 1.05rem;
+            color: #777;
             cursor: pointer;
-            font-size: 1rem;
+            padding-bottom: 6px;
             font-weight: 600;
-            position: relative;
-            transition: 0.3s;
         }
 
-        .cat-btn.active {
-            color: var(--primary-green);
+        .cat-item.active {
+            color: #00875a;
+            border-bottom: 3px solid #00875a;
         }
 
-        .cat-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: var(--primary-green);
-            border-radius: 2px;
+        /* قائمة الأصناف */
+        .menu-list {
+            padding: 5px 15px;
         }
 
-        /* حاوية الأقسام والقائمة */
-        .main-container {
-            padding: 15px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .category-section {
-            margin-bottom: 25px;
-            scroll-margin-top: 60px;
-        }
-
-        /* عنصر القائمة (تصميم يشبه الصورة) */
-        .menu-item {
+        .food-item {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            border-bottom: 1px solid #f2f2f2;
             gap: 12px;
         }
 
-        .item-details {
+        .food-details {
             flex-grow: 1;
             text-align: right;
         }
 
-        .item-name {
-            font-size: 1.05rem;
+        .food-name {
+            font-size: 1.1rem;
             font-weight: bold;
             color: #111;
             margin-bottom: 4px;
         }
 
-        .item-desc {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            line-height: 1.3;
+        .food-desc {
+            font-size: 0.82rem;
+            color: #666;
+            line-height: 1.35;
+            margin-bottom: 8px;
         }
 
-        .item-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .item-weight {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .item-price {
-            font-size: 0.95rem;
+        .food-price-row {
+            font-size: 1rem;
             font-weight: bold;
             color: #111;
+            margin-bottom: 4px;
         }
 
-        /* تصميم الصورة المربعة وزر الإضافة الأخضر فوقها */
-        .item-img-box {
+        .old-price {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 0.85rem;
+            margin-left: 6px;
+            font-weight: normal;
+        }
+
+        .food-weight {
+            font-size: 0.78rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+
+        .badge-save {
+            color: #d97706;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+
+        .badge-fire {
+            color: #ea580c;
+            font-size: 0.78rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .badge-points {
+            font-size: 0.75rem;
+            color: #444;
+            background: #f0f2f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* حاوية الصورة (تم ضبط حجمها تماماً كما طلبت) */
+        .food-img-container {
             position: relative;
-            width: 95px;
-            height: 95px;
+            width: 95px;   
+            height: 95px;  
             border-radius: 12px;
             overflow: hidden;
-            background: #f5f5f5;
+            background: #fff;
             flex-shrink: 0;
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
 
-        .item-img-box img {
+        .food-img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .add-btn-circle {
+        /* زر الإضافة (+) الأخضر الدائري */
+        .add-btn {
             position: absolute;
             bottom: 6px;
             left: 6px;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             background-color: #ffffff;
             border: 1px solid #e0e0e0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
             cursor: pointer;
-            transition: transform 0.2s;
         }
 
-        .add-btn-circle:active {
-            transform: scale(0.9);
+        .add-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: #00875a;
         }
 
-        .add-btn-circle svg {
-            width: 16px;
-            height: 16px;
-            fill: var(--primary-green);
-        }
-
-        /* شريط السلة السفلي */
-        .cart-bar {
+        /* شريط التوصيل المجاني السفلي الثابت */
+        .bottom-banner {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
             background: #ffffff;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid #e0e0e0;
             padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
-        .cart-info {
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .checkout-btn {
-            background-color: var(--primary-green);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* نافذة السلة */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: flex-end;
-        }
-
-        .modal-content {
-            background: #fff;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            width: 100%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .modal-header {
+        .delivery-text {
+            font-size: 0.88rem;
+            color: #222;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
+            gap: 6px;
         }
 
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-
-        .cart-item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid #f9f9f9;
-        }
-
-        .send-whatsapp-btn {
-            background-color: #25d366;
-            color: white;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
+        .delivery-text span {
+            color: #00875a;
             font-weight: bold;
-            font-size: 1rem;
-            margin-top: 15px;
-            cursor: pointer;
+        }
+
+        .t-plus-icon {
+            background: #e6f4ea;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: #00875a;
+            font-weight: bold;
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط الأقسام العلوي -->
-    <div class="category-nav-container">
-        <div class="category-nav" id="category-nav-bar">
-            <!-- يُعبأ ديناميكياً -->
-        </div>
-    </div>
-
-    <!-- المحتوى الرئيسي للقائمة -->
-    <div class="main-container" id="menu-container">
-        <!-- يُعبأ ديناميكياً -->
-    </div>
-
-    <!-- شريط السلة السفلي -->
-    <div class="cart-bar">
-        <div class="cart-info">
-            المجموع: <span id="cart-total">0</span> د.ع (<span id="cart-count">0</span> أصناف)
-        </div>
-        <button class="checkout-btn" onclick="openCartModal()">عرض السلة وإتمام الطلب</button>
-    </div>
-
-    <!-- نافذة السلة -->
-    <div class="modal-overlay" id="cart-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>سلة المشتريات</h3>
-                <button class="close-modal" onclick="closeCartModal()">✕</button>
+    <!-- رأس الصفحة الخلفية واسم المطعم -->
+    <div class="header-bg">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80" alt="خلفية المطعم">
+        <div class="header-top-bar">
+            <button class="icon-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <div style="display: flex; gap: 10px;">
+                <button class="icon-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                </button>
+                <button class="icon-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
             </div>
-            <div id="modal-cart-items"></div>
-            <button class="send-whatsapp-btn" onclick="sendWhatsAppOrder()">إرسال الطلب عبر الواتساب 📲</button>
+        </div>
+        <div class="header-title">زيست برغر</div>
+    </div>
+
+    <!-- شريط الأقسام -->
+    <div class="categories-bar">
+        <div class="cat-item active">برغر اللحم</div>
+        <div class="cat-item">برغر الدجاج</div>
+        <div class="cat-item">البرغر المشكل</div>
+        <div class="cat-item">السندويشات</div>
+    </div>
+
+    <!-- قائمة الأصناف -->
+    <div class="menu-list">
+        
+        <!-- الصنف الأول -->
+        <div class="food-item">
+            <div class="food-details">
+                <div class="food-name">برغر لحم كلاسيك</div>
+                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل وصلصة برغر</div>
+                <div class="food-price-row">٥,٤٠٠ د.ع. <span class="old-price">٦,٠٠٠ د.ع.</span></div>
+                <div class="food-weight">١٢٠ غم</div>
+                <div class="badge-row">
+                    <span class="badge-save">وفر ٦٠٠ د.ع.</span>
+                    <span style="color:#ddd">•</span>
+                    <span class="badge-points"><span style="color:#00875a; font-weight:bold;">t+</span> ٦٠٠ نقاط</span>
+                    <span style="color:#ddd">•</span>
+                    <span class="badge-fire">🔥 شائع</span>
+                </div>
+            </div>
+            <div class="food-img-container">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80" alt="برغر لحم كلاسيك">
+                <div class="add-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصنف الثاني -->
+        <div class="food-item">
+            <div class="food-details">
+                <div class="food-name">برغر لحم بالجبن</div>
+                <div class="food-desc">صمون برغر، شريحة لحم، جبن، خس ومخلل</div>
+                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
+                <div class="food-weight">١٢٠ غم</div>
+                <div class="badge-row">
+                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
+                </div>
+            </div>
+            <div class="food-img-container">
+                <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=300&q=80" alt="برغر لحم بالجبن">
+                <div class="add-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصنف الثالث -->
+        <div class="food-item">
+            <div class="food-details">
+                <div class="food-name">برغر لحم مكسيكي</div>
+                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل، هالابينو وصلصة برغر</div>
+                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
+                <div class="food-weight">١٢٠ غم</div>
+                <div class="badge-row">
+                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
+                </div>
+            </div>
+            <div class="food-img-container">
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80" alt="برغر لحم مكسيكي">
+                <div class="add-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصنف الرابع -->
+        <div class="food-item">
+            <div class="food-details">
+                <div class="food-name">برغر لحم بالباربيكيو</div>
+                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن بافلو امريكي، خس، مخلل وصلصة باربيكيو</div>
+                <div class="food-price-row">٧,٠٠٠ د.ع.</div>
+                <div class="food-weight">١٢٠ غم</div>
+                <div class="badge-row">
+                    <span class="badge-points">أو <span style="color:#00875a; font-weight:bold;">t+</span> ٧٠٠ نقاط</span>
+                </div>
+            </div>
+            <div class="food-img-container">
+                <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=300&q=80" alt="برغر لحم بالباربيكيو">
+                <div class="add-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصنف الخامس -->
+        <div class="food-item">
+            <div class="food-details">
+                <div class="food-name">برغر لحم زيست بالفطر</div>
+                <div class="food-desc">صمون برغر، شريحة لحم، شريحة جبن، خس، فطر ومخلل</div>
+            </div>
+            <div class="food-img-container">
+                <img src="https://images.unsplash.com/photo-1572802419332-6996f5b5f259?auto=format&fit=crop&w=300&q=80" alt="برغر لحم زيست بالفطر">
+                <div class="add-btn">
+                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- شريط التوصيل المجاني السفلي -->
+    <div class="bottom-banner">
+        <div class="delivery-text">
+            🔒 أنفق ٨,٠٠٠ د.ع. وتمتع <span>توصيل مجاني</span>
+        </div>
+        <div class="t-plus-icon">
+            t+
         </div>
     </div>
 
-    <script>
-        // بيانات الأقسام والأصناف المطابقة تماماً لطلبك
-        let categoriesData = [
-            { id: 'meat-burger', name: 'برغر اللحم' },
-            { id: 'chicken-burger', name: 'برغر الدجاج' },
-            { id: 'mix-burger', name: 'البرغر المشكل' },
-            { id: 'sandwiches', name: 'السندويشات' },
-            { id: 'extras', name: 'الإضافات والمشروبات' }
-        ];
-
-        let menuItems = [
-            { id: 1, cat: 'meat-burger', name: 'برغر لحم كلاسيك', desc: 'صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل وصلصة برغر', weight: '١٢٠ غم', price: '٥,٤٠0 د.ع', priceVal: 5400, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80' },
-            { id: 2, cat: 'meat-burger', name: 'برغر لحم بالجبن', desc: 'صمون برغر، شريحة لحم، جبن، خس ومخلل', weight: '١٢٠ غم', price: '٧,٠٠٠ د.ع', priceVal: 7000, img: 'https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=300&q=80' },
-            { id: 3, cat: 'meat-burger', name: 'برغر لحم مكسيكي', desc: 'صمون برغر، شريحة لحم، شريحة جبن، خس، مخلل، هالابينو وصلصة برغر', weight: '١٢٠ غم', price: '٧,٠٠٠ د.ع', priceVal: 7000, img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=300&q=80' },
-            { id: 4, cat: 'meat-burger', name: 'برغر لحم بالباربيكيو', desc: 'صمون برغر، شريحة لحم، شريحة جبن بافلو امريكي، خس، مخلل وصلصة باربيكيو', weight: '١٢٠ غم', price: '٧,٠٠٠ د.ع', priceVal: 7000, img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?auto=format&fit=crop&w=300&q=80' },
-            { id: 5, cat: 'meat-burger', name: 'برغر لحم زَاد بالفطر', desc: 'صمون برغر، شريحة لحم، شريحة جبن، خس، فطر ومخلل', weight: '١٢٠ غم', price: '٧,٥٠٠ د.ع', priceVal: 7500, img: 'https://images.unsplash.com/photo-1572802419332-6996f5b5f259?auto=format&fit=crop&w=300&q=80' },
-            
-            { id: 6, cat: 'chicken-burger', name: 'برغر دجاج كلاسيك', desc: 'صمون برغر، صدر دجاج مقرمش، خس، صوص خاص', weight: '١٣٠ غم', price: '٥,000 د.ع', priceVal: 5000, img: 'https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=300&q=80' },
-            { id: 7, cat: 'chicken-burger', name: 'برغر دجاج حار', desc: 'صمون برغر، دجاج كرسبي حار، جبن، صوص حار', weight: '١٣٠ غم', price: '٦,000 د.ع', priceVal: 6000, img: 'https://images.unsplash.com/photo-1615297252478-e6b3604f3246?auto=format&fit=crop&w=300&q=80' },
-
-            { id: 8, cat: 'mix-burger', name: 'برغر ميكس زَاد', desc: 'شريحة لحم مع شريحة دجاج كرسبي وجبنة مزدوجة', weight: '٢٠٠ غم', price: '٩,500 د.ع', priceVal: 9500, img: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?auto=format&fit=crop&w=300&q=80' },
-
-            { id: 9, cat: 'sandwiches', name: 'صاج شاورما دجاج', desc: 'خبز صاج، شاورما دجاج، تومية، مخلل، بطاطا', weight: 'عادي', price: '٤,000 د.ع', priceVal: 4000, img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=300&q=80' },
-
-            { id: 10, cat: 'extras', name: 'بطاطا مقلية', desc: 'حصة بطاطا مقلية مقرمشة', weight: 'مختصر', price: '٢,000 د.ع', priceVal: 2000, img: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=300&q=80' }
-        ];
-
-        let cart = [];
-
-        function renderApp() {
-            renderNav();
-            renderMenu();
-        }
-
-        function renderNav() {
-            let navBar = document.getElementById('category-nav-bar');
-            navBar.innerHTML = '';
-            categoriesData.forEach((cat, index) => {
-                let activeClass = index === 0 ? 'active' : '';
-                navBar.innerHTML += `<button class="cat-btn ${activeClass}" onclick="scrollToCat('${cat.id}', this)">${cat.name}</button>`;
-            });
-        }
-
-        function scrollToCat(catId, btn) {
-            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
-            let section = document.getElementById(`sec-${catId}`);
-            if(section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
-        }
-
-        function renderMenu() {
-            let container = document.getElementById('menu-container');
-            container.innerHTML = '';
-
-            categoriesData.forEach(cat => {
-                let catItems = menuItems.filter(i => i.cat === cat.id);
-                if(catItems.length === 0) return;
-
-                let itemsHtml = '';
-                catItems.forEach(item => {
-                    itemsHtml += `
-                        <div class="menu-item">
-                            <div class="item-details">
-                                <div class="item-name">${item.name}</div>
-                                <div class="item-desc">${item.desc}</div>
-                                <div class="item-meta">
-                                    <span class="item-weight">${item.weight}</span>
-                                    <span class="item-price">${item.price}</span>
-                                </div>
-                            </div>
-                            <div class="item-img-box">
-                                <img src="${item.img}" alt="${item.name}">
-                                <div class="add-btn-circle" onclick="addToCart(${item.id})">
-                                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                container.innerHTML += `
-                    <div class="category-section" id="sec-${cat.id}">
-                        <div style="font-size: 1.2rem; font-weight: bold; color: var(--primary-green); margin-bottom: 10px; border-right: 4px solid var(--primary-green); padding-right: 8px;">${cat.name}</div>
-                        ${itemsHtml}
-                    </div>
-                `;
-            });
-        }
-
-        function addToCart(id) {
-            let item = menuItems.find(i => i.id === id);
-            let cartItem = cart.find(c => c.id === id);
-            if(cartItem) {
-                cartItem.qty++;
-            } else {
-                cart.push({ ...item, qty: 1 });
-            }
-            updateCartUI();
-        }
-
-        function updateCartUI() {
-            let totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
-            let totalPrice = cart.reduce((sum, item) => sum + (item.priceVal * item.qty), 0);
-
-            document.getElementById('cart-count').innerText = totalCount;
-            document.getElementById('cart-total').innerText = totalPrice.toLocaleString();
-        }
-
-        function openCartModal() {
-            if(cart.length === 0) {
-                alert("السلة فارغة!");
-                return;
-            }
-            let container = document.getElementById('modal-cart-items');
-            container.innerHTML = '';
-            cart.forEach(item => {
-                container.innerHTML += `
-                    <div class="cart-item-row">
-                        <div>
-                            <strong>${item.name}</strong>
-                            <div style="font-size:0.8rem; color:#777;">${item.price} × ${item.qty}</div>
-                        </div>
-                        <div>${(item.priceVal * item.qty).toLocaleString()} د.ع</div>
-                    </div>
-                `;
-            });
-            document.getElementById('cart-modal').style.display = 'flex';
-        }
-
-        function closeCartModal() {
-            document.getElementById('cart-modal').style.display = 'none';
-        }
-
-        function sendWhatsAppOrder() {
-            let totalPrice = cart.reduce((sum, item) => sum + (item.priceVal * item.qty), 0);
-            let msg = `طلب جديد:%0A`;
-            cart.forEach(i => {
-                msg += `- ${i.name} (عدد: ${i.qty}) - ${i.priceVal * i.qty} د.ع%0A`;
-            });
-            msg += `المجموع الكلي: ${totalPrice.toLocaleString()} د.ع`;
-            window.open(`https://wa.me/9647838021664?text=${msg}`, '_blank');
-        }
-
-        window.onload = renderApp;
-    </script>
 </body>
 </html>
